@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الهدي سنتر</title>
+  <link rel="icon" href="images/icon.png">
+  <style>
+    body {
+      font-family: 'Tajawal', sans-serif;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(to bottom right, #2980b9, #8e44ad);
+      color: white;
+      overflow: hidden;
+      flex-direction: column;
+      transition: background 0.5s ease; /* إضافة تأثير التغيير التدريجي للخلفية */
+    }
+
+    .loading-container {
+      text-align: center;
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .loading-text {
+      font-size: 2.5em;
+      font-weight: bold;
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    .loading-text span {
+      opacity: 0;
+      animation: fadeInLetter 0.5s forwards;
+    }
+
+    @keyframes fadeInLetter {
+      to { opacity: 1; }
+    }
+
+    .store-icon {
+      font-size: 5em;
+      margin-bottom: 20px;
+      animation: rotate 2s linear infinite, pulse 1.5s infinite alternate;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .options-container {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .option {
+      display: inline-block;
+      text-align: center;
+      margin: 0 15px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .option img {
+      width: 250px;
+      height: 250px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .option:hover {
+      transform: scale(1.1);
+    }
+
+    .option-text {
+      margin-top: 10px;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+<div class="loading-container" id="loadingContainer">
+  <div class="store-icon">
+    <i class="fas fa-store"></i>
+  </div>
+  <div class="loading-text" id="loadingText">
+    مرحباً بكم في الهدى سنتر
+  </div>
+</div>
+
+<div class="options-container" id="optionsContainer">
+  <div class="option" onclick="redirectToSection('mens')">
+    <img src="images/men section.png" alt="قسم الرجالي">
+    <div class="option-text">الرجالي</div>
+  </div>
+  <div class="option" onclick="redirectToSection('womens')">
+    <img src="images/women section.png" alt="قسم الحريمي">
+    <div class="option-text">الحريمي</div>
+  </div>
+  <div class="option" onclick="redirectToSection('kids')">
+    <img src="images/kids.png" alt="قسم الأطفال">
+    <div class="option-text">الأطفال</div>
+  </div>
+</div>
+
+<script>
+  const loadingText = document.getElementById('loadingText');
+  const text = loadingText.textContent;
+  const loadingContainer = document.getElementById('loadingContainer');
+  const optionsContainer = document.getElementById('optionsContainer');
+  const body = document.body;
+  loadingText.innerHTML = '';
+
+  for (let i = 0; i < text.length; i++) {
+    const span = document.createElement('span');
+    span.textContent = text[i];
+    span.style.animationDelay = `${i * 0.05}s`;
+    loadingText.appendChild(span);
+  }
+
+  setTimeout(function() {
+    loadingContainer.style.display = 'none';
+    optionsContainer.style.display = 'flex';
+    body.style.background = 'white'; // تغيير الخلفية إلى اللون الأبيض
+    body.style.color = 'black'; // تغيير لون النصوص ليكون مناسباً
+  }, text.length * 50 + 1500);
+
+  function redirectToSection(section) {
+    if (section === 'mens') {
+      window.location.href = "men.html";
+    } else if (section === 'womens') {
+      window.location.href = "women.html";
+    } else if (section === 'kids') {
+      window.location.href = "kids.html";
+    }
+  }
+</script>
+
+</body>
+</html>

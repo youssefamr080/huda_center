@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"></html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الهدي سنتر</title>
+    <link rel="icon" href="images/icon.png">
+    <link rel="stylesheet" href="css/main style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container top-nav">
+            <a href="" class="logo"><img src="images/logo.png" alt=""></a>
+            <form class="search-bar">
+                <div class="menu">
+                    <div class="item">
+                        <a href="#" class="link">
+                            <span id="menu-title"> الاقسام </span>
+                            <svg viewBox="0 0 360 360" xml:space="preserve">
+                                <g id="SVGRepo_iconCarrier">
+                                    <path id="XMLID_225_" d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393 c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393 s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z"></path>
+                                </g>
+                            </svg>
+                        </a>
+                        <div class="submenu">
+                            <div class="submenu-item">
+                                <a href="men.html" class="submenu-link" data-title="رجالي"> رجالي </a>
+                            </div>
+                            <div class="submenu-item">
+                                <a href="women.html" class="submenu-link" data-title="حريمي"> حريمي </a>
+                            </div>
+                            <div class="submenu-item">
+                                <a href="kids.html" class="submenu-link" data-title="اطفال"> اطفال </a>
+                            </div>
+                            <div class="submenu-item">
+                                <a href="#footer" class="submenu-link" data-title="تواصل معنا"> تواصل معنا </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="text" name="search" id="search" placeholder="انت بتدور علي اي؟" required>
+                <button type="submit" class="search-btn">
+                    <i class="fa-solid fa-search"></i>
+                </button>
+            </form>
+            <div class="cart_header">
+                <div onclick="open_cart()" class="icon_cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="count_item">0</span>
+                </div>
+                <div class="total_price">
+                    <p>سلة التسوق:</p>
+                    <span class="price_cart_total">0 جنيه</span>
+                </div>
+            </div>
+            
+        </div>
+    </header>
+        <!-- العربة -->
+    <div class="cart">
+        <div class="top_cart">
+            <h3>سلة التسوق <span>(<span class="count_item">0</span> منتجات)</span></h</div>
+            <div class="close_cart" onclick="close_cart()"><i class="fa fa-times"></i></div>
+        </div>
+        <div class="items_in_cart"></div>
+        <div class="bottom_cart">
+            <div class="total">
+                <span>المجموع:</span>
+                <span class="price_cart_total">0 جنيه</span>
+            </div>
+            <div class="button_cart">
+                <button class="btn_cart"onclick="sendInvoiceViaWhatsApp()">ارسال الفاتورة عبر الواتساب</button>
+                <button class="btn_cart trans_bg" onclick="close_cart()">متابعة التسوق</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- التنقل بين الأقسام -->
+    <nav>
+        <button onclick="showSection('watches_women')">
+            <img src="images/women watch.jpg" alt="ساعات">
+            <h5>ساعات</h5>
+        </button>
+        <button onclick="showSection('perfumes_women')">
+            <img src="images/oil.jpg " alt="عطور">
+            <h5>عطور</h5>
+        </button>
+        <button onclick="showSection('wallets_women')">
+            <img src="images/women wallets.jpg " alt="محافظ">
+            <h5>محافظ</h5>
+        </button>
+        <button onclick="showSection('sunglasses_women')"> 
+            <img src="images/women sunglasses.jpg" alt="نظارات شمسية">
+            <h5>نظارات شمسية</h5>
+        </button>
+        <button onclick="showSection('Accessories')"> 
+            <img src="images/women Accessories.jpg" alt=" اكسسوارات">
+            <h5>اكسسوارات</h5>
+        </button>
+    </nav>
+
+    <div id="products"></div>
+
+   <!-- قسم الساعات -->
+   <div id="watches_women" class="section">
+    <h1>الساعات</h1>
+    <div class="products">
+        
+    </div>
+</div>
+
+    <!-- قسم العطور -->
+    <div id="perfumes_women" class="section">
+        <h1>العطور</h1>
+        <div class="products"></div>
+           
+        
+    </div>
+
+    <!-- قسم المحافظ -->
+    <div id="wallets_women" class="section">
+        <h1>المحافظ</h1>
+        <div class="products"></div>
+            
+    </div>
+
+    <!-- قسم النظارات الشمسية -->
+    <div id="sunglasses_women" class="section">
+        <h1>النظارات الشمسية</h1>
+        <div class="products"></div>
+           
+    </div>
+
+    <!-- قسم الشنط اليد -->
+    <div id="Accessories" class="section">
+        <h1>اكسسوارات</h1>
+        <div class="products"></div>
+    </div>
+    <script src="product.json"></script>
+    <script src="java/main.js"></script>
+</body>
+<footer id="footer">
+    <div class="footer-container">
+        <h3>لأي استفسار أو دعم، تواصل معنا عبر الواتساب او زور صفحتنا على الفيس بوك. نحن دائمًا هنا لمساعدتك!</h3>
+        <ul class="social-links">
+            <li><a href="https://wa.me/+201026972523" target="_blank"><i class="fab fa-whatsapp"></i> واتساب</a></li>
+            <li><a href="http://m.me/104124002518682" target="_blank"><i class="fab fa-facebook-messenger"></i> ماسنجر</a></li>
+            <li><a href="https://www.google.com/maps/place/31%C2%B001%2753.5%22N+30%C2%B027%2749.0%22E/@31.031505,30.463736,20z/data=!4m4!3m3!8m2!3d31.031533!4d30.463614?hl=ar&entry=ttu" target="_blank"><i class="fas fa-map-marker-alt"></i> موقعنا</a></li>
+            <li><a href="https://t.me/+VMKBOk1oqqS3Ciyt" target="_blank"><i class="fab fa-telegram-plane"></i> تيليجرام</a></li>
+            <li><a href="https://www.facebook.com/profile.php?id=100087530415837&mibextid=ZbWKwL" target="_blank"><i class="fab fa-facebook-f"></i> فيسبوك</a></li>
+        </ul>
+        <button class="share-button" onclick="shareWebsite()">
+            <i class="fa-solid fa-share-nodes"></i>مشاركة رابط المتجر
+        </button>
+        <p>جميع حقوق الملكية محفوظة لدى الهدى سنتر &copy; 2025</p>
+    </div>
+</footer>
+</html>
