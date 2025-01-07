@@ -7,7 +7,7 @@
                     "name": "روليكس جلد اسود",
                     "price": 350,
                     "old_price": 450,
-                    "image": "images/u beast.jpg",
+                    "image": "u beast.jpg",
                     "images": ["images/hand bag.jpg", "images/kids fur.png", "images/oil.jpg"],
                     "tags": ["روليكس", "جلد", "اسود", "ساعة"]
                 },
@@ -16,7 +16,7 @@
                     "name": "ساعة رقم 2",
                     "price": 380,
                     "old_price": 450,
-                    "image": "images/virgin island.jpg"
+                    "image": "virgin island.jpg"
                 },
                 {
                     "id": 3,
@@ -30,7 +30,7 @@
                     "name": "روليكس جلداخضر",
                     "price": 360,
                     "old_price": 450,
-                    "image": "images/men wallet.jpg"
+                    "image": "men wallet.jpg"
                 }
             ],
             "wallets_men": [
@@ -46,7 +46,7 @@
                     "name": "محفظة جلد اوي جامد رجالي",
                     "price": 280,
                     "old_price": 300,
-                    "image": "images/women Accessories.jpg"
+                    "image": "women Accessories.jpg"
                 }
             ],
             "perfumes_men": [
@@ -55,7 +55,7 @@
                     "name": " جلد عطر",
                     "price": 252,
                     "old_price": 300,
-                    "image": "images/oil.jpg"
+                    "image": "oil.jpg"
                 },
                 {
                     "id": 8,
@@ -71,14 +71,14 @@
                     "name": " nadara ",
                     "price": 272,
                     "old_price": 300,
-                    "image": "images/women sunglasses.jpg"
+                    "image": "women sunglasses.jpg"
                 },
                 {
                     "id": 10,
                     "name": "nadara rgali ",
                     "price": 280,
                     "old_price": 300,
-                    "image": "images/women sunglasses.jpg"
+                    "image": "women sunglasses.jpg"
                 }
             ],
             "hand-bags": [
@@ -94,7 +94,7 @@
                     "name": " hand bag 2 ",
                     "price": 280,
                     "old_price": 300,
-                    "image": "images/hand bag.jpg"
+                    "image": "hand bag.jpg"
                 }
             ]
         },
@@ -105,14 +105,14 @@
                     "name": "روليكس جلد احمر",
                     "price": 350,
                     "old_price": 450,
-                    "image": "images/virgin island.jpg"
+                    "image": "virgin island.jpg"
                 },
                 {
                     "id": 14,
                     "name": "ساعة رقم 4",
                     "price": 380,
                     "old_price": 450,
-                    "image": "images/u beast.jpg"
+                    "image": "u beast.jpg"
                 }
             ],
             "perfumes_women": [
@@ -121,7 +121,7 @@
                     "name": "عطر زهرة",
                     "price": 300,
                     "old_price": 400,
-                    "image": "images/perfume1.jpg"
+                    "image": "perfume1.jpg"
                 },
                 {
                     "id": 16,
@@ -137,14 +137,14 @@
                     "name": "محفظة حريمي جلدية",
                     "price": 200,
                     "old_price": 250,
-                    "image": "images/wallet1.jpg"
+                    "image": "wallet1.jpg"
                 },
                 {
                     "id": 18,
                     "name": "محفظة حريمي صغيرة",
                     "price": 150,
                     "old_price": 200,
-                    "image": "images/wallet2.jpg"
+                    "image": "wallet2.jpg"
                 }
             ],
             "sunglasses_women": [
@@ -153,14 +153,14 @@
                     "name": "نظارة شمسية كلاسيكية",
                     "price": 500,
                     "old_price": 700,
-                    "image": "images/women sunglasses.jpg"
+                    "image": "women sunglasses.jpg"
                 },
                 {
                     "id": 20,
                     "name": "نظارة شمسية حديثة",
                     "price": 600,
                     "old_price": 800,
-                    "image": "images/women sunglasses.jpg"
+                    "image": "women sunglasses.jpg"
                 }
             ],
             "Accessories": [
@@ -169,14 +169,14 @@
                     "name": "اكسسوار ذهبي",
                     "price": 100,
                     "old_price": 150,
-                    "image": "images/women Accessories.jpg"
+                    "image": "women Accessories.jpg"
                 },
                 {
                     "id": 22,
                     "name": "اكسسوار فضي",
                     "price": 120,
                     "old_price": 180,
-                    "image": "images/women Accessories.jpg"
+                    "image": "women Accessories.jpg"
                 }
             ]
         },
@@ -187,7 +187,7 @@
                     "name": "روليكس جلد احمر",
                     "price": 350,
                     "old_price": 450,
-                    "image": "images/virgin island.jpg"
+                    "image": "virgin island.jpg"
                 },
                 {
                     "id": 24,
@@ -208,7 +208,7 @@
                     "name": "ساعة رقم 44",
                     "price": 380,
                     "old_price": 450,
-                    "image": "images/u beast.jpg"
+                    "image": "u beast.jpg"
                 },
                 {
                     "id": 31,
@@ -222,7 +222,7 @@
                     "name": "ساعة رقم 50",
                     "price": 380,
                     "old_price": 450,
-                    "image": "images/u beast.jpg"
+                    "image": "u beast.jpg"
                 }
             ],
             "toys": [
@@ -238,7 +238,7 @@
                     "name": "عطر المساء",
                     "price": 450,
                     "old_price": 550,
-                    "image": "images/perfume2.jpg"
+                    "image": "perfume2.jpg"
                 }
             ],
             "fur": [
@@ -247,14 +247,14 @@
                     "name": "محفظة حريمي جلدية",
                     "price": 200,
                     "old_price": 250,
-                    "image": "images/wallet1.jpg"
+                    "image": "wallet1.jpg"
                 },
                 {
                     "id": 28,
                     "name": "محفظة حريمي صغيرة",
                     "price": 150,
                     "old_price": 200,
-                    "image": "images/wallet2.jpg"
+                    "image": "wallet2.jpg"
                 }
             ]
             
