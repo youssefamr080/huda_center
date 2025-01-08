@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>الهدي سنتر</title>
-  <link rel="icon" href="icon.png">
+  <link rel="icon" href="images/icon.png">
   <style>
     body {
       font-family: 'Tajawal', sans-serif;
@@ -13,11 +13,11 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background: linear-gradient(to bottom right, #2980b9, #8e44ad);
+      background: linear-gradient(to bottom right, #ffcc55, #e1a007);
       color: white;
       overflow: hidden;
       flex-direction: column;
-      transition: background 0.5s ease; /* إضافة تأثير التغيير التدريجي للخلفية */
+      transition: background 0.5s ease;
     }
 
     .loading-container {
@@ -66,19 +66,21 @@
     .options-container {
       display: none;
       margin-top: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     .option {
       display: inline-block;
       text-align: center;
-      margin: 0 15px;
+      margin: 10px;
       cursor: pointer;
       transition: transform 0.3s ease;
     }
 
     .option img {
-      width: 250px;
-      height: 250px;
+      width: 100px;
+      height: 100px;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
@@ -89,8 +91,30 @@
 
     .option-text {
       margin-top: 10px;
-      font-size: 1.2em;
+      font-size: 1em;
       font-weight: bold;
+    }
+
+    @media (min-width: 600px) {
+      .option img {
+        width: 150px;
+        height: 150px;
+      }
+
+      .option-text {
+        font-size: 1.2em;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .option img {
+        width: 200px;
+        height: 200px;
+      }
+
+      .option-text {
+        font-size: 1.5em;
+      }
     }
   </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -111,15 +135,15 @@
 
 <div class="options-container" id="optionsContainer">
   <div class="option" onclick="redirectToSection('mens')">
-    <img src="men section.png" alt="قسم الرجالي">
+    <img src="images/men section.png" alt="قسم الرجالي">
     <div class="option-text">الرجالي</div>
   </div>
   <div class="option" onclick="redirectToSection('womens')">
-    <img src="women section.png" alt="قسم الحريمي">
+    <img src="images/women section.png" alt="قسم الحريمي">
     <div class="option-text">الحريمي</div>
   </div>
   <div class="option" onclick="redirectToSection('kids')">
-    <img src="kids.png" alt="قسم الأطفال">
+    <img src="images/kids.png" alt="قسم الأطفال">
     <div class="option-text">الأطفال</div>
   </div>
 </div>
@@ -142,8 +166,8 @@
   setTimeout(function() {
     loadingContainer.style.display = 'none';
     optionsContainer.style.display = 'flex';
-    body.style.background = 'white'; // تغيير الخلفية إلى اللون الأبيض
-    body.style.color = 'black'; // تغيير لون النصوص ليكون مناسباً
+    body.style.background = 'white';
+    body.style.color = 'black';
   }, text.length * 50 + 1500);
 
   function redirectToSection(section) {
