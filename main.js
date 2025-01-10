@@ -1,9 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('.section');
+    
+    // استرجاع آخر قسم مفتوح من LocalStorage
+    const lastOpenedSectionId = localStorage.getItem('lastOpenedSection');
+
+    // إخفاء جميع الأقسام
     sections.forEach(section => {
         section.style.display = 'none';
     });
-    
+
+    // فتح القسم الأخير إذا كان موجودًا
+    if (lastOpenedSectionId) {
+        const lastOpenedSection = document.getElementById(lastOpenedSectionId);
+        if (lastOpenedSection) {
+            lastOpenedSection.style.display = 'block';
+        }
+    }
+
+    // حفظ القسم المفتوح عند تغييره
+    sections.forEach(section => {
+        section.addEventListener('click', () => {
+            localStorage.setItem('lastOpenedSection', section.id);
+        });
+    });
+
+    // تحميل البيانات الأخرى
     loadCartFromLocalStorage();
     loadFavoritesFromLocalStorage();
 
@@ -33,10 +54,10 @@ function renderProducts(categories) {
                                 <p><span>${product.price} جنيه</span></p>
                                 <p class="old_price">${product.old_price || ''} جنيه</p>
                             </div>
-                             ${product.old_price ? `<div class="discount-badge">خصم ${((product.old_price - product.price) / product.old_price * 100).toFixed(0)}%</div>` : ''}
+                            ${product.old_price ? `<div class="discount-badge">خصم ${((product.old_price - product.price) / product.old_price * 100).toFixed(0)}%</div>` : ''}
                             <div class="icons">
                                 <span class="btn_add_cart">
-                                    <i class="fa-solid fa-cart-shopping"></i> اضف للعربة
+                                    <i class="fa-solid fa-cart-shopping"></i>  اضافة 
                                 </span>
                                 <span class="icon_product">
                                     <i class="fa-regular fa-heart"></i>
@@ -50,8 +71,10 @@ function renderProducts(categories) {
         }
     }
 
-    addEventListenersToProducts();
+    addEventListenersToProducts(); // إضافة مستمعات للعربة والمفضلة
+    addNavigationToProductPage(); // إضافة مستمع للتوجيه إلى صفحة المنتج
 }
+
 
 function showSection(sectionId) {
     const sections = document.querySelectorAll('.section');
@@ -80,7 +103,7 @@ function addEventListenersToProducts() {
             this.disabled = true;
             setTimeout(() => {
                 this.style.backgroundColor = '';
-                this.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> اضف للعربة ' // إعادة اللون الأصلي بعد ثانية واحدة
+                this.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> اضافة  ' // إعادة اللون الأصلي بعد ثانية واحدة
             }, 1000);
             updateCartTotal();
         });
@@ -283,7 +306,7 @@ if (storedCartItems.length === 0) { // التحقق من وجود عناصر ف�
         message += `  📦 *الاسم:* ${item.title}\n`;
         message += `  🔢 *الكمية:* ${item.quantity}\n`;
         message += `  💵 *السعر للوحدة:* ${item.price} \n`; // توضيح السعر للوحدة
-        message += `  💰 *الإجمالي:* ${parseFloat(item.price) * item.quantity} \n`; // إضافة إجمالي سعر المنتج
+        message += `  💰 *الإجمالي:* ${parseFloat(item.price) * item.quantity} جنيه\n`; // إضافة إجمالي سعر المنتج
         message += `----------------------------------------\n`; // تحسين شكل الفاصل
     });
 
@@ -365,3 +388,61 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// Dark mode
+document.addEventListener('DOMContentLoaded', () => {
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'dark') {
+        document.body.classList.toggle('dark-theme');
+    } else if (currentTheme === 'light') {
+        document.body.classList.remove('dark-theme');
+    } else if (prefersDarkScheme.matches) {
+        document.body.classList.add('dark-theme');
+    }
+
+    darkModeToggle.addEventListener('click', () => {
+        if (document.body.classList.contains('dark-theme')) {
+            document.body.classList.remove('dark-theme');
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.body.classList.add('dark-theme');
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+});
+// Initialize Swiper
+
+// Add navigation to product page
+function addNavigationToProductPage() {
+    console.log("Function addNavigationToProductPage() is running.");
+    document.querySelectorAll('.product img').forEach(img => {
+        img.addEventListener('click', function () {
+            const productId = img.closest('.product').dataset.id;
+            if (productId) {
+                window.location.href = `product.html?id=${productId}`;
+            }
+        });
+    });
+}
+
+function renderImageGallery(images) {
+    return `
+        <div class="image-gallery">
+            ${images.map(img => `<img src="${img}" alt="صورة إضافية">`).join('')}
+        </div>
+    `;
+}
+var swiper = new Swiper(".mySwiper", {
+    scrollbar: {
+      el: ".swiper-scrollbar",
+      hide: true,
+    },
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
+    loop: true,
+  });
+
