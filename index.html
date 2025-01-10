@@ -6,6 +6,7 @@
   <title>الهدي سنتر</title>
   <link rel="icon" href="images/icon.png">
   <style>
+    /* تحسين الخطوط والتصميم العام */
     body {
       font-family: 'Tajawal', sans-serif;
       margin: 0;
@@ -20,6 +21,7 @@
       transition: background 0.5s ease;
     }
 
+    /* تحسين تحميل الصفحة */
     .loading-container {
       text-align: center;
       animation: fadeIn 1s ease-in-out forwards;
@@ -46,6 +48,7 @@
       to { opacity: 1; }
     }
 
+    /* تحسين الأيقونة */
     .store-icon {
       font-size: 5em;
       margin-bottom: 20px;
@@ -63,6 +66,7 @@
       100% { transform: scale(1); }
     }
 
+    /* تحسين الخيارات */
     .options-container {
       display: none;
       margin-top: 20px;
@@ -76,16 +80,18 @@
       margin: 10px;
       cursor: pointer;
       transition: transform 0.3s ease;
+      flex-direction: column;
     }
 
     .option img {
-      width: 100px;
-      height: 100px;
+      width: 800px;
+      height: 800px;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
     }
 
-    .option:hover {
+    .option:hover img {
       transform: scale(1.1);
     }
 
@@ -95,25 +101,56 @@
       font-weight: bold;
     }
 
+    /* تحسين للشاشات الكبيرة */
     @media (min-width: 600px) {
       .option img {
         width: 150px;
         height: 150px;
+        flex-direction: column;
       }
 
       .option-text {
         font-size: 1.2em;
       }
+      .loading-text {
+        font-size: 2em;
+      }
     }
 
     @media (min-width: 900px) {
       .option img {
-        width: 200px;
-        height: 200px;
+        width: 600px;
+        height: 600px;
+        flex-direction: column;
       }
 
       .option-text {
         font-size: 1.5em;
+      }
+      .loading-text {
+        font-size: 2.5em;
+      }
+    }
+
+    /* تحسين للشاشات الصغيرة */
+    @media (max-width: 480px) {
+      .loading-text {
+        font-size: 1.5em;
+      }
+
+      .store-icon {
+        font-size: 3em;
+      }
+
+      .option img {
+        width: 100px;
+        height: 100px;
+        flex-direction: column;
+      }
+
+      .option-text {
+        font-size: 0.9em;
+        flex-direction: column;
       }
     }
   </style>
@@ -135,15 +172,15 @@
 
 <div class="options-container" id="optionsContainer">
   <div class="option" onclick="redirectToSection('mens')">
-    <img src="men section.png" alt="قسم الرجالي">
+    <img src="images/men section.png" alt="قسم الرجالي">
     <div class="option-text">الرجالي</div>
   </div>
   <div class="option" onclick="redirectToSection('womens')">
-    <img src="women section.png" alt="قسم الحريمي">
+    <img src="images/women section.png" alt="قسم الحريمي">
     <div class="option-text">الحريمي</div>
   </div>
   <div class="option" onclick="redirectToSection('kids')">
-    <img src="kids.png" alt="قسم الأطفال">
+    <img src="images/kids.png" alt="قسم الأطفال">
     <div class="option-text">الأطفال</div>
   </div>
 </div>
