@@ -8,7 +8,7 @@
                     "price": 350,
                     "old_price": 450,
                     "image": "u beast.jpg",
-                    "images": ["images/hand bag.jpg", "images/kids fur.png", "images/oil.jpg"],
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"],
                     "tags": ["روليكس", "جلد", "اسود", "ساعة"]
                 },
                 {
@@ -16,21 +16,24 @@
                     "name": "ساعة رقم 2",
                     "price": 380,
                     "old_price": 450,
-                    "image": "virgin island.jpg"
+                    "image": "virgin island.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 },
                 {
                     "id": 3,
                     "name": "روليكس جلد ابيض",
                     "price": 370,
                     "old_price": 450,
-                    "image": "images/oil.jpg"
+                    "image": "images/oil.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 },
                 {
                     "id": 4,
                     "name": "روليكس جلداخضر",
                     "price": 360,
                     "old_price": 450,
-                    "image": "men wallet.jpg"
+                    "image": "men wallet.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 }
             ],
             "wallets_men": [
@@ -46,7 +49,8 @@
                     "name": "محفظة جلد اوي جامد رجالي",
                     "price": 280,
                     "old_price": 300,
-                    "image": "women Accessories.jpg"
+                    "image": "women Accessories.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 }
             ],
             "perfumes_men": [
@@ -55,14 +59,16 @@
                     "name": " جلد عطر",
                     "price": 252,
                     "old_price": 300,
-                    "image": "oil.jpg"
+                    "image": "oil.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 },
                 {
                     "id": 8,
                     "name": "عطر رجالي",
                     "price": 280,
                     "old_price": 300,
-                    "image": "images/virgin island.jpg"
+                    "image": "images/virgin island.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 }
             ],
             "sunglasses_men": [
@@ -78,7 +84,8 @@
                     "name": "nadara rgali ",
                     "price": 280,
                     "old_price": 300,
-                    "image": "women sunglasses.jpg"
+                    "image": "women sunglasses.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 }
             ],
             "hand-bags": [
@@ -87,14 +94,16 @@
                     "name": " hand bag 1 ",
                     "price": 272,
                     "old_price": 300,
-                    "image": "images/hand bag.jpg"
+                    "image": "images/hand bag.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 },
                 {
                     "id": 12,
                     "name": " hand bag 2 ",
                     "price": 280,
                     "old_price": 300,
-                    "image": "hand bag.jpg"
+                    "image": "hand bag.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 }
             ]
         },
@@ -105,14 +114,16 @@
                     "name": "روليكس جلد احمر",
                     "price": 350,
                     "old_price": 450,
-                    "image": "virgin island.jpg"
+                    "image": "virgin island.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 },
                 {
                     "id": 14,
                     "name": "ساعة رقم 4",
                     "price": 380,
                     "old_price": 450,
-                    "image": "u beast.jpg"
+                    "image": "u beast.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 }
             ],
             "perfumes_women": [
@@ -121,7 +132,8 @@
                     "name": "عطر زهرة",
                     "price": 300,
                     "old_price": 400,
-                    "image": "perfume1.jpg"
+                    "image": "perfume1.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 },
                 {
                     "id": 16,
@@ -137,7 +149,8 @@
                     "name": "محفظة حريمي جلدية",
                     "price": 200,
                     "old_price": 250,
-                    "image": "wallet1.jpg"
+                    "image": "wallet1.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 },
                 {
                     "id": 18,
@@ -153,7 +166,8 @@
                     "name": "نظارة شمسية كلاسيكية",
                     "price": 500,
                     "old_price": 700,
-                    "image": "women sunglasses.jpg"
+                    "image": "women sunglasses.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 },
                 {
                     "id": 20,
@@ -169,7 +183,8 @@
                     "name": "اكسسوار ذهبي",
                     "price": 100,
                     "old_price": 150,
-                    "image": "women Accessories.jpg"
+                    "image": "women Accessories.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 },
                 {
                     "id": 22,
@@ -187,28 +202,31 @@
                     "name": "روليكس جلد احمر",
                     "price": 350,
                     "old_price": 450,
-                    "image": "virgin island.jpg"
+                    "image": "https://scontent.faly8-1.fna.fbcdn.net/v/t39.30808-6/470140876_565765003017842_2304744025759683285_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=_7b7XPL9JCIQ7kNvgE4uTt-&_nc_zt=23&_nc_ht=scontent.faly8-1.fna&_nc_gid=AynWXhS8F7qmlnH9PESdCSB&oh=00_AYBuqZZrzltnP1-5WfCuGiA-zylerxLS9eav6NypnijL1Q&oe=67862DA0"
                 },
                 {
                     "id": 24,
                     "name": "ساعة رقم 45",
                     "price": 380,
                     "old_price": 450,
-                    "image": "images/u beast.jpg"
+                    "image": "u beast.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 },
                 {
                     "id": 29,
                     "name": "روليكس جلد 70",
                     "price": 340,
                     "old_price": 450,
-                    "image": "images/virgin island.jpg"
+                    "image": "virgin island.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 },
                 {
                     "id": 30,
                     "name": "ساعة رقم 44",
                     "price": 380,
                     "old_price": 450,
-                    "image": "u beast.jpg"
+                    "image": "u beast.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 },
                 {
                     "id": 31,
@@ -222,23 +240,32 @@
                     "name": "ساعة رقم 50",
                     "price": 380,
                     "old_price": 450,
-                    "image": "u beast.jpg"
+                    "image": "u beast.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 }
             ],
             "toys": [
                 {
                     "id": 25,
-                    "name": "عطر زهرة",
-                    "price": 300,
-                    "old_price": 400,
-                    "image": "images/perfume1.jpg"
+                    "name": "Buzz Lightyear",
+                    "price": 275,
+                    "old_price": 350,
+                    "image": "https://lh3.googleusercontent.com/UWrurIxOxJ58YFtcPXmZXK5Kzb93jCug8__LGBW5fUpzXaQHU68fqCkfFOwLS-5rg0sTmtPX_uhyX3ZYk2A5Je9b3C_NXlbuNVdzJQxix5CUXAmRUw4bRNfVPxnXGTUYhw=w1280"
+                },
+                {
+                    "id": 26,
+                    "name": "Woody",
+                    "price": 275,
+                    "old_price": 350,
+                    "image": "https://lh6.googleusercontent.com/gQWNTmXoWE3pu_DxV0g37ndpuYXmSQUbx0QkQJMZgA-a7ryMt7yfS61ELDRqLL8cbi8NRcHXzKPQA6AOOubKWtzPz63m-knfZn3ljg9vER0VKozqVimR1Uvs_jKLXlgdwQ=w1280"
                 },
                 {
                     "id": 26,
                     "name": "عطر المساء",
                     "price": 450,
                     "old_price": 550,
-                    "image": "perfume2.jpg"
+                    "image": "perfume2.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 }
             ],
             "fur": [
@@ -247,14 +274,16 @@
                     "name": "محفظة حريمي جلدية",
                     "price": 200,
                     "old_price": 250,
-                    "image": "wallet1.jpg"
+                    "image": "wallet1.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 },
                 {
                     "id": 28,
                     "name": "محفظة حريمي صغيرة",
                     "price": 150,
                     "old_price": 200,
-                    "image": "wallet2.jpg"
+                    "image": "wallet2.jpg",
+                    "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 }
             ]
             
