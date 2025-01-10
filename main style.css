@@ -8,6 +8,7 @@
     text-decoration: none;
     list-style: none;
     font-family: 'Cairo', sans-serif;
+    
 }
 
 /* المتغيرات */
@@ -500,8 +501,9 @@ nav {
     display: flex;
     justify-content: center;
     gap: 15px;
-    margin-top: 120px;
+    margin-top: 10px;
     flex-wrap: wrap;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 nav button {
@@ -524,13 +526,14 @@ nav button:hover {
 }
 
 nav button img {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height:100px;
     border-radius: 50%;
     margin-bottom: 10px;
     object-fit: cover;
     border: solid 2px var(--main-color);
     transition: border-color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 nav button:hover img {
@@ -551,7 +554,7 @@ nav button:hover h5 {
 @media (max-width: 768px) {
     nav {
         gap: 8px;
-        margin-top: 100px;
+        margin-top: 10px;
     }
 
     nav button {
@@ -559,8 +562,8 @@ nav button:hover h5 {
     }
 
     nav button img {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
     }
 
     nav button h5 {
@@ -571,7 +574,7 @@ nav button:hover h5 {
 @media (max-width: 480px) {
     nav {
         gap: 5px;
-        margin-top: 80px;
+        margin-top: 10px;
     }
 
     nav button {
@@ -621,7 +624,7 @@ h1 {
     width: 75%;
     height: auto;
     display: block;
-    margin: 0 auto;
+    margin:auto auto;
 }
 
 h2 {
@@ -739,24 +742,64 @@ h2 {
 
 @media (max-width: 480px) {
     .product {
-        width: 150px;
+        width: 180px;
+        gap: 2px;
     }
 
     .price {
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
     }
 
     .icons {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
     }
 
     .btn_add_cart {
         width: 100%;
         text-align: center;
+        font-size: 15px;
+        padding: 0px ;
     }
-    
+    .icon_product {
+        font-size: 25px;
+        display: flex;
+        align-self: flex-ends;
+
+  
+    }
+
+}
+@media (max-width: 390px) {
+    .product {
+        width: 150px;
+        gap: 1px;
+    }
+
+    .price {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .icons {
+        flex-direction: row;
+        padding: 0;
+    }
+
+    .btn_add_cart {
+        width: 100%;
+        text-align: center;
+        font-size: 14px;
+        padding: 0px ;
+    }
+    .icon_product {
+        font-size:24px;
+        display: flex;
+        align-self: flex-ends;
+
+  
+    }
+
 }
 
 /* تصميم الفوتر */
@@ -764,13 +807,12 @@ h2 {
 #footer {
     background-color: #2c3e50;
     color: #ecf0f1;
-    padding: 40px 20px;
     text-align: center;
     font-family: 'Arial', sans-serif;
-    position: relative;
-    z-index: 1;
     width: 100%;
     bottom: 0;
+    position: relative;
+    margin-top: auto;
 }
 
 #footer .footer-container h3 {
@@ -784,7 +826,7 @@ h2 {
 #footer .social-links {
     list-style: none;
     padding: 0;
-    margin: 20px 0;
+    margin: 10px 0;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -792,7 +834,7 @@ h2 {
 }
 
 #footer .social-links li {
-    margin: 10px 0;
+    margin: 1px 0;
 }
 
 #footer .social-links a {
@@ -819,11 +861,10 @@ h2 {
 }
 
 #footer .share-button {
-    margin-top: 20px;
     background-color: #f39c12;
     color: #2c3e50;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 10px;
     font-size: 1rem;
     border-radius: 5px;
     cursor: pointer;
@@ -836,7 +877,7 @@ h2 {
 }
 
 #footer p {
-    margin-top: 30px;
+    margin-top: 0px;
     font-size: 0.9rem;
     color: #bdc3c7;
 }
@@ -853,6 +894,37 @@ h2 {
     z-index: -1;
     opacity: 0.9;
     clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 90%);
+}
+
+@media (max-width: 780px) {
+    #footer .footer-container h3 {
+        font-size: 1rem;
+    }
+
+    #footer .social-links a {
+        font-size: 0.7rem;
+    }
+
+    #footer p {
+        font-size: 0.7rem;
+        margin-top: 10px;
+    }
+
+}
+@media (max-width: 480px) {
+    #footer .footer-container h3 {
+        font-size: .8rem;
+    }
+
+    #footer .social-links a {
+        font-size: 0.7rem;
+    }
+
+    #footer p {
+        font-size: 0.7rem;
+        margin-top: 10px;
+    }
+
 }
 .quantity_controls {
     display: flex;
@@ -895,4 +967,24 @@ h2 {
     color: #ccc;
     margin-top: 3%;
 }
+.swiper {
+    width:80%;
+    height: 50%;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+
+  .swiper-slide {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
