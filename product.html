@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل المنتج</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* إعدادات عامة */
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #ffcc55;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 24px;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        /* زر الإغلاق */
+        .close-btn {
+            position: absolute;
+            top: 
+            20px;
+            right: 20px;
+            background-color: #ff4d4f;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .product {
+            text-align: center;
+        }
+
+        .product img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .product h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .product p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .product .old_price {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        /* معرض الصور */
+        .image-gallery {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .image-gallery img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .image-gallery img:hover {
+            border-color: #ffcc55;
+        }
+  .discount-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: linear-gradient(45deg, #ff6f61, #f44336); /* تدرج ألوان للخصم */
+    color: white;
+    padding: 5px 15px; /* زيادة المساحة الداخلية */
+    border-radius:50% 1% 50% 1%;
+    font-size: 20px;
+    font-weight: bold; /* جعل النص عريض */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* إضافة ظل */
+    z-index: 1; /* لضمان ظهور الشريط فوق الصورة */
+    transition: transform 0.2s; /* إضافة تأثير حركة عند التفاعل */
+   }
+
+
+      
+    </style>
+</head>
+<body>
+    <header>
+        تفاصيل المنتج
+    </header>
+    <main>
+        <button class="close-btn" onclick="closePage()">×</button>
+        <div id="product-details">
+            <!-- تفاصيل المنتج ستُعرض هنا -->
+        </div>
+    </main>
+    <script>
+        // الحصول على معرّف المنتج من URL
+        const params = new URLSearchParams(window.location.search);
+        const productId = params.get('id');
+
+        if (productId) {
+            fetch('product.json')
+                .then(response => response.json())
+                .then(data => {
+                    let product;
+                    for (const category in data.categories) {
+                        for (const subcategory in data.categories[category]) {
+                            product = data.categories[category][subcategory].find(p => p.id == productId);
+                            if (product) break;
+                        }
+                        if (product) break;
+                    }
+
+                    if (product) {
+                        const productDetails = `
+                            <div class="product">
+                                <img id="main-image" src="${product.image}" alt="${product.name}">
+                                <h2>${product.name}</h2>
+                                <p>السعر: <span>${product.price} جنيه</span></p>
+                                ${product.old_price ? `<p class="old_price">${product.old_price} جنيه</p>` : ''}
+                                <p>الوصف: ${product.tags ? product.tags.join(', ') : 'لا يوجد وصف'}</p>
+                                ${product.images ? renderImageGallery(product.images) : ''}
+                            </div>
+                                   ${product.old_price ? `<div class="discount-badge">خصم ${((product.old_price - product.price) / product.old_price * 100).toFixed(0)}%</div>` : ''}
+                        `;
+                        document.getElementById('product-details').innerHTML = productDetails;
+                        attachImageGalleryEvents();
+                    } else {
+                        document.getElementById('product-details').innerHTML = '<p>عذرًا، المنتج غير موجود.</p>';
+                    }
+                })
+                .catch(error => console.error('خطأ في تحميل تفاصيل المنتج:', error));
+        } else {
+            document.getElementById('product-details').innerHTML = '<p>لم يتم تحديد المنتج.</p>';
+        }
+
+        function renderImageGallery(images) {
+            return `
+                <div class="image-gallery">
+                    ${images.map(img => `<img src="${img}" alt="صورة إضافية">`).join('')}
+                </div>
+            `;
+        }
+
+        function attachImageGalleryEvents() {
+            const galleryImages = document.querySelectorAll('.image-gallery img');
+            const mainImage = document.getElementById('main-image');
+
+            galleryImages.forEach(img => {
+                img.addEventListener('click', () => {
+                    mainImage.src = img.src;
+                });
+            });
+        }
+
+        function closePage() {
+            window.history.back();
+        }
+
+    </script>
+</body>
+</html>
