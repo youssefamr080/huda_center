@@ -6,6 +6,7 @@
     <title>الهدي سنتر</title>
     <link rel="icon" href="icon.png">
     <link rel="stylesheet" href="main style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
@@ -40,7 +41,7 @@
                     </div>
                 </div>
                 <input type="text" name="search" id="search" placeholder="انت بتدور علي اي؟" required>
-                <button type="submit" class="search-btn">
+                <div id="results"></div> <button type="button" class="search-btn" id="searchButton">
                     <i class="fa-solid fa-search"></i>
                 </button>
             </form>
@@ -57,6 +58,18 @@
             
         </div>
     </header>
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><img src="Add a heading (4).jpg" alt=""></div>
+          <div class="swiper-slide"><img src="intro.jpg" alt=""></div>
+          <div class="swiper-slide"><img src="mug prent.jpg" alt=""></div>
+          <div class="swiper-slide"><img src="potrait slider.jpg" alt=""></div>
+          <div class="swiper-slide"><img src="walet slider.jpg" alt=""></div>
+          <div class="swiper-slide"><img src="mug slider.jpg" alt=""></div>
+        </div>
+        <div class="swiper-scrollbar"></div>
+       
+      </div>
         <!-- العربة -->
     <div class="cart">
         <div class="top_cart">
@@ -92,7 +105,7 @@
         </button>
         <button onclick="showSection('sunglasses_women')"> 
             <img src="women sunglasses.jpg" alt="نظارات شمسية">
-            <h5>نظارات شمسية</h5>
+            <h5>نظارات </h5>
         </button>
         <button onclick="showSection('Accessories')"> 
             <img src="women Accessories.jpg" alt=" اكسسوارات">
@@ -104,7 +117,6 @@
 
    <!-- قسم الساعات -->
    <div id="watches_women" class="section">
-    <h1>الساعات</h1>
     <div class="products">
         
     </div>
@@ -112,7 +124,6 @@
 
     <!-- قسم العطور -->
     <div id="perfumes_women" class="section">
-        <h1>العطور</h1>
         <div class="products"></div>
            
         
@@ -120,25 +131,23 @@
 
     <!-- قسم المحافظ -->
     <div id="wallets_women" class="section">
-        <h1>المحافظ</h1>
         <div class="products"></div>
             
     </div>
 
     <!-- قسم النظارات الشمسية -->
     <div id="sunglasses_women" class="section">
-        <h1>النظارات الشمسية</h1>
         <div class="products"></div>
            
     </div>
 
     <!-- قسم الشنط اليد -->
     <div id="Accessories" class="section">
-        <h1>اكسسوارات</h1>
         <div class="products"></div>
     </div>
     <script src="product.json"></script>
     <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </body>
 <footer id="footer">
     <div class="footer-container">
