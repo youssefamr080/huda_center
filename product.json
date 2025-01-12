@@ -94,7 +94,7 @@
                     "name": " hand bag 1 ",
                     "price": 272,
                     "old_price": 300,
-                    "image": "images/hand bag.jpg",
+                    "image": "hand bag.jpg",
                     "images": ["hand bag.jpg", "kids fur.png", "oil.jpg"]
                 },
                 {
@@ -140,7 +140,7 @@
                     "name": "عطر المساء",
                     "price": 450,
                     "old_price": 550,
-                    "image": "images/perfume2.jpg"
+                    "image": "perfume2.jpg"
                 }
             ],
             "wallets_women": [
