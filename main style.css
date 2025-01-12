@@ -693,18 +693,17 @@ h2 {
     overflow: hidden; /* لمنع تجاوز الشريط لحدود المنتج */
 }
 
+
 .discount-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: linear-gradient(45deg, #ff6f61, #f44336); /* تدرج ألوان للخصم */
-    color: white;
-    padding: 5px 15px; /* زيادة المساحة الداخلية */
-    border-radius:50% 1% 50% 1%;
-    font-size: 15px;
-    font-weight: bold; /* جعل النص عريض */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* إضافة ظل */
-    z-index: 1; /* لضمان ظهور الشريط فوق الصورة */
+        position:absolute;
+          top: 10px;
+          left: 10px;
+          background-color: #e74c3c;
+        color: white;
+          font-size: 14px;
+          padding: 5px 10px;
+          border-radius: 4px;
+          z-index: 1; 
     transition: transform 0.2s; /* إضافة تأثير حركة عند التفاعل */
 }
 
@@ -803,7 +802,6 @@ h2 {
 }
 
 /* تصميم الفوتر */
-/* تصميم الفوتر */
 #footer {
     background-color: #2c3e50;
     color: #ecf0f1;
@@ -815,12 +813,14 @@ h2 {
     margin-top: auto;
 }
 
+
 #footer .footer-container h3 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     margin-bottom: 20px;
     color: #f39c12;
     font-weight: bold;
     line-height: 1.5;
+    padding-top: 25px;
 }
 
 #footer .social-links {
@@ -859,72 +859,10 @@ h2 {
 #footer .social-links a i {
     font-size: 1.2rem;
 }
-
-#footer .share-button {
-    background-color: #f39c12;
-    color: #2c3e50;
-    border: none;
-    padding: 10px 10px;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-}
-
-#footer .share-button:hover {
-    background-color: #e67e22;
-    transform: scale(1.1);
-}
-
 #footer p {
     margin-top: 0px;
     font-size: 0.9rem;
-    color: #bdc3c7;
-}
-
-/* تأثير الخلفية */
-#footer::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #34495e, #2c3e50);
-    z-index: -1;
-    opacity: 0.9;
-    clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 90%);
-}
-
-@media (max-width: 780px) {
-    #footer .footer-container h3 {
-        font-size: 1rem;
-    }
-
-    #footer .social-links a {
-        font-size: 0.7rem;
-    }
-
-    #footer p {
-        font-size: 0.7rem;
-        margin-top: 10px;
-    }
-
-}
-@media (max-width: 480px) {
-    #footer .footer-container h3 {
-        font-size: .8rem;
-    }
-
-    #footer .social-links a {
-        font-size: 0.7rem;
-    }
-
-    #footer p {
-        font-size: 0.7rem;
-        margin-top: 10px;
-    }
-
+    color: #c7cdd1;
 }
 .quantity_controls {
     display: flex;
@@ -987,4 +925,64 @@ h2 {
     height: 100%;
     object-fit: cover;
   }
+/* تنسيق حاوية النتائج */
+/* تنسيق حاوية النتائج */
+#results {
+    display: none; /* اخفاء العنصر افتراضياً */
+    position: absolute; /* لجعل القائمة تظهر فوق العناصر الأخرى */
+    top: 100%; /* تبدأ القائمة أسفل حقل الإدخال */
+    z-index: 100; /* تأكد من أن القائمة تظهر فوق العناصر الأخرى */
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 250px; /* الحد الأقصى لإرتفاع القائمة */
+    overflow-y: auto; /* تمكين التمرير العمودي في حالة زيادة النتائج */
+    /* تعديل هنا لتتناسب مع حجم حقل البحث */
+       left: auto;
+       right: 0;
+    width: calc(100% - 15px); /* جعل عرضها مماثل لعرض input ناقص المساحات الجانبيه */
+    /* إضافة هامش لتنسيقها بشكل مثالي */
+  margin-top: 8px;
+        margin-left: auto;
+     
+  max-width: 550px;
 
+
+}
+    /* إضافة تكييف لشاشة الموبايل لزيادة التجاوبيه*/
+@media (max-width: 768px){
+#results{
+  width: 100%; /* توسيع القائمة لتملأ عرض الشاشة */
+
+      right: 0;
+   max-width: none;
+}
+
+}
+
+#results ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* تنسيق عناصر النتائج */
+#results li {
+    padding: 10px 15px;
+    cursor: pointer;
+    text-align: right; /* لجعل النص من اليمين */
+    border-bottom: 1px solid #f0f0f0;
+     transition: all 0.3s ease;
+}
+#results li:last-child{
+    border-bottom: none;
+
+}
+
+/* تغيير لون الخلفية عند التحويم */
+#results li:hover {
+    background: #f9f9f9;
+    color: var(--main-color);
+
+}
