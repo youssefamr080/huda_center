@@ -37,6 +37,86 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error('خطأ في تحميل المنتجات:', error));
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('search');
+    const resultsContainer = document.getElementById('results');
+      let productsData;
+  
+      fetch('product.json')
+          .then(response => response.json())
+          .then(data => {
+               productsData = data; // Store fetched product data
+  
+                searchInput.addEventListener('input', function () {
+                  const searchTerm = this.value.trim().toLowerCase(); // Normalize
+                    resultsContainer.style.display = searchTerm ? 'block' : 'none'; // hide if empty
+                    if (searchTerm.length === 0 ) return clearResults();
+                
+  
+                  const results = searchProducts(productsData, searchTerm);
+                 displayResults(results)
+              });
+          })
+            .catch(error => console.error('Error fetching products data:', error));
+            
+       // add event listener on body to clear resoults on click any where except the resoults div
+          document.body.addEventListener('click', function(event) {
+                if (event.target !== searchInput && !resultsContainer.contains(event.target)) {
+                  clearResults();
+            }
+  
+      });
+  
+  
+  
+  function searchProducts(productsData, searchTerm){
+       if (!productsData) return [];// if product not fetched don't do anything
+  
+      let results = [];
+       for (const category in productsData.categories) {
+              for (const subcategory in productsData.categories[category]) {
+                    const categoryProducts = productsData.categories[category][subcategory];
+  
+            const categoryResults = categoryProducts.filter(product => product.name.toLowerCase().startsWith(searchTerm) ) // get products only if they starts with the word 
+  
+                 results = results.concat(categoryResults);
+             }
+       }
+       return results.slice(0,6)
+  
+  }
+  function clearResults() {
+         resultsContainer.innerHTML = ''; // Clear the results
+         resultsContainer.style.display = 'none'; // Hide results container
+  }
+  function displayResults(results) {
+       resultsContainer.innerHTML = ''; // Clear previous results
+  
+              if (results.length === 0) {
+                 const noResults = document.createElement('li')
+                       noResults.textContent= 'لا توجد منتجات مطابقه.'
+  
+                   resultsContainer.appendChild(noResults)
+                  
+                   return;
+              }
+  
+    const ul = document.createElement('ul');
+  
+       results.forEach(product =>{
+  
+          const li = document.createElement('li');
+             li.textContent = product.name;
+           li.addEventListener('click',()=> window.location.href = `product.html?id=${product.id}` )
+              ul.appendChild(li);
+           })
+  
+     resultsContainer.appendChild(ul); // Add new resoults
+  
+      }
+  
+  });
+  
 function renderProducts(categories) {
     for (const category in categories) {
         const subcategories = categories[category];
@@ -44,10 +124,11 @@ function renderProducts(categories) {
             const section = document.getElementById(subcategory)?.querySelector('.products');
             if (section) {
                 subcategories[subcategory].forEach(product => {
+                    const mainImage = product.images && product.images.length > 0 ? product.images[0] : product.image;
                     const productCard = `
-                        <div class="product" data-id="${product.id}">
+                        <div class="product" data-id=${product.id}>
                             <div class="img_produt">
-                                <a href="#"><img src="${product.image}" alt="${product.name}"></a>
+                                <a href="#"><img src="${mainImage}" alt="${product.name}"></a>
                             </div>
                             <h2>${product.name}</h2>
                             <div class="price">
@@ -55,15 +136,6 @@ function renderProducts(categories) {
                                 <p class="old_price">${product.old_price || ''} جنيه</p>
                             </div>
                             ${product.old_price ? `<div class="discount-badge">خصم ${((product.old_price - product.price) / product.old_price * 100).toFixed(0)}%</div>` : ''}
-                            <div class="icons">
-                                <span class="btn_add_cart">
-                                    <i class="fa-solid fa-cart-shopping"></i>  اضافة 
-                                </span>
-                                <span class="icon_product">
-                                    <i class="fa-regular fa-heart"></i>
-                                </span>
-                            </div>
-                        </div>
                     `;
                     section.insertAdjacentHTML('beforeend', productCard);
                 });
@@ -98,7 +170,7 @@ function addEventListenersToProducts() {
             const price = product.querySelector('.price span').textContent;
 
             addToCart(productId, imgSrc, title, price);
-            this.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> تم الإضافة'; // تغيير النص مع الرمز
+            this.innerHTML = '<i class="fa-solid fa-check"></i> تم الإضافة'; // تغيير النص مع الرمز
             this.style.backgroundColor = '#ccc'; // تغيير اللون
             this.disabled = true;
             setTimeout(() => {
@@ -109,23 +181,7 @@ function addEventListenersToProducts() {
         });
     });
 
-    document.querySelectorAll('.icon_product').forEach(button => {
-        button.addEventListener('click', function () {
-            const icon = this.querySelector('i');
-            const text = this.querySelector('.favorite-text');
-            const productId = this.closest('.product').dataset.id;
-
-            if (icon.classList.contains('fa-regular')) {
-                icon.classList.replace('fa-regular', 'fa-solid');
-                icon.classList.add('fa-solid', 'fa-heart');
-                addToFavorites(productId);
-            } else {
-                icon.classList.remove('fa-solid', 'fa-heart');
-                icon.classList.add('fa-regular', 'fa-heart');
-                removeFromFavorites(productId);
-            }
-        });
-    });
+   
 }
 
 let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
@@ -202,14 +258,14 @@ function updateCartUI() {
                     <img src="${item.imgSrc}" alt="${item.title}">
                     <div class="cart-item-details">
                         <h4>${item.title}</h4>
-                        <p>${item.price} </p>
+                        <p>${item.price} جنيه</p>
                         <div class="quantity_controls">
-                            <button onclick="updateCartQuantity('${item.id}', -1)">-</button>
+                            <button onclick="updateCartQuantity(${item.id}, -1)">-</button>
                             <span>${item.quantity}</span>
-                            <button onclick="updateCartQuantity('${item.id}', 1)">+</button>
+                            <button onclick="updateCartQuantity(${item.id}, 1)">+</button>
                         </div>
                     </div>
-                    <button class="delete_item" onclick="removeFromCart('${item.id}')"><i class="fa fa-trash"></i></button>
+                    <button class="delete_item" onclick="removeFromCart(${item.id})"><i class="fa fa-trash"></i></button>
                 </div>
             `;
             cartItemsContainer.insertAdjacentHTML('beforeend', cartItemHTML);
@@ -286,38 +342,75 @@ function sendInvoiceViaWhatsApp() {
     const storedCartItems = JSON.parse(localStorage.getItem('cart')) || [];
     const totalPrice = document.querySelector('.price_cart_total').textContent;
     const itemCount = document.querySelector('.count_item').textContent;
+
+    if (storedCartItems.length === 0) {
+        // إنشاء عنصر div لعرض الرسالة
+        const noItemsMessage = document.createElement('div');
+        noItemsMessage.style.cssText = `
+            position: fixed; /* لتثبيت الرسالة في وسط الصفحة */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* توسيط العنصر تمامًا */
+            background-color: rgba(0, 0, 0, 0.7); /* خلفية شفافة */
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            z-index: 999999; /* لجعل الرسالة فوق كل العناصر الأخرى */
+        `;
+        noItemsMessage.textContent = 'هو انت لسه حطيت حاجه؟';
+
+        // إضافة زر للإغلاق (اختياري)
+        const closeButton = document.createElement('button');
+        closeButton.textContent = 'إغلاق';
+        closeButton.style.cssText = `
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color:rgb(202, 23, 23); /* لون أخضر */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        `;
+        closeButton.onclick = () => {
+            noItemsMessage.remove(); // إزالة الرسالة عند الضغط على زر الإغلاق
+        };
+        noItemsMessage.appendChild(closeButton);
+
+        document.body.appendChild(noItemsMessage); // إضافة الرسالة إلى الصفحة
+
+        return; // الخروج من الوظيفة وعدم إرسال الفاتورة
+    }
+
     const invoiceId = generateInvoiceId();
     const dateTime = formatDateTime();
 
-    let message = `️📜 *فاتورة جديدة من متجرك*\n`;
-message += `========================================\n`; // تحسين شكل الخط
-message += `🧾 *رقم الفاتورة:* ${invoiceId}\n`;
-message += `⏰ *التاريخ والوقت:* ${dateTime}\n`;
-message += `========================================\n\n`;
+    let message = `️ 📜*فاتورة جديدة من متجرك*\n`;
+    message += `========================================\n`;
+    message += ` *رقم الفاتورة:* ${invoiceId}\n`;
+    message += `⏰ *التاريخ والوقت:* ${dateTime}\n`;
+    message += `========================================\n\n`;
 
-message += `🛒 *تفاصيل الطلب:*\n\n`; // مسافة إضافية قبل التفاصيل
+    message += ` *تفاصيل الطلب:*\n\n`;
 
-if (storedCartItems.length === 0) { // التحقق من وجود عناصر في السلة
-    message += `🚫 لا يوجد منتجات في سلة التسوق.\n`;
-} else {
     storedCartItems.forEach((item, index) => {
-        message += `🔹 *المنتج ${index + 1}:*\n`; // عنوان المنتج بشكل أوضح
-        message += `  🆔 *ID:* ${item.id}\n`;     // تنسيق النقطة
-        message += `  📦 *الاسم:* ${item.title}\n`;
-        message += `  🔢 *الكمية:* ${item.quantity}\n`;
-        message += `  💵 *السعر للوحدة:* ${item.price} \n`; // توضيح السعر للوحدة
-        message += `  💰 *الإجمالي:* ${parseFloat(item.price) * item.quantity} جنيه\n`; // إضافة إجمالي سعر المنتج
-        message += `----------------------------------------\n`; // تحسين شكل الفاصل
+        message += ` *المنتج ${index + 1}:*\n`;
+        message += `  🆔 *ID:* ${item.id}\n`;
+        message += `   *الاسم:* ${item.title}\n`;
+        message += `   *الكمية:* ${item.quantity}\n`;
+        message += `   *السعر للوحدة:* ${item.price} \n`;
+        message += `  *الإجمالي:* ${parseFloat(item.price) * item.quantity} جنيه\n`;
+        message += `----------------------------------------\n`;
     });
 
-    message += `\n📊 *ملخص الطلب:*\n`; // مسافة إضافية قبل الملخص
-    message += `  🛍️ *عدد المنتجات:* ${itemCount}\n`;
-    message += `  💳 *المجموع الكلي:* ${totalPrice} \n`;
-    message += `========================================\n\n`; // تحسين شكل الخط
-}
+    message += `\n *ملخص الطلب:*\n`;
+    message += `  ️ *عدد المنتجات:* ${itemCount}\n`;
+    message += `   *المجموع الكلي:* ${totalPrice} \n`;
+    message += `========================================\n\n`;
 
-message += `🤝 *شكرًا لتسوقك معنا!* \n`;
-message += `📞 *للاستفسارات، تواصل معنا عبر واتساب على هذا الرقم.*\n`;
+    message += ` *شكرًا لتسوقك معنا!* \n`;
+    message += ` *للاستفسارات، تواصل معنا عبر واتساب على هذا الرقم.*\n`;
 
     const encodedMessage = encodeURIComponent(message);
     const whatsappLink = `https://wa.me/201026972523?text=${encodedMessage}`;
@@ -325,7 +418,6 @@ message += `📞 *للاستفسارات، تواصل معنا عبر واتسا
 
     clearCart();
 }
-
 // Clear the cart
 function clearCart() {
     cartItems = [];
@@ -334,26 +426,7 @@ function clearCart() {
     document.querySelectorAll('.count_item').forEach(el => el.textContent = '0');
     document.querySelectorAll('.price_cart_total').forEach(el => el.textContent = '0 جنيه');
 }
-function shareWebsite()
-{
-    if (navigator.share)
-    {
-        navigator.share({
-            title: 'الهدى سنتر',
-            text: 'تفضل بزيارة موقع الهدى سنتر!',
-            url: window.location.href
-        }).then(() =>
-        {
-            console.log('Thanks for sharing!');
-        }).catch((error) =>
-        {
-            console.error('Error sharing:', error);
-        });
-    } else
-    {
-        alert('المشاركة غير مدعومة في هذا المتصفح.');
-    }
-}
+
 document.addEventListener('DOMContentLoaded', () => {
     const menuTitle = document.getElementById('menu-title');
     const submenuLinks = document.querySelectorAll('.submenu-link');
@@ -446,3 +519,64 @@ var swiper = new Swiper(".mySwiper", {
     loop: true,
   });
 
+  const params = new URLSearchParams(window.location.search);
+  const productId = params.get('id');
+
+  if (productId) {
+      fetch('product.json')
+          .then(response => response.json())
+          .then(data => {
+              let product;
+              for (const category in data.categories) {
+                  for (const subcategory in data.categories[category]) {
+                      product = data.categories[category][subcategory].find(p => p.id == productId);
+                      if (product) break;
+                  }
+                  if (product) break;
+              }
+
+              if (product) {
+                  const productDetails = `
+                      <div class="product">
+                          <img id="main-image" src="${product.image}" alt="${product.name}">
+                          <h2>${product.name}</h2>
+                          <p>السعر: <span>${product.price} جنيه</span></p>
+                          ${product.old_price ? `<p class="old_price">${product.old_price} جنيه</p>` : ''}
+                          <p>الوصف: ${product.tags ? product.tags.join(', ') : 'لا يوجد وصف'}</p>
+                          ${product.images ? renderImageGallery(product.images) : ''}
+                      </div>
+                             ${product.old_price ? `<div class="discount-badge">خصم ${((product.old_price - product.price) / product.old_price * 100).toFixed(0)}%</div>` : ''}
+                  `;
+                  document.getElementById('product-details').innerHTML = productDetails;
+                  attachImageGalleryEvents();
+              } else {
+                  document.getElementById('product-details').innerHTML = '<p>عذرًا، المنتج غير موجود.</p>';
+              }
+          })
+          .catch(error => console.error('خطأ في تحميل تفاصيل المنتج:', error));
+  } else {
+      document.getElementById('product-details').innerHTML = '<p>لم يتم تحديد المنتج.</p>';
+  }
+
+  function renderImageGallery(images) {
+      return `
+          <div class="image-gallery">
+              ${images.map(img => `<img src="${img}" alt="صورة إضافية">`).join('')}
+          </div>
+      `;
+  }
+
+  function attachImageGalleryEvents() {
+      const galleryImages = document.querySelectorAll('.image-gallery img');
+      const mainImage = document.getElementById('main-image');
+
+      galleryImages.forEach(img => {
+          img.addEventListener('click', () => {
+              mainImage.src = img.src;
+          });
+      });
+  }
+
+  function closePage() {
+      window.history.back();
+  }
