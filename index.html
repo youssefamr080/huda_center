@@ -1,222 +1,345 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>الهدي سنتر</title>
-  <link rel="icon" href="icon.png">
-  <style>
-    /* تحسين الخطوط والتصميم العام */
-    body {
-      font-family: 'Tajawal', sans-serif;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background: linear-gradient(to bottom right, #ffcc55, #e1a007);
-      color: white;
-      overflow: hidden;
-      flex-direction: column;
-      transition: background 0.5s ease;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الهدي سنتر</title>
+    <link rel="icon" href="images/icon.png">
+    <style>
+        /* Import font */
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@700&display=swap');
 
-    /* تحسين تحميل الصفحة */
-    .loading-container {
-      text-align: center;
-      animation: fadeIn 1s ease-in-out forwards;
-    }
+        /* General body styling and reset styles */
+        body {
+            font-family: 'Tajawal', sans-serif;
+            margin: 0;
+            overflow: hidden;
+            min-height: 100vh; /* Ensure full height of the viewport */
+            background-color:  #fff  ; /* setting back ground for page */
+           transition: background 0.7s ease; /* Add a transition for smoother background changes */
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+          display: flex;
+              align-items: center; /* vertical align from middle of screen  all items*/
+            justify-content: center; /* align element from the middle of screens   all elements using display flex */
+          flex-direction: column; /* to correct style the items position in all browser   from colum style not rows */
+        }
 
-    .loading-text {
-      font-size: 2.5em;
-      font-weight: bold;
-      display: inline-block;
-      white-space: nowrap;
-    }
 
-    .loading-text span {
-      opacity: 0;
-      animation: fadeInLetter 0.5s forwards;
-    }
+     /*  Styling preloader items element*/
 
-    @keyframes fadeInLetter {
-      to { opacity: 1; }
-    }
+ .preloader-container {
+         text-align: center;/* setting alignment in elements horizontal using from css styling for better placement and views in page loading   , preloader setting center from every item */
+    display: flex;
+        align-items: center; /* horizontal alignment from vertical axis or line*/
+    justify-content: center; /* Vertical alignment and its position setting on the viewport all view */
+         min-height: 100vh; /* the item can  display in whole area */
 
-    /* تحسين الأيقونة */
-    .store-icon {
-      font-size: 5em;
-      margin-bottom: 20px;
-      animation: rotate 2s linear infinite, pulse 1.5s infinite alternate;
-    }
+  position: relative; /* set the items correct or  absolute to elements */
 
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
+  animation: fadeIn .8s ease forwards; /* animation set here by calling keyframe by its names*/
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
 
-    /* تحسين الخيارات */
-    .options-container {
-      display: none;
-      margin-top: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+  }
 
-    .option {
-      display: inline-block;
-      text-align: center;
-      margin: 10px;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-      flex-direction: column;
-    }
+       /* animations name style from set value in down */
 
-    .option img {
-      width: 800px;
-      height: 800px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s ease;
-    }
+       @keyframes fadeIn{
+         from{ opacity: 0  }  to {  opacity: 1   }   }
 
-    .option:hover img {
-      transform: scale(1.1);
-    }
 
-    .option-text {
-      margin-top: 10px;
-      font-size: 1em;
-      font-weight: bold;
-    }
+   /* settings of icon logos design*/
 
-    /* تحسين للشاشات الكبيرة */
-    @media (min-width: 600px) {
-      .option img {
-        width: 150px;
-        height: 150px;
-        flex-direction: column;
+
+   .store-logo {
+          font-size: 9em ;/* scale or big size using responsive units*/
+          width: 200px;  /* use em in big screen its scalable values   for logos  */
+          height: 200px;/* image round */
+            display: flex ; /* show element horizontally  from flex element used*/
+            align-items: center;
+      justify-content: center; /* to fix icons in correct middle of space position*/
+           color:#f0c135;
+          text-shadow:0  0 10px rgb(0 0 0 / 20%);
+           animation: pulse 2s ease  alternate infinite;   /* to  add transition  or style animations for better use  and style icons */
+
+
+   }
+          @keyframes pulse {
+
+                from{  transform: scale(1);} /* setting value on transitions  effect from starting and ending scaling 1 times from each  */
+
+          to{
+
+      transform: scale(1.09);}
+
+
+
+     }
+
+
+
+        /*  Style of buttons , content or element for redirect  different sections pages styles*/
+        .options-container {
+            display: none;/* to  start every button section hide in webpage  till animation loading complete */
+            margin-top: 1em ;
+            flex-wrap: wrap;  /* using FlexWrap , element place inside multiple line correct view */
+            justify-content: center;
+            transition: opacity  .4s ease;
+            padding:0 15px ;
+            max-width: 1400px;
+            margin: auto;
+            text-align: center;
+
+         }
+      .option {
+            display: inline-flex;
+             flex-direction: column;
+             text-align: center;
+
+        margin:  1rem;
+           cursor: pointer;
+      transition: transform  .3s ease-in-out  , opacity 0.3s ease  ; /* setting for image smooth effects  to better user expiriance for hover state transitions style add here for each elemnents transition effect smoothly in  html */
+
+  overflow: hidden;/* prevent collapse of each section or image */
+
+   }
+
+
+        /*  Button Image Section Styling */
+        .option img {
+
+       width: 14em;
+
+        height: 14em;
+  border-radius:  10px;
+           box-shadow:  0  0  20px rgb(0 0 0 /10% ) ;
+
+            object-fit: cover;
+
+  transition:  transform var(--transition);
+
+
+
+}
+
+
+
+.option:hover img{
+ transform: translateY(-2px)  scale(1.04);/* increase some pixel from above and also image will be a scaling up for hover effects or use actions in the screen views */
+  opacity: .95; /* added transparency style or opacity changes while hover the items and buttons */
       }
 
-      .option-text {
-        font-size: 1.2em;
+
+
+  /* style for header for text sections for different sections from html  using flex-col*/
+
+    .option-text{
+
+           margin-top: 1.25em; /* reduce spcae using em */
+       font-size: 1.2em;/* settings of font scaling by device resolution */
+       font-weight: 600; /* make it clear from style*/
+
+       text-shadow: 0   0  20px rgba( 0  0  0  /10%); /* light text style is use here */
+
+  color:  var(--dark-color) ;/* text style set as text to different content in header view*/
+         display: inline-block; /* display property style by type inline block setting */
+
+ }
+
+     /*media queries different size set and different sizes set values accordingly
+      if you are using small view of screens (like smart phone , or mobiles then these values used)*/
+
+       @media (max-width: 480px) {
+           .store-logo{
+
+        font-size: 4em;/* used values here for icon small mobile or handheld device */
+             width:  160px ;
+       height:  160px ;
+
+       }
+
+
+
+         .options-container{
+
+       max-width:  450px  ;/* setting container style from flex  , for viewports settings responsive elements in mobile size views*/
+
+
       }
-      .loading-text {
-        font-size: 2em;
-      }
+.option img{
+         width: 8.5rem; /* use this in device width values and images can scale to  devices specific mobile and view ports or handheld*/
+
+            height:  8.5rem ;
+     }
+
+
+.option-text{
+         font-size: 1em;  /* correct font value size on screens*/
     }
 
-    @media (min-width: 900px) {
-      .option img {
-        width: 600px;
-        height: 600px;
-        flex-direction: column;
+
+
+
+}
+          /* same settings applied using small sizes or mobile and ipads values added ( tablet also set with perfect dimension for element style )*/
+
+
+    @media (max-width: 600px) and (min-width: 480px)  {
+
+
+          .options-container {
+
+             max-width: 600px;
+
+
+  }
+
+
+      .store-logo{
+  font-size:   5em ; /* logos and text are change based of resolution small */
+        width:  180px ; /* and height with correct views using numbers in mobile devices view and screens  or small view sizes*/
+     height:   180px ;
+
+
+       }
+
+
+
+        .option img{
+ width:   10.2rem ;
+  height: 10.2rem ;
+   }
+
+
+         .option-text{
+
+           font-size: 1.1em ;/* small scale values or increase on ipads  devices or bigger size mobiles or screens style using from  em units not using fixel in setting responsive on fonts scale*/
+
+   }
+
+   }
+
+
+
+           @media (min-width: 900px) and (max-width: 1180px)   {
+.option img {
+                width:   15.8em ;
+
+              height:   15.8em  ;  /* scale settings used*/
+
+ }
+
+
+ .option-text{
+     font-size: 1.35em;
+
+      }
+          .store-logo {
+
+         font-size:  7em ;
+         width:  200px  ;/* make logo size from scaling its values*/
+     height:    200px  ;
       }
 
-      .option-text {
-        font-size: 1.5em;
-      }
-      .loading-text {
-        font-size: 2.5em;
-      }
+
+
+ }
+    /* Setting styling for different screen type desktop view ports or monitors */
+
+    @media  (min-width: 1180px)  {
+
+
+     .option img {
+        width:   18.6em; /* laptop devices element images correct responsive in all view screen */
+         height: 18.6em;
     }
 
-    /* تحسين للشاشات الصغيرة */
-    @media (max-width: 480px) {
-      .loading-text {
-        font-size: 1.5em;
-      }
+ .option-text {
 
-      .store-icon {
-        font-size: 3em;
-      }
-
-      .option img {
-        width: 100px;
-        height: 100px;
-        flex-direction: column;
-      }
-
-      .option-text {
-        font-size: 0.9em;
-        flex-direction: column;
-      }
+        font-size: 1.55em ;
     }
-  </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  .store-logo {
+          font-size:  9.8em ; /* make big image when display from large screen with settings in views elements and from style changes correctly from scale value pixel from different display resoulution */
+
+
+ }
+
+
+
+}
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <body>
 
-<div class="loading-container" id="loadingContainer">
-  <div class="store-icon">
-    <i class="fas fa-store"></i>
-  </div>
-  <div class="loading-text" id="loadingText">
-    welcome to <br> Al Huda Center 
-  </div>
+    <div class="preloader-container" id="preloaderContainer">
+    <div class="store-logo">
+       <i class="fas fa-store"></i>
+      </div>
 </div>
 
-<div class="options-container" id="optionsContainer">
-  <div class="option" onclick="redirectToSection('mens')">
-    <img src="men section.png" alt="قسم الرجالي">
-    <div class="option-text">الرجالي</div>
-  </div>
+    <div class="options-container" id="optionsContainer">
+
+         <div class="option" onclick="redirectToSection('mens')">
+      <img src="images/men section.png" alt="قسم الرجالي">
+           <div class="option-text">الرجالي</div>
+
+        </div>
   <div class="option" onclick="redirectToSection('womens')">
-    <img src="women section.png" alt="قسم الحريمي">
-    <div class="option-text">الحريمي</div>
-  </div>
-  <div class="option" onclick="redirectToSection('kids')">
-    <img src="kids.png" alt="قسم الأطفال">
-    <div class="option-text">الأطفال</div>
-  </div>
+ <img src="images/women section.png" alt="قسم الحريمي">
+     <div class="option-text">الحريمي</div>
+
 </div>
+  <div class="option" onclick="redirectToSection('kids')">
 
-<script>
-  const loadingText = document.getElementById('loadingText');
-  const text = loadingText.textContent;
-  const loadingContainer = document.getElementById('loadingContainer');
-  const optionsContainer = document.getElementById('optionsContainer');
-  const body = document.body;
-  loadingText.innerHTML = '';
+  <img src="images/kids.png" alt="قسم الأطفال">
+      <div class="option-text">الأطفال</div>
+ </div>
 
-  for (let i = 0; i < text.length; i++) {
-    const span = document.createElement('span');
-    span.textContent = text[i];
-    span.style.animationDelay = `${i * 0.05}s`;
-    loadingText.appendChild(span);
-  }
+    </div>
 
-  setTimeout(function() {
-    loadingContainer.style.display = 'none';
-    optionsContainer.style.display = 'flex';
-    body.style.background = 'white';
-    body.style.color = 'black';
-  }, text.length * 50 + 1500);
 
-  function redirectToSection(section) {
-    if (section === 'mens') {
-      window.location.href = "men.html";
-    } else if (section === 'womens') {
-      window.location.href = "women.html";
-    } else if (section === 'kids') {
-      window.location.href = "kids.html";
+    <script>
+
+     const loadingContainer =  document.getElementById('preloaderContainer');
+     const optionsContainer =  document.getElementById('optionsContainer');
+      const body = document.body;
+
+  setTimeout(()=>{
+       loadingContainer.style.display ='none'
+        optionsContainer.style.display = 'flex' /* after loading display from block , to flexible , when loading finsh   element will visible */
+
+        body.style.background= '#fff' /* the elements transition is correct working  */
+         body.style.color='#333'
+
+
+   }, 3000)
+
+
+
+     function redirectToSection(section){
+
+        if(section==='mens'){
+             window.location.href  ='men.html';
+
+   }
+       else if( section ==='womens'){
+
+       window.location.href ='women.html';
+
+
+     }
+          else  if( section === 'kids'){
+      window.location.href  ='kids.html';
     }
-  }
-</script>
 
+
+     }
+
+</script>
 </body>
 </html>
