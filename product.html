@@ -1,205 +1,101 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl"></html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تفاصيل المنتج</title>
+    <title>الهدي سنتر</title>
+    <link rel="icon" href="images/icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        /* إعدادات عامة */
-        body {
-            font-family: 'Cairo', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        header {
-            background-color: #ffcc55;
-            color: #fff;
-            text-align: center;
-            padding: 20px 0;
-            font-size: 24px;
-        }
-
-        main {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-
-        /* زر الإغلاق */
-        .close-btn {
-            position: absolute;
-            top: 
-            20px;
-            right: 20px;
-            background-color: #ff4d4f;
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .close-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .product {
-            text-align: center;
-        }
-
-        .product img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        .product h2 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .product p {
-            font-size: 18px;
-            margin: 10px 0;
-        }
-
-        .product .old_price {
-            text-decoration: line-through;
-            color: #888;
-        }
-
-        /* معرض الصور */
-        .image-gallery {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .image-gallery img {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border: 2px solid transparent;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: border-color 0.3s ease;
-        }
-
-        .image-gallery img:hover {
-            border-color: #ffcc55;
-        }
-  .discount-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: linear-gradient(45deg, #ff6f61, #f44336); /* تدرج ألوان للخصم */
-    color: white;
-    padding: 5px 15px; /* زيادة المساحة الداخلية */
-    border-radius:50% 1% 50% 1%;
-    font-size: 20px;
-    font-weight: bold; /* جعل النص عريض */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* إضافة ظل */
-    z-index: 1; /* لضمان ظهور الشريط فوق الصورة */
-    transition: transform 0.2s; /* إضافة تأثير حركة عند التفاعل */
-   }
-
-
-      
-    </style>
+    <link rel="stylesheet" href="css/product.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
     <header>
-        تفاصيل المنتج
+        <div class="container top-nav">
+            <a href="" class="logo"><img src="images/logo.png" alt=""></a>
+            <form class="search-bar">
+                <div class="menu">
+                    <div class="item">
+                        <a href="#" class="link">
+                            <span id="menu-title"> الاقسام </span>
+                            <svg viewBox="0 0 360 360" xml:space="preserve">
+                                <g id="SVGRepo_iconCarrier">
+                                    <path id="XMLID_225_" d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393 c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393 s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z"></path>
+                                </g>
+                            </svg>
+                        </a>
+                        <div class="submenu">
+                            <div class="submenu-item">
+                                <a href="men.html" class="submenu-link" data-title="رجالي"> رجالي </a>
+                            </div>
+                            <div class="submenu-item">
+                                <a href="women.html" class="submenu-link" data-title="حريمي"> حريمي </a>
+                            </div>
+                            <div class="submenu-item">
+                                <a href="kids.html" class="submenu-link" data-title="اطفال"> اطفال </a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <input type="text" name="search" id="search" placeholder="انت بتدور علي اي؟" required>
+                <div id="results"></div>
+                <button type="button" class="search-btn" id="searchButton">
+                  <i class="fa-solid fa-search"></i>
+                </button>
+            </form>
+            <div class="cart_header">
+                <div onclick="open_cart()" class="icon_cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="count_item">0</span>
+                </div>
+                <div class="total_price">
+                    <p>سلة التسوق:</p>
+                    <span class="price_cart_total">0 جنيه</span>
+                </div>
+            </div>
+        </div>
+
     </header>
+    <div class="cart">
+        <div class="top_cart">
+            <h3>سلة التسوق <span>(<span class="count_item">0</span> منتجات)</span></h</div>
+            <div class="close_cart" onclick="close_cart()"><i class="fa fa-times"></i></div>
+        </div>
+        <div class="items_in_cart"></div>
+        <div class="bottom_cart">
+            <div class="total">
+                <span>المجموع:</span>
+                <span class="price_cart_total">0 جنيه</span>
+            </div>
+            <div class="button_cart">
+                <button class="btn_cart"onclick="sendInvoiceViaWhatsApp()">ارسال الفاتورة عبر الواتساب</button>
+                <button class="btn_cart trans_bg" onclick="close_cart()">متابعة التسوق</button>
+            </div>
+        </div>
+    </div>  
     <main>
-        <button class="close-btn" onclick="closePage()">×</button>
+        <!-- العربة -->
+        <button class="close-btn" onclick="closePage()"><i class="fa-solid fa-arrow-left"></i></button>
         <div id="product-details">
             <!-- تفاصيل المنتج ستُعرض هنا -->
         </div>
     </main>
-    <script>
-        // الحصول على معرّف المنتج من URL
-        const params = new URLSearchParams(window.location.search);
-        const productId = params.get('id');
-
-        if (productId) {
-            fetch('product.json')
-                .then(response => response.json())
-                .then(data => {
-                    let product;
-                    for (const category in data.categories) {
-                        for (const subcategory in data.categories[category]) {
-                            product = data.categories[category][subcategory].find(p => p.id == productId);
-                            if (product) break;
-                        }
-                        if (product) break;
-                    }
-
-                    if (product) {
-                        const productDetails = `
-                            <div class="product">
-                                <img id="main-image" src="${product.image}" alt="${product.name}">
-                                <h2>${product.name}</h2>
-                                <p>السعر: <span>${product.price} جنيه</span></p>
-                                ${product.old_price ? `<p class="old_price">${product.old_price} جنيه</p>` : ''}
-                                <p>الوصف: ${product.tags ? product.tags.join(', ') : 'لا يوجد وصف'}</p>
-                                ${product.images ? renderImageGallery(product.images) : ''}
-                            </div>
-                                   ${product.old_price ? `<div class="discount-badge">خصم ${((product.old_price - product.price) / product.old_price * 100).toFixed(0)}%</div>` : ''}
-                        `;
-                        document.getElementById('product-details').innerHTML = productDetails;
-                        attachImageGalleryEvents();
-                    } else {
-                        document.getElementById('product-details').innerHTML = '<p>عذرًا، المنتج غير موجود.</p>';
-                    }
-                })
-                .catch(error => console.error('خطأ في تحميل تفاصيل المنتج:', error));
-        } else {
-            document.getElementById('product-details').innerHTML = '<p>لم يتم تحديد المنتج.</p>';
-        }
-
-        function renderImageGallery(images) {
-            return `
-                <div class="image-gallery">
-                    ${images.map(img => `<img src="${img}" alt="صورة إضافية">`).join('')}
-                </div>
-            `;
-        }
-
-        function attachImageGalleryEvents() {
-            const galleryImages = document.querySelectorAll('.image-gallery img');
-            const mainImage = document.getElementById('main-image');
-
-            galleryImages.forEach(img => {
-                img.addEventListener('click', () => {
-                    mainImage.src = img.src;
-                });
-            });
-        }
-
-        function closePage() {
-            window.history.back();
-        }
-
-    </script>
+    <footer id="footer">
+        <div class="footer-container">
+            <h3>لأي استفسار أو دعم، تواصل معنا عبر الواتساب او زور صفحتنا على الفيس بوك. نحن دائمًا هنا لمساعدتك!</h3>
+            <ul class="social-links">
+                <li><a href="https://wa.me/+201026972523" target="_blank"><i class="fab fa-whatsapp"></i> واتساب</a></li>
+                <li><a href="http://m.me/104124002518682" target="_blank"><i class="fab fa-facebook-messenger"></i> ماسنجر</a></li>
+                <li><a href="https://www.google.com/maps/place/31%C2%B001%2753.5%22N+30%C2%B027%2749.0%22E/@31.031505,30.463736,20z/data=!4m4!3m3!8m2!3d31.031533!4d30.463614?hl=ar&entry=ttu" target="_blank"><i class="fas fa-map-marker-alt"></i> موقعنا</a></li>
+                <li><a href="https://t.me/+VMKBOk1oqqS3Ciyt" target="_blank"><i class="fab fa-telegram-plane"></i> تيليجرام</a></li>
+                <li><a href="https://www.facebook.com/profile.php?id=100087530415837&mibextid=ZbWKwL" target="_blank"><i class="fab fa-facebook-f"></i> فيسبوك</a></li>
+            </ul>
+           
+            <p>جميع حقوق الملكية محفوظة لدى الهدى سنتر &copy; 2025</p>
+        </div>
+    </footer>
+    <script src="java/product.js"></script>
+    <script src="java/main.js"></script>
 </body>
 </html>
