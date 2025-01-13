@@ -168,7 +168,6 @@ function renderProductDetails(product) {
     const productDetails = `
         <div class="product-container grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="product-images">
-                ${discount ? `<div class="discount-badge">خصم ${discount}%</div>` : ''}
                 <img id="main-image" src="${product.image}" alt="${product.name}" class="main-image">
                 ${product.images ? renderImageGallery(product.images) : ''}
             </div>
