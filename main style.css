@@ -72,6 +72,7 @@ p {
     }
 }
 
+/* Header Styles */
 /* تنسيق الهيدر */
 header {
     position: fixed;
@@ -94,14 +95,10 @@ header .top-nav {
 
 @media (max-width: 768px) {
     header {
-       padding: 5px 0;
-
+        top: 60px; /* Adjust this value based on the height of the search bar */
     }
-      body {
-         margin-top: 130px; /* Adjust this value based on the height of the search bar */
-        }
-
 }
+
 /* تنسيق الشعار */
 .logo img {
     width: 150px;
@@ -121,31 +118,26 @@ header .top-nav {
 
 /* تنسيق شريط البحث */
 .search-bar {
-     display: flex;
+    display: flex;
     align-items: center;
     background: var(--light-bg);
     padding: 8px;
     border-radius: 8px;
     box-shadow: 0 4px 8px var(--shadow-color);
     width: 100%;
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
-    position: relative;
-    flex-wrap: wrap;
 }
 
 @media (max-width: 768px) {
-  .search-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 20;
-    border-radius: 0;
-    width: 100%;
-    max-width: none;
-
-  }
+    .search-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 20;
+        border-radius: 0;
+    }
 }
 
 .search-bar input[type="text"] {
@@ -178,7 +170,7 @@ header .top-nav {
     background: #e8b43a;
 }
 
-/* From Uiverse.io by gharsh11032000 */
+/* تنسيق القائمة */
 .menu {
     font-size: 16px;
     line-height: 1.6;
@@ -368,31 +360,28 @@ header .top-nav {
     justify-content: center;
     align-items: center;
 }
+
 @media (max-width: 768px) {
     .cart_header {
-         justify-content: flex-start; /* Align items to the start */
-         flex-direction: row;/* keep flex direction  row in mobile*/
+        justify-content: flex-start;
     }
 
     .cart_header .icon_cart {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         position: relative;
-        top: 5px;
-       left: 5px;
+        top: 10px;
+        left: 10px;
     }
 
     .cart_header .count_item {
-         width: 20px;
-        height: 20px;
-         top: -5px; /* Adjusted to move the count item higher */
-       right: -5px; /* Adjusted to move the count item to the right */
-
+        width: 25px;
+        height: 25px;
+        top: -10px;
+        right: -10px;
     }
-      .total_price p {
-         font-size: 14px; /* Adjust font size for smaller screens */
-     }
 }
+
 
 
 /*cart*/
