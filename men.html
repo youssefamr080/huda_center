@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الهدي سنتر</title>
-    <link rel="icon" href="icon.png">
-    <link rel="stylesheet" href="main style.css">
+    <link rel="icon" href="images/icon.png">
+    <link rel="stylesheet" href="css/main style.css">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -13,7 +13,7 @@
 <body>
     <header>
         <div class="container top-nav">
-            <a href="" class="logo"><img src="logo.png" alt=""></a>
+            <a href="" class="logo"><img src="images/logo.png" alt=""></a>
             <form class="search-bar">
                 <div class="menu">
                     <div class="item">
@@ -35,6 +35,7 @@
                             <div class="submenu-item">
                                 <a href="kids.html" class="submenu-link" data-title="اطفال"> اطفال </a>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -59,12 +60,12 @@
     </header>
     <div class="swiper mySwiper">
         <div class="swiper-wrapper">
-          <div class="swiper-slide"><img src="Add a heading (4).jpg" alt=""></div>
-          <div class="swiper-slide"><img src="intro.jpg" alt=""></div>
-          <div class="swiper-slide"><img src="mug prent.jpg" alt=""></div>
-          <div class="swiper-slide"><img src="potrait slider.jpg" alt=""></div>
-          <div class="swiper-slide"><img src="walet slider.jpg" alt=""></div>
-          <div class="swiper-slide"><img src="mug slider.jpg" alt=""></div>
+          <div class="swiper-slide"><img src="images/Add a heading (4).jpg" alt=""></div>
+          <div class="swiper-slide"><img src="images/intro.jpg" alt=""></div>
+          <div class="swiper-slide"><img src="images/mug prent.jpg" alt=""></div>
+          <div class="swiper-slide"><img src="images/potrait slider.jpg" alt=""></div>
+          <div class="swiper-slide"><img src="images/walet slider.jpg" alt=""></div>
+          <div class="swiper-slide"><img src="images/mug slider.jpg" alt=""></div>
         </div>
         <div class="swiper-scrollbar"></div>
        
@@ -88,28 +89,42 @@
         </div>
     </div>
 
-    <!-- التنقل بين الأقسام -->
-    <nav>
-        <button onclick="showSection('watches_men')">
-            <img src="watch section.jpg" alt="ساعات">
-            <h5>ساعات</h5>
-        </button>
-        <button onclick="showSection('perfumes_men')">
-            <img src="oil.jpg" alt="عطور">
+   <!-- Navigation with arrows and styling  -->
+     <nav id="sectionNav" class="navigation"  >
+          <button class="nav-arrow prev-arrow"  aria-label="Previous"><i class="fa fa-chevron-right"></i></button>
+           <div class="nav-container">
+
+
+            <button onclick="showSection('watches_men')">
+                <img src="images/watch section.jpg" alt="ساعات">
+                <h5>ساعات</h5>
+            </button>
+            <button onclick="showSection('wallets_men')">
+                <img src="images/men wallet.jpg" alt="محافظ">
+                <h5>محافظ</h5>
+            </button>
+           <button onclick="showSection('perfumes_men')">
+            <img src="images/men perfum section.jpg" alt="عطور">
             <h5>عطور</h5>
         </button>
-        <button onclick="showSection('wallets_men')">
-            <img src="men wallet.jpg" alt="محافظ">
-            <h5>محافظ</h5>
+            <button onclick="showSection('sunglasses_men')">
+                <img src="images/men sunglasses.jpg" alt="نظارات شمسية">
+                <h5>نظارات شمسية </h5>
+            </button>
+           <button onclick="showSection('hand-bags')">
+               <img src="images/hand bag.jpg" alt="شنط يد">
+               <h5>شنط يد</h5>
+          </button>
+          <button onclick="showSection('oil-men')">
+            <img src="images/oil.jpg" alt="زيوت عطريه">
+            <h5>زيوت عطريه</h5>
+        </button>  
+        <button onclick="showSection('spray-men')">
+            <img src="https://static.arrajol.com/users/user466141/Tom%20Ford%20Oud%20Wood%20Body%20Spray%20%281%29.jpg" alt="عطور">
+            <h5>سبراي</h5>
         </button>
-        <button onclick="showSection('sunglasses_men')"> 
-            <img src="men sunglasses.jpg" alt="نظارات شمسية">
-            <h5>نظارات </h5>
-        </button>
-        <button onclick="showSection('hand-bags')"> 
-            <img src="hand bag.jpg" alt="شنط يد">
-            <h5>شنط يد</h5>
-        </button>
+         </div>
+          <button class="nav-arrow next-arrow"  aria-label="Next" ><i class="fa fa-chevron-left"></i></button>
     </nav>
 
 
@@ -141,13 +156,97 @@
 
     <!-- قسم الشنط اليد -->
     <div id="hand-bags" class="section">
-        <div class="products">
+        <div class="products"></div>
 
-        </div>
     </div>
+
+    <div id="oil-men" class="section">
+        <div class="container2">
+            <input 
+                type="text" 
+                id="searchInput2" 
+                onkeyup="searchPerfumes()" 
+                placeholder="ابحث عن الزيت..." 
+                class="search-bar2">
+            <ul id="perfumeList" class="perfume-list">
+                <li>وان مان شو</li>
+                <li>داركار</li>
+                <li>اوبن</li>
+                <li>تومي هيل</li>
+                <li>B.M.W</li>
+                <li>سيجار</li>
+                <li>شانيل بلاتينيوم</li>
+                <li>الترامارين</li>
+                <li>شامبيون دافي دوف</li>
+                <li>3G</li>
+                <li>غبار الدهب</li>
+                <li>بلاك اوركيدا</li>
+                <li>انفكتوس</li>
+                <li>الوسام</li>
+                <li>وان مليون</li>
+                <li>دانهيل ديزاير</li>
+                <li>مرسيدس بينز</li>
+                <li>اسكلبشر</li>
+                <li>سوفاج</li>
+                <li>سلفر سنت</li>
+                <li>اكوا ديجو</li>
+                <li>بلاك ليكزيس</li>
+                <li>كيلفين كلاين</li>
+                <li>توم فورد</li>
+                <li>VIP212</li>
+                <li>لاكوست ريد</li>
+                <li>رويال بلو</li>
+                <li>كريد بلاك</li>
+                <li>دانهيل بلاك</li>
+                <li>الفانيليا</li>
+                <li>فياجرا</li>
+                <li>اكوا بلجاري</li>
+                <li>اترنتي</li>
+                <li>شيلز</li>
+                <li>كريد افينتوس</li>
+                <li>اسمياكي</li>
+                <li>لاكوست استينشال</li>
+                <li>نيوبوص</li>
+                <li>لاكوست وايت</li>
+                <li>ماربريت مان</li>
+                <li>فندي</li>
+                <li>فوياج</li>
+                <li>ليكزيس</li>
+                <li>جاجور جرين</li>
+                <li>عود ابيض</li>
+                <li>مسك ابيض</li>
+                <li>مسك متسلق</li>
+                <li>اربابورا</li>
+                <li>مضاوي</li>
+                <li>عود بوكيه</li>
+                <li>عود عماني</li>
+                <li>امير عود</li>
+                <li>عود مبخر</li>
+                <li>بكرات روج</li>
+                <li>تراب الدهب</li>
+                <li>هاج سينت</li>
+                <li>وايت شوكليت</li>
+                <li>بلاك ابيوم</li>
+                <li>دانهل برسويت</li>
+                <li>لابيدوس</li>
+                <li>وصال</li>
+                <li>كنزو</li>
+                <li>هوجو</li>
+                <li>قرداحي</li>
+            </ul>
+            <p id="noResults" class="no-results" style="display: none;">لا توجد نتائج مطابقة</p>
+        </div>
+
+    </div>
+
+    <div id="spray-men" class="section">
+        <div class="products"></div>
+
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="product.json"></script>
-    <script src="main.js"></script>
+    <script src="java/main.js"></script>
 </body>
 <footer id="footer">
     <div class="footer-container">
@@ -159,10 +258,8 @@
             <li><a href="https://t.me/+VMKBOk1oqqS3Ciyt" target="_blank"><i class="fab fa-telegram-plane"></i> تيليجرام</a></li>
             <li><a href="https://www.facebook.com/profile.php?id=100087530415837&mibextid=ZbWKwL" target="_blank"><i class="fab fa-facebook-f"></i> فيسبوك</a></li>
         </ul>
-        <button class="share-button" onclick="shareWebsite()">
-            <i class="fa-solid fa-share-nodes"></i>مشاركة رابط المتجر
-        </button>
-        <p>جميع حقوق الملكية محفوظة لدى الهدى سنتر &copy; 2025</p>
+       
+        <p>جميع حقوق الملكية محفوظة لدى الهدى سنتر © 2025</p>
     </div>
 </footer>
 </html>
