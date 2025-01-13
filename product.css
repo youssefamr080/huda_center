@@ -22,6 +22,7 @@
     --container-width: 1200px;
   --parg-color: #666666;
   --dark-red: #d01418;
+
 }
 
 /* تنسيق الجسم */
@@ -676,7 +677,6 @@ text-align: left;
   margin-top: 3rem;
     background-color: white;
     border-top: 1px solid #ccc;
-
   padding: 2rem 0;
 
 }
@@ -694,7 +694,7 @@ text-align: left;
     overflow-x: auto;
     gap: 1.5rem;
     padding: 0 1rem;
-
+   flex-wrap: wrap;
 }
 
 .similar-products-grid a{
@@ -703,8 +703,8 @@ text-align: left;
 }
 
 .similar-products-grid img {
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
     object-fit: cover;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -1165,7 +1165,7 @@ a:focus, button:focus, input:focus {
 .discount-text {
     background-color: #f44336; /* لون الخلفية الأحمر */
     color: white; /* لون النص الأبيض */
-    font-size: 1.5rem; /* حجم الخط */
+    font-size: 1.2rem; /* حجم الخط */
     font-weight: bold; /* جعل النص أكثر وضوحاً */
     padding: 5px 10px; /* مساحة داخلية حول النص */
     border-radius: 5px; /* حواف دائرية */
@@ -1232,4 +1232,33 @@ a:focus, button:focus, input:focus {
     background: #f9f9f9;
     color: var(--main-color);
 
+}
+.amount-text {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #000; /* لون أخضر عند وجود الكمية */
+}
+
+.amount-text.out-of-stock {
+    color: #e74c3c; /* لون أحمر عند نفاد الكمية */
+    font-weight: bold;
+}
+.out-of-stock-btn {
+    background-color: #ccc !important;
+    color: #666 !important;
+    cursor: not-allowed !important; /* optional cursor */
+}
+.out-of-stock-message{
+    position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   background-color: rgba(0, 0, 0, 0.7);
+   color: white;
+   padding: 20px;
+   border-radius: 10px;
+   font-size: 20px;
+   font-weight: bold;
+   z-index: 999999;
 }
