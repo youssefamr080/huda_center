@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
   
   });
-  
+
 function renderProducts(categories) {
     for (const category in categories) {
         const subcategories = categories[category];
@@ -580,3 +580,75 @@ var swiper = new Swiper(".mySwiper", {
   function closePage() {
       window.history.back();
   }
+  document.addEventListener('DOMContentLoaded', function () {
+    const navContainer = document.querySelector('.nav-container');
+    const prevButton = document.querySelector('.prev-arrow');
+    const nextButton = document.querySelector('.next-arrow');
+    let scrollInterval;
+    const scrollStep = 180; // عدد البيكسلات للتمرير
+    const scrollSpeed = 5000; // مدة التمرير التلقائي (5 ثوانٍ)
+
+    // التمرير في الاتجاه المحدد
+    function scrollNav(direction) {
+        navContainer.scrollBy({
+            left: direction * scrollStep,
+            behavior: 'smooth', // تمرير سلس
+        });
+    }
+
+    // بدء التمرير التلقائي
+    function autoScroll() {
+        if (navContainer.scrollLeft + navContainer.offsetWidth >= navContainer.scrollWidth) {
+            navContainer.scrollLeft = 0; // العودة إلى البداية عند الوصول للنهاية
+        } else {
+            scrollNav(1);
+        }
+    }
+
+    // تشغيل التمرير التلقائي
+    function startAutoScroll() {
+        scrollInterval = setInterval(autoScroll, scrollSpeed);
+    }
+
+    // إيقاف التمرير التلقائي
+    function stopAutoScroll() {
+        clearInterval(scrollInterval);
+    }
+
+    // إضافة أحداث للنقر على الأسهم
+    prevButton.addEventListener('click', () => scrollNav(-1));
+    nextButton.addEventListener('click', () => scrollNav(1));
+
+    // تشغيل التمرير التلقائي عند تحميل الصفحة
+    startAutoScroll();
+
+    // إيقاف التمرير التلقائي عند التفاعل مع الشريط
+    navContainer.addEventListener('mouseenter', stopAutoScroll);
+    navContainer.addEventListener('mouseleave', startAutoScroll);
+
+    // دعم التمرير باللمس على الهواتف
+    navContainer.addEventListener('touchstart', stopAutoScroll);
+    navContainer.addEventListener('touchend', startAutoScroll);
+});
+
+function searchPerfumes() {
+        const input = document.getElementById('searchInput2');
+        const filter = input.value.toUpperCase();
+        const ul = document.getElementById('perfumeList');
+        const li = ul.getElementsByTagName('li');
+        const noResults = document.getElementById('noResults');
+        let hasResults = false;
+    
+        for (let i = 0; i < li.length; i++) {
+            const txtValue = li[i].textContent || li[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+                hasResults = true;
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    
+        noResults.style.display = hasResults ? "none" : "block";
+    }
+    
