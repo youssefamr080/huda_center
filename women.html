@@ -34,7 +34,7 @@
                             <div class="submenu-item">
                                 <a href="kids.html" class="submenu-link" data-title="اطفال"> اطفال </a>
                             </div>
-
+                            
                         </div>
                     </div>
                 </div>
@@ -88,28 +88,42 @@
     </div>
 
     <!-- التنقل بين الأقسام -->
-    <nav>
+    <nav id="sectionNav" class="navigation"  >
+        <button class="nav-arrow prev-arrow"  aria-label="Previous"><i class="fa fa-chevron-right"></i></button>
+         <div class="nav-container">
+
         <button onclick="showSection('watches_women')">
             <img src="women watch.jpg" alt="ساعات">
             <h5>ساعات</h5>
         </button>
-        <button onclick="showSection('perfumes_women')">
-            <img src="oil.jpg " alt="عطور">
-            <h5>عطور</h5>
-        </button>
-        <button onclick="showSection('wallets_women')">
+         <button onclick="showSection('wallets_women')">
             <img src="women wallets.jpg " alt="محافظ">
             <h5>محافظ</h5>
         </button>
+        <button onclick="showSection('perfumes_women')">
+            <img src="women perfume.jpg" alt="عطور">
+            <h5>عطور</h5>
+        </button>
+       
         <button onclick="showSection('sunglasses_women')"> 
             <img src="women sunglasses.jpg" alt="نظارات شمسية">
             <h5>نظارات </h5>
+        </button>
+        <button onclick="showSection('oil-women')">
+            <img src="oil.jpg" alt="عطور">
+            <h5>زيوت عطريه</h5>
         </button>
         <button onclick="showSection('Accessories')"> 
             <img src="women Accessories.jpg" alt=" اكسسوارات">
             <h5>اكسسوارات</h5>
         </button>
-    </nav>
+        <button onclick="showSection('spray-women')"> 
+            <img src="https://th.bing.com/th/id/OIP.ccQMC3Wl2PiJlz1RLltaIQHaHa?rs=1&pid=ImgDetMain" alt=" اكسسوارات">
+            <h5>اكسسوارات</h5>
+        </button>
+    </div>
+    <button class="nav-arrow next-arrow"  aria-label="Next" ><i class="fa fa-chevron-left"></i></button>
+</nav>
 
     <div id="products"></div>
 
@@ -122,6 +136,12 @@
 
     <!-- قسم العطور -->
     <div id="perfumes_women" class="section">
+        <div class="products"></div>
+           
+        
+    </div>
+
+    <div id="spray-women" class="section">
         <div class="products"></div>
            
         
@@ -143,10 +163,76 @@
     <div id="Accessories" class="section">
         <div class="products"></div>
     </div>
+
+    <div id="oil-women" class="section">
+        <div class="container2">
+            <input 
+                type="text" 
+                id="searchInput2" 
+                onkeyup="searchPerfumes()" 
+                placeholder="ابحث عن الزيت..." 
+                class="search-bar2">
+
+                <ul id="perfumeList" class="perfume-list">
+                    <!-- قائمة التركيبات -->
+                    
+                  <li>جود جيرل</li>
+                    <li>رومانس</li>
+                    <li>لايف لوكس</li>
+                  <li>روزفانليا</li>
+                  <li>نايت فلايت</li>
+                  <li>اسكادا جرافيتي</li>
+                  <li>صبايا</li>
+                  <li>سي ارماني</li>
+                  <li>سي باشون</li>
+                  <li>كاسيليا</li>
+                  <li>بربري هير</li>
+                  <li>اسكيب</li>
+                  <li>شيلز</li>
+                  <li>فري سكس ناو</li>
+                  <li>ريد جولد</li>
+                  <li>شرينز اير</li>
+                    <li>رومبا</li>
+                   <li>سكريت شارم</li>
+                  <li>سكادا كولكشن</li>
+                  <li>روشاز</li>
+                  <li>تندرا</li>
+                   <li>اسكاندل</li>
+                  <li>لافي بيل</li>
+                  <li>اسكادا تركواز</li>
+                  <li>ذارا موف</li>
+                  <li>لابيرفيوم ان وايت</li>
+                  <li>اغراء النساء</li>
+                  <li>اسكادا امون سباركل</li>
+                  <li>نساء العالم</li>
+                  <li>برتني سيزر</li>
+                  <li>اولمبيا</li>
+                  <li>اكسيسوريس روج</li>
+                  <li>جوتش رش</li>
+                  <li>ميدنايت روز</li>
+                  <li>بنك شوجر</li>
+                  <li>فاراواي</li>
+                  <li>ايلي صعب</li>
+                  <li>امور امور</li>
+                  <li>سنشوال</li>
+                  <li>ايدن</li>
+                  <li>فانيليا روشير</li>
+                  <li>سي ارماني انتس</li>
+                  <li>بكرات روج</li>
+                  <li>مسك رومان</li>
+                  <li>فل</li>
+                  <li>ياسمين</li>
+                  <!-- أضف المزيد من التركيبات هنا -->
+                  </ul>
+                  
+            <p id="noResults" class="no-results" style="display: none;">لا توجد نتائج مطابقة</p>
+        </div>
+
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="product.json"></script>
     <script src="main.js"></script>
-
+   
 </body>
 <footer id="footer">
     <div class="footer-container">
@@ -158,9 +244,7 @@
             <li><a href="https://t.me/+VMKBOk1oqqS3Ciyt" target="_blank"><i class="fab fa-telegram-plane"></i> تيليجرام</a></li>
             <li><a href="https://www.facebook.com/profile.php?id=100087530415837&mibextid=ZbWKwL" target="_blank"><i class="fab fa-facebook-f"></i> فيسبوك</a></li>
         </ul>
-        <button class="share-button" onclick="shareWebsite()">
-            <i class="fa-solid fa-share-nodes"></i>مشاركة رابط المتجر
-        </button>
+       
         <p>جميع حقوق الملكية محفوظة لدى الهدى سنتر &copy; 2025</p>
     </div>
 </footer>
