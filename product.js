@@ -159,7 +159,11 @@ function renderProductDetails(product) {
         ? Math.round(((product.old_price - product.price) / product.old_price) * 100)
         : 0;
 
-        const discountText = discount ? `<p class="discount-text">خصم ${discount}%</p>` : '';
+    const discountText = discount ? `<p class="discount-text">خصم ${discount}%</p>` : '';
+
+    const amountText = product.amount > 0 
+        ? `<p class="amount-text">الكمية المتبقية: ${product.amount}</p>` 
+        : `<p class="amount-text out-of-stock">غير متوفر حاليًا</p>`;
 
     const productDetails = `
         <div class="product-container grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -176,17 +180,17 @@ function renderProductDetails(product) {
                 </div>
                
                 ${discountText}
-                 ${product.description ? `<div class="description mt-4">
+                ${amountText}
+                ${product.description ? `<div class="description mt-4">
                     <h3 class="text-lg font-semibold mb-2">وصف المنتج:</h3>
                     <p>${product.description}</p>
                 </div>` : ''}
 
-                 
                 <div class="icons">
-                    <span class="btn_add_cart">
+                    <span class="btn_add_cart ${product.amount <= 0 ? 'out-of-stock-btn' : ''}">
                         <i class="fa-solid fa-cart-shopping"></i> إضافة للسلة
                     </span>
-                  <span class="share-button">
+                    <span class="share-button">
                         <i class="fa-solid fa-share-from-square"></i> مشاركة المنتج
                     </span>
                 </div>
@@ -201,7 +205,13 @@ function renderProductDetails(product) {
     document.getElementById('product-details').innerHTML = productDetails;
     attachImageGalleryEvents();
     addEventListenersToProduct(product);
+     // Disable the add to cart button if out of stock
+    const addToCartButton = document.querySelector('.btn_add_cart');
+    if (product.amount <= 0 && addToCartButton) {
+        addToCartButton.disabled = true;
+    }
 }
+
 
 
 // Function to render image gallery
@@ -262,29 +272,43 @@ function addEventListenersToProduct(product) {
     const addToCartButton = document.querySelector('.btn_add_cart');
     const favoritesButton = document.querySelector('.share-button');
 
-    if (addToCartButton) {
-        addToCartButton.addEventListener('click', function () {
-            const productId = product.id;
-            const imgSrc = currentDisplayedImage || product.image;
-            const title = product.name;
-            const price = product.price;
+     if (addToCartButton) {
+         if (product.amount <= 0) {
+             // If the product is out of stock
+            addToCartButton.addEventListener('click', function (event) {
+                 event.preventDefault(); // Prevent default click behavior
 
-            addToCart(productId, imgSrc, title, price);
+              const message = document.createElement('div');
+              message.textContent = 'هذا المنتج غير متوفر حاليا';
+              message.classList.add('out-of-stock-message'); // Apply CSS class
+              document.body.appendChild(message);
 
-            this.innerHTML = '<i class="fa-solid fa-check"></i> تم الإضافة';
-            this.style.backgroundColor = '#ccc';
-            this.disabled = true;
+              setTimeout(() => {
+              message.remove();
+              }, 1500);
+          });
+          }else{
+              addToCartButton.addEventListener('click', function () {
+                const productId = product.id;
+                const imgSrc = currentDisplayedImage || product.image;
+                const title = product.name;
+                const price = product.price;
 
-            setTimeout(() => {
-                this.style.backgroundColor = '';
-                this.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> إضافة للسلة';
-                this.disabled = false;
-            }, 1000);
+                addToCart(productId, imgSrc, title, price);
 
-           // updateCartTotal(); not a function used anywhere removed for safety
+                this.innerHTML = '<i class="fa-solid fa-check"></i> تم الإضافة';
+                this.style.backgroundColor = '#ccc';
+                this.disabled = true;
 
-        });
-    }
+                  setTimeout(() => {
+                    this.style.backgroundColor = '';
+                    this.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> إضافة للسلة';
+                    this.disabled = false;
+                 }, 1000);
+              });
+            }
+      }
+    
 
     if (favoritesButton) {
         favoritesButton.addEventListener('click', function () {
