@@ -672,51 +672,96 @@ text-align: left;
   transition: background-color 0.3s ease;
     flex: 1;
   }
-/* Similar products section */
+/* Similar products section - Enhanced for responsive grid */
 #similar-products {
-  margin-top: 3rem;
-    background-color: white;
-    border-top: 1px solid #ccc;
-  padding: 2rem 0;
-
-}
-
-#similar-products h2 {
-    font-size: 1.7rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 1.5rem;
-  margin-right: 1.2rem;
-}
-
-.similar-products-grid {
-  display: flex;
-    overflow-x: auto;
-    gap: 1.5rem;
-    padding: 0 1rem;
-   flex-wrap: wrap;
-}
-
-.similar-products-grid a{
- text-decoration: none;
-
-}
-
-.similar-products-grid img {
-    width: 180px;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 3rem;
+      background-color: white;
+      border-top: 1px solid #ccc;
+      padding: 2rem 0;
+  }
+  
+  #similar-products h2 {
+      font-size: 1.7rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 1.5rem;
+      margin-right: 1.2rem;
+  }
+  
+  .similar-products-grid {
+      display: flex;
+      overflow-x: auto;
+      gap: 1.5rem;
+      padding: 0 1rem;
+     flex-wrap: wrap; /* Allows wrapping to new lines */
+      justify-content: center; /* Centers grid items */
+  
+  }
+  
+  .similar-products-grid a{
+   text-decoration: none;
+  }
+  
+  .similar-products-grid img {
+      width: calc(25% - 1.5rem); /* Default to four per row */
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-
-}
-.similar-products-grid img:hover{
-      transform: translateY(-0.3rem); /* Move it up on hover */
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
-    
+      flex-grow: 0; /* Prevents images from stretching */
+  }
+  .similar-products-grid img:hover{
+        transform: translateY(-0.3rem); /* Move it up on hover */
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+  
+  }
+  
+  /* Make four images per row on larger screens */
+  @media (min-width: 1200px) {
+    .similar-products-grid img {
+      width: calc(25% - 1.5rem);
     }
+  }
+  /* Make three images per row on medium screens */
+  @media (min-width: 992px) and (max-width: 1199px) {
+      .similar-products-grid img {
+           width: calc(33.33% - 1.5rem); /* Three images per row */
+      }
+  }
+  
+  /* Make two images per row on smaller screens */
+  @media (min-width: 577px) and (max-width: 991px) {
+     .similar-products-grid img {
+          width: calc(50% - 1.5rem); /* Two images per row */
+     }
+  }
+  
+   /* Two images per row up to 360px */
+  @media (max-width: 576px)  {
+    .similar-products-grid img {
+           width: calc(50% - 1.5rem); /* Two images per row */
+     }
+  }
+  
+  /* One image per row on the smallest screens */
+  @media (max-width: 360px) {
+   .similar-products-grid img {
+           width: calc(100% - 1rem);/* One image per row */
+      }
+      .similar-products-grid{
+           gap: 1rem; /* reduce the gap  */
+      }
+  }
+  /* Adjust for very small screens */
+  @media (max-width: 300px) {
+     .similar-products-grid img {
+         width: calc(100% - 0.5rem);/* One image per row */
+      }
+       .similar-products-grid{
+           gap: 0.5rem; /* reduce the gap  */
+      }
+  }
 /* image Gallery  */
 .image-gallery {
     display: flex;
