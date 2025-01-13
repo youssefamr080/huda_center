@@ -4,342 +4,256 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الهدي سنتر</title>
-    <link rel="icon" href="images/icon.png">
-    <style>
-        /* Import font */
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@700&display=swap');
-
-        /* General body styling and reset styles */
-        body {
-            font-family: 'Tajawal', sans-serif;
-            margin: 0;
-            overflow: hidden;
-            min-height: 100vh; /* Ensure full height of the viewport */
-            background-color:  #fff  ; /* setting back ground for page */
-           transition: background 0.7s ease; /* Add a transition for smoother background changes */
-
-          display: flex;
-              align-items: center; /* vertical align from middle of screen  all items*/
-            justify-content: center; /* align element from the middle of screens   all elements using display flex */
-          flex-direction: column; /* to correct style the items position in all browser   from colum style not rows */
-        }
-
-
-     /*  Styling preloader items element*/
-
- .preloader-container {
-         text-align: center;/* setting alignment in elements horizontal using from css styling for better placement and views in page loading   , preloader setting center from every item */
-    display: flex;
-        align-items: center; /* horizontal alignment from vertical axis or line*/
-    justify-content: center; /* Vertical alignment and its position setting on the viewport all view */
-         min-height: 100vh; /* the item can  display in whole area */
-
-  position: relative; /* set the items correct or  absolute to elements */
-
-  animation: fadeIn .8s ease forwards; /* animation set here by calling keyframe by its names*/
-
-
-  }
-
-       /* animations name style from set value in down */
-
-       @keyframes fadeIn{
-         from{ opacity: 0  }  to {  opacity: 1   }   }
-
-
-   /* settings of icon logos design*/
-
-
-   .store-logo {
-          font-size: 9em ;/* scale or big size using responsive units*/
-          width: 200px;  /* use em in big screen its scalable values   for logos  */
-          height: 200px;/* image round */
-            display: flex ; /* show element horizontally  from flex element used*/
-            align-items: center;
-      justify-content: center; /* to fix icons in correct middle of space position*/
-           color:#f0c135;
-          text-shadow:0  0 10px rgb(0 0 0 / 20%);
-           animation: pulse 2s ease  alternate infinite;   /* to  add transition  or style animations for better use  and style icons */
-
-
-   }
-          @keyframes pulse {
-
-                from{  transform: scale(1);} /* setting value on transitions  effect from starting and ending scaling 1 times from each  */
-
-          to{
-
-      transform: scale(1.09);}
-
-
-
-     }
-
-
-
-        /*  Style of buttons , content or element for redirect  different sections pages styles*/
-        .options-container {
-            display: none;/* to  start every button section hide in webpage  till animation loading complete */
-            margin-top: 1em ;
-            flex-wrap: wrap;  /* using FlexWrap , element place inside multiple line correct view */
-            justify-content: center;
-            transition: opacity  .4s ease;
-            padding:0 15px ;
-            max-width: 1400px;
-            margin: auto;
-            text-align: center;
-
-         }
-      .option {
-            display: inline-flex;
-             flex-direction: column;
-             text-align: center;
-
-        margin:  1rem;
-           cursor: pointer;
-      transition: transform  .3s ease-in-out  , opacity 0.3s ease  ; /* setting for image smooth effects  to better user expiriance for hover state transitions style add here for each elemnents transition effect smoothly in  html */
-
-  overflow: hidden;/* prevent collapse of each section or image */
-
-   }
-
-
-        /*  Button Image Section Styling */
-        .option img {
-
-       width: 14em;
-
-        height: 14em;
-  border-radius:  10px;
-           box-shadow:  0  0  20px rgb(0 0 0 /10% ) ;
-
-            object-fit: cover;
-
-  transition:  transform var(--transition);
-
-
-
-}
-
-
-
-.option:hover img{
- transform: translateY(-2px)  scale(1.04);/* increase some pixel from above and also image will be a scaling up for hover effects or use actions in the screen views */
-  opacity: .95; /* added transparency style or opacity changes while hover the items and buttons */
-      }
-
-
-
-  /* style for header for text sections for different sections from html  using flex-col*/
-
-    .option-text{
-
-           margin-top: 1.25em; /* reduce spcae using em */
-       font-size: 1.2em;/* settings of font scaling by device resolution */
-       font-weight: 600; /* make it clear from style*/
-
-       text-shadow: 0   0  20px rgba( 0  0  0  /10%); /* light text style is use here */
-
-  color:  var(--dark-color) ;/* text style set as text to different content in header view*/
-         display: inline-block; /* display property style by type inline block setting */
-
- }
-
-     /*media queries different size set and different sizes set values accordingly
-      if you are using small view of screens (like smart phone , or mobiles then these values used)*/
-
-       @media (max-width: 480px) {
-           .store-logo{
-
-        font-size: 4em;/* used values here for icon small mobile or handheld device */
-             width:  160px ;
-       height:  160px ;
-
-       }
-
-
-
-         .options-container{
-
-       max-width:  450px  ;/* setting container style from flex  , for viewports settings responsive elements in mobile size views*/
-
-
-      }
-.option img{
-         width: 8.5rem; /* use this in device width values and images can scale to  devices specific mobile and view ports or handheld*/
-
-            height:  8.5rem ;
-     }
-
-
-.option-text{
-         font-size: 1em;  /* correct font value size on screens*/
-    }
-
-
-
-
-}
-          /* same settings applied using small sizes or mobile and ipads values added ( tablet also set with perfect dimension for element style )*/
-
-
-    @media (max-width: 600px) and (min-width: 480px)  {
-
-
-          .options-container {
-
-             max-width: 600px;
-
-
-  }
-
-
-      .store-logo{
-  font-size:   5em ; /* logos and text are change based of resolution small */
-        width:  180px ; /* and height with correct views using numbers in mobile devices view and screens  or small view sizes*/
-     height:   180px ;
-
-
-       }
-
-
-
-        .option img{
- width:   10.2rem ;
-  height: 10.2rem ;
-   }
-
-
-         .option-text{
-
-           font-size: 1.1em ;/* small scale values or increase on ipads  devices or bigger size mobiles or screens style using from  em units not using fixel in setting responsive on fonts scale*/
-
-   }
-
-   }
-
-
-
-           @media (min-width: 900px) and (max-width: 1180px)   {
-.option img {
-                width:   15.8em ;
-
-              height:   15.8em  ;  /* scale settings used*/
-
- }
-
-
- .option-text{
-     font-size: 1.35em;
-
-      }
-          .store-logo {
-
-         font-size:  7em ;
-         width:  200px  ;/* make logo size from scaling its values*/
-     height:    200px  ;
-      }
-
-
-
- }
-    /* Setting styling for different screen type desktop view ports or monitors */
-
-    @media  (min-width: 1180px)  {
-
-
-     .option img {
-        width:   18.6em; /* laptop devices element images correct responsive in all view screen */
-         height: 18.6em;
-    }
-
- .option-text {
-
-        font-size: 1.55em ;
-    }
-  .store-logo {
-          font-size:  9.8em ; /* make big image when display from large screen with settings in views elements and from style changes correctly from scale value pixel from different display resoulution */
-
-
- }
-
-
-
-}
-    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: white;
+            overflow-x: hidden;
+        }
+
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.7s ease-in-out;
+        }
+
+        .preloader.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .store-icon {
+            width: 120px;
+            height: 120px;
+            color: #f0c135;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-20px); }
+        }
+
+        .main-content {
+            opacity: 0;
+            transition: opacity 0.7s ease-in-out;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-content.fade-in {
+            opacity: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header-icon {
+            width: 80px;
+            height: 80px;
+            color: #f0c135;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .title {
+            font-size: 2.5rem;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+
+        .description {
+            font-size: 1.5rem;
+            color: #353535;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .section-card {
+            position: relative;
+            border-radius: 1rem;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .section-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .section-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .section-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .section-card:hover .section-overlay {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .section-title {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .sections-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .description {
+                font-size: 1.5rem;
+            }
+
+            .section-card img {
+                height: 250px;
+            }
+        }
+       
+    </style>
 </head>
 <body>
-
-    <div class="preloader-container" id="preloaderContainer">
-    <div class="store-logo">
-       <i class="fas fa-store"></i>
-      </div>
-</div>
-
-    <div class="options-container" id="optionsContainer">
-
-         <div class="option" onclick="redirectToSection('mens')">
-      <img src="men section.png" alt="قسم الرجالي">
-           <div class="option-text">الرجالي</div>
-
-        </div>
-  <div class="option" onclick="redirectToSection('womens')">
- <img src="women section.png" alt="قسم الحريمي">
-     <div class="option-text">الحريمي</div>
-
-</div>
-  <div class="option" onclick="redirectToSection('kids')">
-
-  <img src="kids.png" alt="قسم الأطفال">
-      <div class="option-text">الأطفال</div>
- </div>
-
+    <div class="preloader" id="preloader">
+        <svg class="store-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/>
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+            <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/>
+            <path d="M2 7h20"/>
+            <path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12v0a2 2 0 0 1-2-2V7"/>
+        </svg>
     </div>
 
+    <main class="main-content" id="mainContent">
+        <header class="header">
+            <svg class="header-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/>
+                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/>
+                <path d="M2 7h20"/>
+                <path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12v0a2 2 0 0 1-2-2V7"/>
+            </svg>
+            <h1 class="title">الهدي سنتر</h1>
+            <p class="description">
+              أناقة وإكسسوارات، وعطور فاخرة بانتظارك. اختر القسم المناسب وابدأ الآن.
+            </p>
+        </header>
+
+        <div class="sections-grid">
+            <div class="section-card" onclick="redirectToSection('mens')">
+                <img src="https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&q=80&w=800" alt="قسم الرجالي">
+                <div class="section-overlay">
+                    <h2 class="section-title">الرجالي</h2>
+                </div>
+            </div>
+
+            <div class="section-card" onclick="redirectToSection('womens')">
+                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=800" alt="قسم الحريمي">
+                <div class="section-overlay">
+                    <h2 class="section-title">الحريمي</h2>
+                </div>
+            </div>
+
+            <div class="section-card" onclick="redirectToSection('kids')">
+                <img src="https://images.unsplash.com/photo-1514090458221-65bb69cf63e6?auto=format&fit=crop&q=80&w=800" alt="قسم الأطفال">
+                <div class="section-overlay">
+                    <h2 class="section-title">الأطفال</h2>
+                </div>
+            </div>
+        </div>
+    </main>
 
     <script>
+        // Loading animation
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('fade-out');
+                document.getElementById('mainContent').classList.add('fade-in');
+            }, 2000);
+        });
 
-     const loadingContainer =  document.getElementById('preloaderContainer');
-     const optionsContainer =  document.getElementById('optionsContainer');
-      const body = document.body;
+        // Section navigation
+function redirectToSection(section){
 
-  setTimeout(()=>{
-       loadingContainer.style.display ='none'
-        optionsContainer.style.display = 'flex' /* after loading display from block , to flexible , when loading finsh   element will visible */
+if(section==='mens'){
+     window.location.href  ='men.html';
 
-        body.style.background= '#fff' /* the elements transition is correct working  */
-         body.style.color='#333'
+}
+else if( section ==='womens'){
 
-
-   }, 3000)
-
-
-
-     function redirectToSection(section){
-
-        if(section==='mens'){
-             window.location.href  ='men.html';
-
-   }
-       else if( section ==='womens'){
-
-       window.location.href ='women.html';
+window.location.href ='women.html';
 
 
-     }
-          else  if( section === 'kids'){
-      window.location.href  ='kids.html';
-    }
+}
+  else  if( section === 'kids'){
+window.location.href  ='kids.html';
+}
 
 
-     }
-
-</script>
+}
+    </script>
 </body>
 </html>
