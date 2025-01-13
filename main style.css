@@ -495,99 +495,105 @@ header .top-nav {
     background: var(--main-color);
 }
 
-
 /* تصميم الأزرار داخل التنقل */
-nav {
+.navigation {
     display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 10px;
-    flex-wrap: wrap;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-nav button {
-    position: relative;
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    border: none;
-    background: none;
-    cursor: pointer;
-    text-align: center;
-    padding: 20px;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    overflow: hidden;
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 }
 
-nav button:hover {
-    background-color: var(--light-bg);
-    transform: scale(1.05);
+.nav-container {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    flex: 1;
+    padding: 10px 0;
+}
+
+.nav-container::-webkit-scrollbar {
+    display: none; /* إخفاء شريط التمرير */
+}
+
+nav button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    transition: transform 0.3s ease;
+    text-align: center;
+    flex-shrink: 0;
 }
 
 nav button img {
-    width: 100px;
-    height:100px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    margin-bottom: 10px;
     object-fit: cover;
-    border: solid 2px var(--main-color);
-    transition: border-color 0.3s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 nav button:hover img {
-    border-color: var(--dark-color);
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 nav button h5 {
-    font-size: 16px;
+    margin-top: 8px;
+    font-size: 14px;
     color: #333;
-    margin: 0;
     transition: color 0.3s ease;
 }
 
 nav button:hover h5 {
-    color: var(--main-color);
+    color: #ffcc55; /* لون مختلف عند التمرير */
+}
+
+.nav-arrow {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #555;
+    cursor: pointer;
+    padding: 10px;
+    transition: color 0.3s ease;
+}
+
+.nav-arrow:hover {
+    color: #ffcc55;
 }
 
 @media (max-width: 768px) {
-    nav {
-        gap: 8px;
-        margin-top: 10px;
-    }
-
-    nav button {
-        padding: 10px;
-    }
-
     nav button img {
         width: 60px;
         height: 60px;
     }
 
     nav button h5 {
-        font-size: 14px;
+        font-size: 12px;
     }
 }
 
 @media (max-width: 480px) {
-    nav {
-        gap: 5px;
-        margin-top: 10px;
-    }
-
-    nav button {
-        padding: 10px;
-    }
-
     nav button img {
         width: 50px;
         height: 50px;
     }
 
     nav button h5 {
-        font-size: 12px;
+        font-size: 10px;
     }
 }
 
@@ -602,7 +608,7 @@ h1 {
 .products {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+   align-items: center;
     gap: 20px;
     margin: 20px;
 }
@@ -769,15 +775,19 @@ h2 {
     }
 
 }
-@media (max-width: 390px) {
+@media (max-width: 391px) {
+    .products {
+       margin: 20px;
+    }
     .product {
-        width: 150px;
-        gap: 1px;
+        width:160px;
+        gap: 3px;
     }
 
     .price {
         flex-direction: row;
         align-items: center;
+        
     }
 
     .icons {
@@ -986,3 +996,115 @@ h2 {
     color: var(--main-color);
 
 }
+
+/*  Container properties all views for html and to make better looks responsive designs view with all type of mobile tablet and monitor screens layouts   with CSS3 styling*/
+.container2 {
+    width:  70%;   /*  main wrapper width set to that values using percent number from 0 -100 styles for element size changes based browser widths screen */
+
+   margin:   0  auto   ;
+}
+ /* all style related search text box  or text fields  with settings using the element classes with code , input with element text view*/
+ .search-bar2{
+     width:   100%;/* used 100  percent width element   and the container in which place and it style properties  from settings html using css elements  design layouts*/
+  padding:  12px; /* from element display all  direction space between border from contents inside inputs from a horizontal position to do from css styles and this a html properties and settings with pixel or responsive properties settings values and layout  of code   */
+   margin-bottom:    12px  ;/* all values top bottom horizontal settings in different device view size or width and height setting element from styling html css proper design and coding  of web layout responsive views  for devices browser setting. to style it more  readable or visible */
+
+   border:  4px solid  #ffcc55; /* element style properties form set line using all colors black properties, with code*/
+   border-radius: .25rem   ;  /* for style design elements borders using rounded number to corners */
+      font-size: 1rem   ;  /* set from default for html font elements settings*/
+  outline: none   ;  /*  styles the focus view settings to none that used  while clicking the tag  item here*/
+      text-align:  right;  /*  the property change and text alignment change for html elements and text direction*/
+      transition:  all    .25s ease   ;  /* used values for  a good element view , animation settings   from browser render on views all element of transitions  settings properties styles using css properties styling values */
+
+
+}
+  .search-bar2:focus{
+     box-shadow: 0  0   5px  rgba(0 0  0   /   0.08) ;  /* focus set on styles to see elements in different view settings */
+ border-color:     var(  --main-color   )   ;   /* changes the element colors  style from design*/
+
+    }
+
+
+
+/* Properties styles list */
+
+  .perfume-list {
+      list-style: none ; /* used this to avoid from css property styles default styles show  used by html to display content on browser or different elements in that style properties  and view setting layouts and screen types   using this CSS3 property from styling tag lists. and used the setting here all values set using the class html */
+       margin: 0;  /* the space values used top and bottom and is always horizontal value so margin styles  used in correct layouts element positions in each designs styling with the viewports to see the effect of this styling and settings elements property style from html tag code from this design area in elements*/
+     padding:   0 ;  /* zero all space here to manage spaces as design views for better visual html layouts with elements property design using codes set*/
+
+ text-align: right  ;/* display right side from a all the text elements*/
+
+
+
+     }
+
+
+ /* design layout style of items to put spacing on html elements  lists styling of content and list to do better responsive styling by designs used properties set  */
+
+    .perfume-list li {
+           background-color:  #fff ; /* the colours change and new back styles color using setting */
+      border:  1px solid   #ddd ;/* styling the view layouts by lines around in each block*/
+
+      padding:     0.75rem 1.2rem    ;
+ margin-bottom:   0.4rem  ;
+
+ cursor:  pointer ;
+       border-radius:   0.2em ;
+ transition:   all  .15s  ease-in  ;   /* setting styles in views using transition with some times with smoothness   , these all for transition in view for animation properties set css styles used to style different elements*/
+
+   text-align: right ;
+}
+
+
+/* style when you hover each elements from the above by list item code using design views here*/
+
+  .perfume-list li:hover {
+  background-color:  #f0f0f0  ; /* setting color on hover view using hex color coding values from browser or screen devices  properties and use layouts styling effects in css design or html dom page from all of the elements styles set view in style of this parts.*/
+       transform: translateX(.2rem )    scale(1.02);
+
+    box-shadow:    0   1px 3px     rgba(   0 0 0/.09)  ; /* shadow property used for item hover and set small animation values when action takes place style layout and its effect for  page elements styles setting.
+ by this CSS */
+
+  }
+
+    /* responsive to elements sizes when small to use in the screens of any handheld or device to see correct  styling layout in the screens by values number using here this for all different views setting with scale styles for webdesign and make layouts in web styles here with codes  from different value and type setting units using CSS layout styles element and responsive properties views by sizes  of device display views correctly setting used from different pixel or numbers.*/
+
+
+@media    (max-width:  768px)    {
+
+
+        .search-bar2  {
+
+       width:    92%   ;
+
+ padding:   10px;
+ font-size:  .95rem ;
+     margin:  1rem   auto;
+
+
+     }
+
+       .perfume-list  {
+
+           width:  92% ;/* changes  pixel based on browser size screen devices*/
+
+
+    }
+
+}
+
+     /* more responsive setting here if need for  any type specific layouts */
+@media  (max-width:  480px ){
+  .search-bar2  {
+         font-size:    .9em  ;
+
+     }
+
+}
+
+ .no-results{
+
+ color:    rgb(  221,   81 , 95   )  ; /* if items is found by searching */
+  margin:    .5em auto;
+  }
