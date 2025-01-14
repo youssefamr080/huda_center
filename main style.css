@@ -27,7 +27,7 @@
 
 /* تنسيق الجسم */
 body {
-  background: #fff !important;
+  background: #fff ;
     margin-top: 180px;
     font-family: 'Tajawal', sans-serif;
     overflow-x: hidden; /* لمنع التمرير الأفقي */
