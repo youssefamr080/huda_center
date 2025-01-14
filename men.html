@@ -40,23 +40,29 @@
                     </div>
                 </div>
                 <input type="text" name="search" id="search" placeholder="انت بتدور علي اي؟" required>
-                <div id="results"></div>
-                <button type="button" class="search-btn" id="searchButton">
-                  <i class="fa-solid fa-search"></i>
+                <div id="results"></div> <button type="button" class="search-btn" id="searchButton">
+                    <i class="fa-solid fa-search"></i>
                 </button>
             </form>
-            <div class="cart_header">
-                <div onclick="open_cart()" class="icon_cart">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="count_item">0</span>
+            <div class="header-icons">
+                <div class="wishlist_header">
+                    <div class="icon_wishlist" onclick="open_wishlist()">
+                        <i class="fa-regular fa-heart"></i>
+                        <span class="wishlist_count">0</span>
+                    </div>
                 </div>
+                <div class="cart_header">
+                    <div onclick="open_cart()" class="icon_cart">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="count_item">0</span>
+                    </div>
                 <div class="total_price">
                     <p>سلة التسوق:</p>
                     <span class="price_cart_total">0 جنيه</span>
                 </div>
             </div>
+            
         </div>
-
     </header>
     <div class="swiper mySwiper">
         <div class="swiper-wrapper">
@@ -85,6 +91,18 @@
             <div class="button_cart">
                 <button class="btn_cart"onclick="sendInvoiceViaWhatsApp()">ارسال الفاتورة عبر الواتساب</button>
                 <button class="btn_cart trans_bg" onclick="close_cart()">متابعة التسوق</button>
+            </div>
+        </div>
+    </div>
+    <div class="wishlist">
+        <div class="top_wishlist">
+            <h3>قائمة المفضلة <span>(<span class="count_item wishlist_count">0</span> منتجات)</span></h3>
+            <div class="close_wishlist" onclick="close_wishlist()"><i class="fa fa-times"></i></div>
+        </div>
+        <div class="items_in_wishlist"></div>
+        <div class="bottom_wishlist">
+            <div class="button_wishlist">
+                <button class="btn_wishlist trans_bg" onclick="close_wishlist()">متابعة التسوق</button>
             </div>
         </div>
     </div>
@@ -243,10 +261,13 @@
         <div class="products"></div>
 
     </div>
-
+ 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="product.json"></script>
     <script src="main.js"></script>
+    <script>
+        (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="pGBMI0-PZagj2D9UF3fOI";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+        </script>
 </body>
 <footer id="footer">
     <div class="footer-container">
@@ -258,7 +279,7 @@
             <li><a href="https://t.me/+VMKBOk1oqqS3Ciyt" target="_blank"><i class="fab fa-telegram-plane"></i> تيليجرام</a></li>
             <li><a href="https://www.facebook.com/profile.php?id=100087530415837&mibextid=ZbWKwL" target="_blank"><i class="fab fa-facebook-f"></i> فيسبوك</a></li>
         </ul>
-    
+       
         <p>جميع حقوق الملكية محفوظة لدى الهدى سنتر © 2025</p>
     </div>
 </footer>
