@@ -8,7 +8,7 @@
     text-decoration: none;
     list-style: none;
     font-family: 'Cairo', sans-serif;
-     background: #fff !important;
+   
 }
 
 /* المتغيرات */
@@ -26,8 +26,7 @@
 }
 
 /* تنسيق الجسم */
-body,
-body * {
+body {
   background: #fff !important;
     margin-top: 180px;
     font-family: 'Tajawal', sans-serif;
