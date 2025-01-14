@@ -43,11 +43,18 @@
                     <i class="fa-solid fa-search"></i>
                 </button>
             </form>
-            <div class="cart_header">
-                <div onclick="open_cart()" class="icon_cart">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="count_item">0</span>
+            <div class="header-icons">
+                <div class="wishlist_header">
+                    <div class="icon_wishlist" onclick="open_wishlist()">
+                        <i class="fa-regular fa-heart"></i>
+                        <span class="wishlist_count">0</span>
+                    </div>
                 </div>
+                <div class="cart_header">
+                    <div onclick="open_cart()" class="icon_cart">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="count_item">0</span>
+                    </div>
                 <div class="total_price">
                     <p>سلة التسوق:</p>
                     <span class="price_cart_total">0 جنيه</span>
@@ -232,7 +239,9 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="product.json"></script>
     <script src="main.js"></script>
-   
+    <script>
+        (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="pGBMI0-PZagj2D9UF3fOI";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+        </script>
 </body>
 <footer id="footer">
     <div class="footer-container">
