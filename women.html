@@ -76,7 +76,7 @@
        
       </div>
         <!-- العربة -->
-    <div class="cart">
+  <div class="cart">
         <div class="top_cart">
             <h3>سلة التسوق <span>(<span class="count_item">0</span> منتجات)</span></h</div>
             <div class="close_cart" onclick="close_cart()"><i class="fa fa-times"></i></div>
@@ -90,6 +90,18 @@
             <div class="button_cart">
                 <button class="btn_cart"onclick="sendInvoiceViaWhatsApp()">ارسال الفاتورة عبر الواتساب</button>
                 <button class="btn_cart trans_bg" onclick="close_cart()">متابعة التسوق</button>
+            </div>
+        </div>
+    </div>
+    <div class="wishlist">
+        <div class="top_wishlist">
+            <h3>قائمة المفضلة <span>(<span class="count_item wishlist_count">0</span> منتجات)</span></h3>
+            <div class="close_wishlist" onclick="close_wishlist()"><i class="fa fa-times"></i></div>
+        </div>
+        <div class="items_in_wishlist"></div>
+        <div class="bottom_wishlist">
+            <div class="button_wishlist">
+                <button class="btn_wishlist trans_bg" onclick="close_wishlist()">متابعة التسوق</button>
             </div>
         </div>
     </div>
