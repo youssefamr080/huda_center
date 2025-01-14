@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // تحميل البيانات الأخرى
     loadCartFromLocalStorage();
-    loadFavoritesFromLocalStorage();
+    loadWishlistFromLocalStorage();
 
     fetch('product.json')
         .then(response => response.json())
@@ -135,6 +135,8 @@ function renderProducts(categories) {
                                 <p><span>${product.price} جنيه</span></p>
                                 <p class="old_price">${product.old_price || ''} جنيه</p>
                             </div>
+                            
+
                             ${product.old_price ? `<div class="discount-badge">خصم ${((product.old_price - product.price) / product.old_price * 100).toFixed(0)}%</div>` : ''}
                     `;
                     section.insertAdjacentHTML('beforeend', productCard);
@@ -143,10 +145,9 @@ function renderProducts(categories) {
         }
     }
 
-    addEventListenersToProducts(); // إضافة مستمعات للعربة والمفضلة
-    addNavigationToProductPage(); // إضافة مستمع للتوجيه إلى صفحة المنتج
+    addEventListenersToProducts();
+    addNavigationToProductPage();
 }
-
 
 function showSection(sectionId) {
     const sections = document.querySelectorAll('.section');
@@ -180,12 +181,31 @@ function addEventListenersToProducts() {
             updateCartTotal();
         });
     });
+    // add to wishlist event
+     document.querySelectorAll('.btn_add_wishlist').forEach(button => {
+        button.addEventListener('click', function () {
+            const product = this.closest('.product');
+            const productId = product.dataset.id;
+             const imgSrc = product.querySelector('img').src;
+             const title = product.querySelector('h2').textContent;
+             const price = product.querySelector('.price span').textContent;
 
-   
+           addToWishlist(productId, imgSrc, title, price);
+               this.innerHTML = '<i class="fa-solid fa-check"></i> تم الإضافة';
+                this.style.backgroundColor = '#ccc';
+                this.disabled = true;
+
+            setTimeout(() => {
+                  this.style.backgroundColor = '';
+                    this.innerHTML = '<i class="fa-regular fa-heart"></i>';
+                  this.disabled = false;
+                }, 1000);
+        });
+     });
 }
 
 let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+let wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
 
 function saveCartToLocalStorage() {
     localStorage.setItem('cart', JSON.stringify(cartItems));
@@ -195,14 +215,13 @@ function loadCartFromLocalStorage() {
     cartItems = JSON.parse(localStorage.getItem('cart')) || [];
     updateCartUI();
 }
-
-function saveFavoritesToLocalStorage() {
-    localStorage.setItem('favorites', JSON.stringify(favorites));
+function saveWishlistToLocalStorage() {
+    localStorage.setItem('wishlistItems', JSON.stringify(wishlistItems));
 }
 
-function loadFavoritesFromLocalStorage() {
-    favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    updateFavoritesUI();
+function loadWishlistFromLocalStorage() {
+    wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+    updateWishlistUI();
 }
 
 function addToCart(productId, imgSrc, title, price, quantity = 1) {
@@ -216,12 +235,28 @@ function addToCart(productId, imgSrc, title, price, quantity = 1) {
     saveCartToLocalStorage();
     updateCartUI();
 }
+// Function to add product to wishlist
+function addToWishlist(productId, imgSrc, title, price) {
+     const existingItem = wishlistItems.find(item => item.id === productId);
+      if (!existingItem) {
+           const product = { id: productId, imgSrc, title, price };
+            wishlistItems.push(product);
+           saveWishlistToLocalStorage();
+          updateWishlistUI();
+       }
+}
 
 function removeFromCart(productId) {
     cartItems = cartItems.filter(item => item.id !== productId);
     saveCartToLocalStorage();
     updateCartUI();
 }
+// Function to remove from wishlist
+window.removeFromWishlist = function (productId) {
+    wishlistItems = wishlistItems.filter(item => item.id !== productId);
+    saveWishlistToLocalStorage();
+    updateWishlistUI();
+};
 
 function updateCartQuantity(productId, increment) {
     const item = cartItems.find(item => item.id === productId);
@@ -235,6 +270,14 @@ function updateCartQuantity(productId, increment) {
         }
     }
 }
+// Function to move item from wishlist to cart
+window.moveToCart = function (productId) {
+    const item = wishlistItems.find(item => item.id === productId);
+    if (item) {
+        addToCart(item.id, item.imgSrc, item.title, item.price);
+       removeFromWishlist(productId);
+  }
+};
 
 function updateCartUI() {
     const cartItemsContainer = document.querySelector('.items_in_cart');
@@ -276,34 +319,51 @@ function updateCartUI() {
 
     document.querySelectorAll('.count_item').forEach(el => el.textContent = totalQuantity);
     document.querySelectorAll('.price_cart_total').forEach(el => el.textContent = `${totalPrice} جنيه`);
+    document.querySelectorAll('.cart_count').forEach(el => el.textContent = totalQuantity);
 }
+// Function to update wishlist UI
+function updateWishlistUI() {
+   const wishlistItemsContainer = document.querySelector('.items_in_wishlist');
+    if (!wishlistItemsContainer) return;
+     
+  wishlistItemsContainer.innerHTML = '';
+    let totalQuantity = 0;
 
-function updateFavoritesUI() {
-    const favoritesContainer = document.querySelector('.favorites-container');
-    if (!favoritesContainer) return;
 
-    favoritesContainer.innerHTML = '';
-    favorites.forEach(productId => {
-        const product = document.querySelector(`.product[data-id="${productId}"]`);
-        if (product) {
-            favoritesContainer.appendChild(product.cloneNode(true));
-        }
-    });
-}
+  if(wishlistItems.length === 0){
+       wishlistItemsContainer.innerHTML =`
+             <p class="empty-wishlist-message"></p>
+              <div class="empty-wishlist-icon">
+                
+             </div>
+      `
+     }else {
 
-function toggleFavorite(productId) {
-    if (favorites.includes(productId)) {
-        favorites = favorites.filter(id => id !== productId);
-    } else {
-        favorites.push(productId);
+        wishlistItems.forEach(item => {
+           const wishlistHTML = `
+             <div class="item_wishlist">
+                  <img src="${item.imgSrc}" alt="${item.title}">
+                <div class="wishlist-item-details">
+                      <h4>${item.title}</h4>
+                    <p>${item.price} جنيه</p>
+                   </div>
+                  <div class="wishlist_actions">
+                         <button class="btn_wishlist" onclick="moveToCart(${item.id})">نقل الي العربة</button>
+                       <button class="delete_item" onclick="removeFromWishlist(${item.id})"><i class="fa fa-trash"></i></button>
+                     </div>
+              </div>
+        `;
+      wishlistItemsContainer.insertAdjacentHTML('beforeend', wishlistHTML);
+            totalQuantity++;
+       });
     }
-    saveFavoritesToLocalStorage();
-    updateFavoritesUI();
+      document.querySelectorAll('.wishlist_count').forEach(el => el.textContent = totalQuantity);
+
 }
 
 window.addEventListener('load', () => {
     loadCartFromLocalStorage();
-    loadFavoritesFromLocalStorage();
+    loadWishlistFromLocalStorage();
 });
 
 var cart = document.querySelector('.cart');
@@ -312,6 +372,13 @@ function open_cart() {
 }
 function close_cart() {
     cart.classList.remove("active");
+}
+var wishlist = document.querySelector('.wishlist');
+function open_wishlist() {
+    wishlist.classList.add("active");
+}
+function close_wishlist() {
+    wishlist.classList.remove("active");
 }
 // Format price with Egyptian Pound currency
 function formatPrice(price) {
@@ -342,8 +409,7 @@ function sendInvoiceViaWhatsApp() {
     const storedCartItems = JSON.parse(localStorage.getItem('cart')) || [];
     const totalPrice = document.querySelector('.price_cart_total').textContent;
     const itemCount = document.querySelector('.count_item').textContent;
-
-    if (storedCartItems.length === 0) {
+      if (storedCartItems.length === 0) {
         // إنشاء عنصر div لعرض الرسالة
         const noItemsMessage = document.createElement('div');
         noItemsMessage.style.cssText = `
@@ -630,7 +696,6 @@ var swiper = new Swiper(".mySwiper", {
     navContainer.addEventListener('touchstart', stopAutoScroll);
     navContainer.addEventListener('touchend', startAutoScroll);
 });
-
 function searchPerfumes() {
         const input = document.getElementById('searchInput2');
         const filter = input.value.toUpperCase();
@@ -651,4 +716,3 @@ function searchPerfumes() {
     
         noResults.style.display = hasResults ? "none" : "block";
     }
-    
