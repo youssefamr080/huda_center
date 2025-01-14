@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl"></html>
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,34 +34,38 @@
                             <div class="submenu-item">
                                 <a href="kids.html" class="submenu-link" data-title="اطفال"> اطفال </a>
                             </div>
-                            <div class="submenu-item">
-                                <a href="#footer" class="submenu-link" data-title="تواصل معنا"> تواصل معنا </a>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
                 <input type="text" name="search" id="search" placeholder="انت بتدور علي اي؟" required>
-                <div id="results"></div>
-                <button type="button" class="search-btn" id="searchButton">
-                  <i class="fa-solid fa-search"></i>
+                <div id="results"></div> <button type="button" class="search-btn" id="searchButton">
+                    <i class="fa-solid fa-search"></i>
                 </button>
             </form>
-            <div class="cart_header">
-                <div onclick="open_cart()" class="icon_cart">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="count_item">0</span>
+            <div class="header-icons">
+                <div class="wishlist_header">
+                    <div class="icon_wishlist" onclick="open_wishlist()">
+                        <i class="fa-regular fa-heart"></i>
+                        <span class="wishlist_count">0</span>
+                    </div>
                 </div>
+                <div class="cart_header">
+                    <div onclick="open_cart()" class="icon_cart">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="count_item">0</span>
+                    </div>
                 <div class="total_price">
                     <p>سلة التسوق:</p>
                     <span class="price_cart_total">0 جنيه</span>
                 </div>
             </div>
+            
         </div>
-
     </header>
     <div class="cart">
         <div class="top_cart">
-            <h3>سلة التسوق <span>(<span class="count_item">0</span> منتجات)</span></h</div>
+            <h3>سلة التسوق <span>(<span class="cart_count">0</span> منتجات)</span></h</div>
             <div class="close_cart" onclick="close_cart()"><i class="fa fa-times"></i></div>
         </div>
         <div class="items_in_cart"></div>
@@ -75,7 +79,19 @@
                 <button class="btn_cart trans_bg" onclick="close_cart()">متابعة التسوق</button>
             </div>
         </div>
-    </div>  
+    </div> 
+        <div class="wishlist">
+            <div class="top_wishlist">
+                <h3>قائمة المفضلة  <span>(<span class="wishlist_count">0</span> منتجات)</span></h3>
+                <div class="close_wishlist" onclick="close_wishlist()"><i class="fa fa-times"></i></div>
+            </div>
+            <div class="items_in_wishlist"></div>
+            <div class="bottom_wishlist">
+                <div class="button_wishlist">
+                    <button class="btn_wishlist trans_bg" onclick="close_wishlist()">متابعة التسوق</button>
+                </div>
+            </div>
+        </div> 
     <main>
         <!-- العربة -->
         <button class="close-btn" onclick="closePage()"><i class="fa-solid fa-arrow-left"></i></button>
@@ -94,9 +110,13 @@
                 <li><a href="https://www.facebook.com/profile.php?id=100087530415837&mibextid=ZbWKwL" target="_blank"><i class="fab fa-facebook-f"></i> فيسبوك</a></li>
             </ul>
            
-            <p>جميع حقوق الملكية محفوظة لدى الهدى سنتر &copy; 2025</p>
+            <p>جميع حقوق الملكية محفوظة لدى الهدى سنتر © 2025</p>
         </div>
     </footer>
+    <script src="product.json"></script>
     <script src="product.js"></script>
+    <script>
+        (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="pGBMI0-PZagj2D9UF3fOI";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+        </script>
 </body>
 </html>
