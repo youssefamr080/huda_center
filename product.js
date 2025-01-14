@@ -1,5 +1,6 @@
 // Initialize cart and favorites from localStorage
 let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+let wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
 let currentDisplayedImage = ''; // Track current displayed image
 
 // Save cart to localStorage
@@ -12,6 +13,16 @@ function loadCartFromLocalStorage() {
     updateCartUI();
 }
 
+// Save wishlist to localStorage
+function saveWishlistToLocalStorage() {
+    localStorage.setItem('wishlistItems', JSON.stringify(wishlistItems));
+}
+
+// Load wishlist from localStorage
+function loadWishlistFromLocalStorage() {
+    wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+    updateWishlistUI();
+}
 // Fetch product details based on productId
 const params = new URLSearchParams(window.location.search);
 const productId = params.get('id');
@@ -189,6 +200,9 @@ function renderProductDetails(product) {
                     <span class="btn_add_cart ${product.amount <= 0 ? 'out-of-stock-btn' : ''}">
                         <i class="fa-solid fa-cart-shopping"></i> إضافة للسلة
                     </span>
+                     <span class="btn_add_wishlist">
+                        <i class="fa-regular fa-heart"></i> إضافة للمفضلة
+                     </span>
                     <span class="share-button">
                         <i class="fa-solid fa-share-from-square"></i> مشاركة المنتج
                     </span>
@@ -269,6 +283,7 @@ function attachImageGalleryEvents() {
 // Function to add event listeners to product buttons
 function addEventListenersToProduct(product) {
     const addToCartButton = document.querySelector('.btn_add_cart');
+     const addToWishlistButton = document.querySelector('.btn_add_wishlist');
     const favoritesButton = document.querySelector('.share-button');
 
      if (addToCartButton) {
@@ -307,7 +322,26 @@ function addEventListenersToProduct(product) {
               });
             }
       }
-    
+       if (addToWishlistButton) {
+         addToWishlistButton.addEventListener('click', function () {
+             const productId = product.id;
+            const imgSrc = currentDisplayedImage || product.image;
+             const title = product.name;
+             const price = product.price;
+            
+             addToWishlist(productId, imgSrc, title, price);
+  
+                this.innerHTML = '<i class="fa-solid fa-check"></i> تم الإضافة';
+                this.style.backgroundColor = '#ccc';
+                this.disabled = true;
+
+            setTimeout(() => {
+                  this.style.backgroundColor = '';
+                    this.innerHTML = '<i class="fa-regular fa-heart"></i> إضافة للمفضلة';
+                  this.disabled = false;
+                }, 1000);
+           });
+    }
 
     if (favoritesButton) {
         favoritesButton.addEventListener('click', function () {
@@ -323,7 +357,6 @@ function addEventListenersToProduct(product) {
         });
     }
 }
-
 // Function to add product to cart
 function addToCart(productId, imgSrc, title, price, quantity = 1) {
     const existingItem = cartItems.find(item => item.id === productId);
@@ -336,6 +369,17 @@ function addToCart(productId, imgSrc, title, price, quantity = 1) {
     saveCartToLocalStorage();
     updateCartUI();
 }
+// Function to add product to wishlist
+function addToWishlist(productId, imgSrc, title, price) {
+     const existingItem = wishlistItems.find(item => item.id === productId);
+      if (!existingItem) {
+           const product = { id: productId, imgSrc, title, price };
+            wishlistItems.push(product);
+           saveWishlistToLocalStorage();
+          updateWishlistUI();
+       }
+}
+
 
 // تأكد من أن هذه الدوال متاحة بشكل عام
 window.updateCartQuantity = function(productId, increment) {
@@ -355,6 +399,22 @@ window.removeFromCart = function(productId) {
     cartItems = cartItems.filter(item => item.id !== productId);
     saveCartToLocalStorage();
     updateCartUI();
+};
+
+// Function to remove from wishlist
+window.removeFromWishlist = function (productId) {
+    wishlistItems = wishlistItems.filter(item => item.id !== productId);
+    saveWishlistToLocalStorage();
+    updateWishlistUI();
+};
+
+// Function to move item from wishlist to cart
+window.moveToCart = function (productId) {
+    const item = wishlistItems.find(item => item.id === productId);
+    if (item) {
+        addToCart(item.id, item.imgSrc, item.title, item.price);
+       removeFromWishlist(productId);
+  }
 };
 // Function to update cart UI
 function updateCartUI() {
@@ -395,15 +455,63 @@ function updateCartUI() {
         });
     }
 
-    document.querySelectorAll('.count_item').forEach(el => el.textContent = totalQuantity);
-    document.querySelectorAll('.price_cart_total').forEach(el => el.textContent = `${totalPrice} جنيه`);
+     document.querySelectorAll('.cart_count').forEach(el => el.textContent = totalQuantity);
+     document.querySelectorAll('.price_cart_total').forEach(el => el.textContent = `${totalPrice} جنيه`);
+    document.querySelectorAll('.count_item').forEach(el => el.textContent = totalQuantity); // تحديث العداد بجانب ايقونة السلة
 }
+
+
+// Function to update wishlist UI
+function updateWishlistUI() {
+   const wishlistItemsContainer = document.querySelector('.items_in_wishlist');
+    if (!wishlistItemsContainer) return;
+     
+  wishlistItemsContainer.innerHTML = '';
+    let totalQuantity = 0;
+
+
+  if(wishlistItems.length === 0){
+       wishlistItemsContainer.innerHTML =`
+             <p class="empty-wishlist-message"></p>
+              <div class="empty-wishlist-icon">
+                
+             </div>
+      `
+     }else {
+
+        wishlistItems.forEach(item => {
+           const wishlistHTML = `
+             <div class="item_wishlist">
+                  <img src="${item.imgSrc}" alt="${item.title}">
+                <div class="wishlist-item-details">
+                      <h4>${item.title}</h4>
+                    <p>${item.price} جنيه</p>
+                   </div>
+                  <div class="wishlist_actions">
+                         <button class="btn_wishlist" onclick="moveToCart(${item.id})">نقل الي العربة</button>
+                       <button class="delete_item" onclick="removeFromWishlist(${item.id})"><i class="fa fa-trash"></i></button>
+                     </div>
+              </div>
+        `;
+      wishlistItemsContainer.insertAdjacentHTML('beforeend', wishlistHTML);
+            totalQuantity++;
+       });
+    }
+      document.querySelectorAll('.wishlist_count').forEach(el => el.textContent = totalQuantity);
+
+}
+
+
 window.addEventListener('load', () => {
     loadCartFromLocalStorage();
- 
+   loadWishlistFromLocalStorage();
 });
 function saveCartToLocalStorage() {
     localStorage.setItem('cart', JSON.stringify(cartItems));
+}
+
+function saveWishlistToLocalStorage() {
+    localStorage.setItem('wishlistItems', JSON.stringify(wishlistItems));
 }
 var cart = document.querySelector('.cart');
 function open_cart() {
@@ -411,6 +519,14 @@ function open_cart() {
 }
 function close_cart() {
     cart.classList.remove("active");
+}
+
+var wishlist = document.querySelector('.wishlist');
+function open_wishlist() {
+    wishlist.classList.add("active");
+}
+function close_wishlist() {
+    wishlist.classList.remove("active");
 }
 // Format price with Egyptian Pound currency
 function formatPrice(price) {
@@ -439,48 +555,50 @@ function formatDateTime() {
 // Send invoice via WhatsApp
 function sendInvoiceViaWhatsApp() {
     const storedCartItems = JSON.parse(localStorage.getItem('cart')) || [];
-    const totalPrice = document.querySelector('.price_cart_total').textContent;
-    const itemCount = document.querySelector('.count_item').textContent;
+     const totalPriceElement = document.querySelector('.price_cart_total');
+        const itemCountElement = document.querySelector('.cart_count');
 
-    if (storedCartItems.length === 0) {
-        // إنشاء عنصر div لعرض الرسالة
-        const noItemsMessage = document.createElement('div');
-        noItemsMessage.style.cssText = `
-            position: fixed; /* لتثبيت الرسالة في وسط الصفحة */
+
+        if (!storedCartItems || storedCartItems.length === 0) {
+
+            const noItemsMessage = document.createElement('div');
+             noItemsMessage.style.cssText = `
+            position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%); /* توسيط العنصر تمامًا */
-            background-color: rgba(0, 0, 0, 0.7); /* خلفية شفافة */
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
             color: white;
             padding: 20px;
-            border-radius: 10px;
-            font-size: 20px;
-            font-weight: bold;
-            z-index: 999999; /* لجعل الرسالة فوق كل العناصر الأخرى */
-        `;
-        noItemsMessage.textContent = 'هو انت لسه حطيت حاجه؟';
-
-        // إضافة زر للإغلاق (اختياري)
-        const closeButton = document.createElement('button');
-        closeButton.textContent = 'إغلاق';
-        closeButton.style.cssText = `
+             border-radius: 10px;
+             font-size: 20px;
+             font-weight: bold;
+              z-index: 999999;
+            `;
+           noItemsMessage.textContent = 'هو انت لسه حطيت حاجه؟';
+            const closeButton = document.createElement('button');
+          closeButton.textContent = 'إغلاق';
+              closeButton.style.cssText = `
             margin-top: 10px;
             padding: 5px 10px;
-            background-color:rgb(202, 23, 23);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        `;
+             background-color: rgb(202, 23, 23);
+               color: white;
+                border: none;
+              border-radius: 5px;
+             cursor: pointer;
+            `;
         closeButton.onclick = () => {
-            noItemsMessage.remove(); // إزالة الرسالة عند الضغط على زر الإغلاق
+               noItemsMessage.remove();
         };
         noItemsMessage.appendChild(closeButton);
+          document.body.appendChild(noItemsMessage);
 
-        document.body.appendChild(noItemsMessage); // إضافة الرسالة إلى الصفحة
+           return;
+     }
+     const totalPrice = totalPriceElement.textContent
+      const itemCount =  itemCountElement.textContent;
 
-        return; // الخروج من الوظيفة وعدم إرسال الفاتورة
-    }
+
 
     const invoiceId = generateInvoiceId();
     const dateTime = formatDateTime();
@@ -522,8 +640,9 @@ function clearCart() {
     cartItems = [];
     saveCartToLocalStorage();
     updateCartUI();
-    document.querySelectorAll('.count_item').forEach(el => el.textContent = '0');
-    document.querySelectorAll('.price_cart_total').forEach(el => el.textContent = '0 جنيه');
+    document.querySelectorAll('.cart_count').forEach(el => el.textContent = '0');
+        document.querySelectorAll('.price_cart_total').forEach(el => el.textContent = '0 جنيه');
+    document.querySelectorAll('.count_item').forEach(el => el.textContent = '0'); // تحديث العداد بجانب ايقونة السلة
 }
 
 
