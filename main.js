@@ -40,82 +40,68 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('search');
     const resultsContainer = document.getElementById('results');
-      let productsData;
-  
-      fetch('product.json')
-          .then(response => response.json())
-          .then(data => {
-               productsData = data; // Store fetched product data
-  
-                searchInput.addEventListener('input', function () {
-                  const searchTerm = this.value.trim().toLowerCase(); // Normalize
-                    resultsContainer.style.display = searchTerm ? 'block' : 'none'; // hide if empty
-                    if (searchTerm.length === 0 ) return clearResults();
-                
-  
-                  const results = searchProducts(productsData, searchTerm);
-                 displayResults(results)
-              });
-          })
-            .catch(error => console.error('Error fetching products data:', error));
-            
-       // add event listener on body to clear resoults on click any where except the resoults div
-          document.body.addEventListener('click', function(event) {
-                if (event.target !== searchInput && !resultsContainer.contains(event.target)) {
-                  clearResults();
-            }
-  
-      });
-  
-  
-  
-  function searchProducts(productsData, searchTerm){
-       if (!productsData) return [];// if product not fetched don't do anything
-  
-      let results = [];
-       for (const category in productsData.categories) {
-              for (const subcategory in productsData.categories[category]) {
-                    const categoryProducts = productsData.categories[category][subcategory];
-  
-            const categoryResults = categoryProducts.filter(product => product.name.toLowerCase().startsWith(searchTerm) ) // get products only if they starts with the word 
-  
-                 results = results.concat(categoryResults);
-             }
-       }
-       return results.slice(0,6)
-  
-  }
-  function clearResults() {
-         resultsContainer.innerHTML = ''; // Clear the results
-         resultsContainer.style.display = 'none'; // Hide results container
-  }
-  function displayResults(results) {
-       resultsContainer.innerHTML = ''; // Clear previous results
-  
-              if (results.length === 0) {
-                 const noResults = document.createElement('li')
-                       noResults.textContent= 'لا توجد منتجات مطابقه.'
-  
-                   resultsContainer.appendChild(noResults)
-                  
-                   return;
-              }
-  
-    const ul = document.createElement('ul');
-  
-       results.forEach(product =>{
-  
-          const li = document.createElement('li');
-             li.textContent = product.name;
-           li.addEventListener('click',()=> window.location.href = `product.html?id=${product.id}` )
-              ul.appendChild(li);
-           })
-  
-     resultsContainer.appendChild(ul); // Add new resoults
-  
+    let productsData;
+
+    fetch('product.json')
+        .then(response => response.json())
+        .then(data => {
+            productsData = data;
+
+            searchInput.addEventListener('input', function () {
+                const searchTerm = this.value.trim().toLowerCase();
+                resultsContainer.style.display = searchTerm ? 'block' : 'none';
+                if (searchTerm.length === 0) return clearResults();
+                const results = searchProducts(productsData, searchTerm);
+                 displayResults(results);
+            });
+        })
+        .catch(error => console.error('Error fetching products data:', error));
+
+    document.body.addEventListener('click', function (event) {
+        if (event.target !== searchInput && !resultsContainer.contains(event.target)) {
+            clearResults();
+        }
+    });
+
+    function searchProducts(productsData, searchTerm) {
+        if (!productsData) return [];
+
+        const results = Object.values(productsData.categories).flatMap(category =>
+            Object.values(category).flatMap(subcategory =>
+                  subcategory.filter(product => product.name.toLowerCase().includes(searchTerm)
+                  ).slice(0,6)
+              )
+          );
+         return results.slice(0,6);
       }
+      function clearResults() {
+        resultsContainer.innerHTML = '';
+        resultsContainer.style.display = 'none';
+      }
+    
+    function displayResults(results) {
+          resultsContainer.innerHTML = '';
+
+          if (results.length === 0) {
+              const noResults = document.createElement('li');
+              noResults.textContent = 'لا توجد منتجات مطابقة.';
+             resultsContainer.appendChild(noResults);
+               return;
+             }
+        const ul = document.createElement('ul');
+           const listItems = results.map(product => {
+                const li = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = `product.html?id=${product.id}`;
+                link.textContent = product.name;
+                li.appendChild(link);
+               return li
+            })
   
-  });
+          ul.append(...listItems);
+          resultsContainer.appendChild(ul);
+      }
+});
 
 function renderProducts(categories) {
     for (const category in categories) {
