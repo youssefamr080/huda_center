@@ -59,87 +59,87 @@ function findProductById(data, productId) {
 document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('search');
     const resultsContainer = document.getElementById('results');
-      let productsData;
-  
-      fetch('product.json')
-          .then(response => response.json())
-          .then(data => {
-               productsData = data; // Store fetched product data
-  
-                searchInput.addEventListener('input', function () {
-                  const searchTerm = this.value.trim().toLowerCase(); // Normalize
-                    resultsContainer.style.display = searchTerm ? 'block' : 'none'; // hide if empty
-                    if (searchTerm.length === 0 ) return clearResults();
-                
-  
-                  const results = searchProducts(productsData, searchTerm);
-                 displayResults(results)
-              });
-          })
-            .catch(error => console.error('Error fetching products data:', error));
-            
-       // add event listener on body to clear resoults on click any where except the resoults div
-          document.body.addEventListener('click', function(event) {
-                if (event.target !== searchInput && !resultsContainer.contains(event.target)) {
-                  clearResults();
+    let productsData;
+
+    fetch('product.json')
+        .then(response => response.json())
+        .then(data => {
+            productsData = data; // Store fetched product data
+
+            searchInput.addEventListener('input', function () {
+                const searchTerm = this.value.trim().toLowerCase(); // Normalize
+                resultsContainer.style.display = searchTerm ? 'block' : 'none'; // hide if empty
+                if (searchTerm.length === 0) return clearResults();
+
+
+                const results = searchProducts(productsData, searchTerm);
+                displayResults(results)
+            });
+        })
+        .catch(error => console.error('Error fetching products data:', error));
+
+    // add event listener on body to clear resoults on click any where except the resoults div
+    document.body.addEventListener('click', function (event) {
+        if (event.target !== searchInput && !resultsContainer.contains(event.target)) {
+            clearResults();
+        }
+
+    });
+
+
+
+    function searchProducts(productsData, searchTerm) {
+        if (!productsData) return [];// if product not fetched don't do anything
+
+        let results = [];
+        for (const category in productsData.categories) {
+            for (const subcategory in productsData.categories[category]) {
+                const categoryProducts = productsData.categories[category][subcategory];
+
+                const categoryResults = categoryProducts.filter(product => product.name.toLowerCase().startsWith(searchTerm)) // get products only if they starts with the word 
+
+                results = results.concat(categoryResults);
             }
-  
-      });
-  
-  
-  
-  function searchProducts(productsData, searchTerm){
-       if (!productsData) return [];// if product not fetched don't do anything
-  
-      let results = [];
-       for (const category in productsData.categories) {
-              for (const subcategory in productsData.categories[category]) {
-                    const categoryProducts = productsData.categories[category][subcategory];
-  
-            const categoryResults = categoryProducts.filter(product => product.name.toLowerCase().startsWith(searchTerm) ) // get products only if they starts with the word 
-  
-                 results = results.concat(categoryResults);
-             }
-       }
-       return results.slice(0,6)
-  
-  }
-  function clearResults() {
-         resultsContainer.innerHTML = ''; // Clear the results
-         resultsContainer.style.display = 'none'; // Hide results container
-  }
-  function displayResults(results) {
-       resultsContainer.innerHTML = ''; // Clear previous results
-  
-              if (results.length === 0) {
-                 const noResults = document.createElement('li')
-                       noResults.textContent= 'لا توجد منتجات مطابقه.'
-  
-                   resultsContainer.appendChild(noResults)
-                  
-                   return;
-              }
-  
-    const ul = document.createElement('ul');
-  
-       results.forEach(product =>{
-  
-          const li = document.createElement('li');
-             li.textContent = product.name;
-           li.addEventListener('click',()=> window.location.href = `product.html?id=${product.id}` )
-              ul.appendChild(li);
-           })
-  
-     resultsContainer.appendChild(ul); // Add new resoults
-  
-      }
-  
-  });
-  
+        }
+        return results.slice(0, 6)
+
+    }
+    function clearResults() {
+        resultsContainer.innerHTML = ''; // Clear the results
+        resultsContainer.style.display = 'none'; // Hide results container
+    }
+    function displayResults(results) {
+        resultsContainer.innerHTML = ''; // Clear previous results
+
+        if (results.length === 0) {
+            const noResults = document.createElement('li')
+            noResults.textContent = 'لا توجد منتجات مطابقه.'
+
+            resultsContainer.appendChild(noResults)
+
+            return;
+        }
+
+        const ul = document.createElement('ul');
+
+        results.forEach(product => {
+
+            const li = document.createElement('li');
+            li.textContent = product.name;
+            li.addEventListener('click', () => window.location.href = `product.html?id=${product.id}`)
+            ul.appendChild(li);
+        })
+
+        resultsContainer.appendChild(ul); // Add new resoults
+
+    }
+
+});
+
 
 // Function to find similar products
 function findSimilarProducts(data, currentProduct, limit) {
-    if(!currentProduct || !currentProduct.name) return []; // prevent empty names and non-existing products
+    if (!currentProduct || !currentProduct.name) return []; // prevent empty names and non-existing products
 
     const productName = currentProduct.name.toLowerCase();
     let similarProducts = [];
@@ -147,12 +147,12 @@ function findSimilarProducts(data, currentProduct, limit) {
     for (const category in data.categories) {
         for (const subcategory in data.categories[category]) {
             const products = data.categories[category][subcategory];
-             similarProducts = similarProducts.concat(
-                 products.filter(product =>
-                  product.id !== currentProduct.id &&
+            similarProducts = similarProducts.concat(
+                products.filter(product =>
+                    product.id !== currentProduct.id &&
                     product.name.toLowerCase().includes(productName.split(' ')[0])
-             )
-          )
+                )
+            )
         }
     }
 
@@ -172,8 +172,8 @@ function renderProductDetails(product) {
 
     const discountText = discount ? `<p class="discount-text">خصم ${discount}%</p>` : '';
 
-    const amountText = product.amount > 0 
-        ? `<p class="amount-text">الكمية المتبقية: ${product.amount}</p>` 
+    const amountText = product.amount > 0
+        ? `<p class="amount-text">الكمية المتبقية: ${product.amount}</p>`
         : `<p class="amount-text out-of-stock">غير متوفر حاليًا</p>`;
 
     const productDetails = `
@@ -218,7 +218,7 @@ function renderProductDetails(product) {
     document.getElementById('product-details').innerHTML = productDetails;
     attachImageGalleryEvents();
     addEventListenersToProduct(product);
-     // Disable the add to cart button if out of stock
+    // Disable the add to cart button if out of stock
     const addToCartButton = document.querySelector('.btn_add_cart');
     if (product.amount <= 0 && addToCartButton) {
         addToCartButton.disabled = true;
@@ -240,13 +240,13 @@ function renderImageGallery(images) {
 
 // Function to render similar products
 function renderSimilarProducts(products) {
-  
-  if (!products || products.length === 0) {
-    document.querySelector('.similar-products-grid').innerHTML = '<p>لا توجد منتجات مشابهة حاليًا.</p>';
-    return;
-  }
-  
-   const similarProductsHTML = `
+
+    if (!products || products.length === 0) {
+        document.querySelector('.similar-products-grid').innerHTML = '<p>لا توجد منتجات مشابهة حاليًا.</p>';
+        return;
+    }
+
+    const similarProductsHTML = `
      ${products.map(product => `
     <a href="product.html?id=${product.id}" class="product-card">
      <img src="${product.image}" alt="${product.name}">
@@ -258,7 +258,7 @@ function renderSimilarProducts(products) {
   `).join('')}
       
   `;
- document.querySelector('.similar-products-grid').innerHTML = similarProductsHTML;
+    document.querySelector('.similar-products-grid').innerHTML = similarProductsHTML;
 }
 
 // Function to attach events to image gallery
@@ -283,64 +283,65 @@ function attachImageGalleryEvents() {
 // Function to add event listeners to product buttons
 function addEventListenersToProduct(product) {
     const addToCartButton = document.querySelector('.btn_add_cart');
-     const addToWishlistButton = document.querySelector('.btn_add_wishlist');
+    const addToWishlistButton = document.querySelector('.btn_add_wishlist');
     const favoritesButton = document.querySelector('.share-button');
 
-     if (addToCartButton) {
-         if (product.amount <= 0) {
-             // If the product is out of stock
+    if (addToCartButton) {
+        if (product.amount <= 0) {
+            // If the product is out of stock
             addToCartButton.addEventListener('click', function (event) {
-                 event.preventDefault(); // Prevent default click behavior
+                event.preventDefault(); // Prevent default click behavior
 
-              const message = document.createElement('div');
-              message.textContent = 'هذا المنتج غير متوفر حاليا';
-              message.classList.add('out-of-stock-message'); // Apply CSS class
-              document.body.appendChild(message);
+                const message = document.createElement('div');
+                message.textContent = 'هذا المنتج غير متوفر حاليا';
+                message.classList.add('out-of-stock-message'); // Apply CSS class
+                document.body.appendChild(message);
 
-              setTimeout(() => {
-              message.remove();
-              }, 1500);
-          });
-          }else{
-              addToCartButton.addEventListener('click', function () {
+                setTimeout(() => {
+                    message.remove();
+                }, 1500);
+            });
+        } else {
+            addToCartButton.addEventListener('click', function () {
                 const productId = product.id;
                 const imgSrc = currentDisplayedImage || product.image;
                 const title = product.name;
                 const price = product.price;
 
-                addToCart(productId, imgSrc, title, price);
-
+                // Use product.amount to check against actual stock
+                addToCart(productId, imgSrc, title, price, product.amount); //Pass amount
+                //If added successfuly then show success message
                 this.innerHTML = '<i class="fa-solid fa-check"></i> تم الإضافة';
                 this.style.backgroundColor = '#ccc';
                 this.disabled = true;
 
-                  setTimeout(() => {
+                setTimeout(() => {
                     this.style.backgroundColor = '';
                     this.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> إضافة للسلة';
                     this.disabled = false;
-                 }, 1000);
-              });
-            }
-      }
-       if (addToWishlistButton) {
-         addToWishlistButton.addEventListener('click', function () {
-             const productId = product.id;
+                }, 1000);
+            });
+        }
+    }
+    if (addToWishlistButton) {
+        addToWishlistButton.addEventListener('click', function () {
+            const productId = product.id;
             const imgSrc = currentDisplayedImage || product.image;
-             const title = product.name;
-             const price = product.price;
-            
-             addToWishlist(productId, imgSrc, title, price);
-  
-                this.innerHTML = '<i class="fa-solid fa-check"></i> تم الإضافة';
-                this.style.backgroundColor = '#ccc';
-                this.disabled = true;
+            const title = product.name;
+            const price = product.price;
+
+            addToWishlist(productId, imgSrc, title, price);
+
+            this.innerHTML = '<i class="fa-solid fa-check"></i> تم الإضافة';
+            this.style.backgroundColor = '#ccc';
+            this.disabled = true;
 
             setTimeout(() => {
-                  this.style.backgroundColor = '';
-                    this.innerHTML = '<i class="fa-regular fa-heart"></i> إضافة للمفضلة';
-                  this.disabled = false;
-                }, 1000);
-           });
+                this.style.backgroundColor = '';
+                this.innerHTML = '<i class="fa-regular fa-heart"></i> إضافة للمفضلة';
+                this.disabled = false;
+            }, 1000);
+        });
     }
 
     if (favoritesButton) {
@@ -358,47 +359,85 @@ function addEventListenersToProduct(product) {
     }
 }
 // Function to add product to cart
-function addToCart(productId, imgSrc, title, price, quantity = 1) {
+function addToCart(productId, imgSrc, title, price, availableQuantity) { // Accept availableQuantity
     const existingItem = cartItems.find(item => item.id === productId);
+
     if (existingItem) {
-        existingItem.quantity += quantity;
+        if (existingItem.quantity < availableQuantity) {  // check if product amount is more than existing item quantity
+            existingItem.quantity += 1;
+            saveCartToLocalStorage();
+            updateCartUI();
+
+        } else {
+            showOutOfStockMessage(); // Show message if over the amount
+        }
     } else {
-        const product = { id: productId, imgSrc, title, price, quantity };
-        cartItems.push(product);
+        if (availableQuantity > 0) { // Add if amount is greater than 0
+
+            const product = { id: productId, imgSrc, title, price, quantity: 1 };
+            cartItems.push(product);
+            saveCartToLocalStorage();
+            updateCartUI();
+
+        } else {
+            showOutOfStockMessage(); // Show message if over the amount
+
+        }
     }
-    saveCartToLocalStorage();
-    updateCartUI();
+
+
 }
 // Function to add product to wishlist
 function addToWishlist(productId, imgSrc, title, price) {
-     const existingItem = wishlistItems.find(item => item.id === productId);
-      if (!existingItem) {
-           const product = { id: productId, imgSrc, title, price };
-            wishlistItems.push(product);
-           saveWishlistToLocalStorage();
-          updateWishlistUI();
-       }
+    const existingItem = wishlistItems.find(item => item.id === productId);
+    if (!existingItem) {
+        const product = { id: productId, imgSrc, title, price };
+        wishlistItems.push(product);
+        saveWishlistToLocalStorage();
+        updateWishlistUI();
+    }
 }
 
+function showOutOfStockMessage() {
+    const message = document.createElement('div');
+    message.textContent = 'لا يوجد المزيد من هذا المنتج في المخزون';
+    message.classList.add('out-of-stock-message');
+    document.body.appendChild(message);
+
+    setTimeout(() => {
+        message.remove();
+    }, 1500);
+}
 
 // تأكد من أن هذه الدوال متاحة بشكل عام
-window.updateCartQuantity = function(productId, increment) {
+window.updateCartQuantity = function (productId, increment) {
     const item = cartItems.find(item => item.id === productId);
     if (item) {
-        item.quantity += increment;
-        if (item.quantity <= 0) {
-            removeFromCart(productId);
-        } else {
-            saveCartToLocalStorage();
-            updateCartUI();
-        }
+        findProductData(productId).then((productData) => {
+            if (increment > 0 && item.quantity >= productData.amount) {
+                showOutOfStockMessage(); // Show out of stock if exceeds product amount
+
+            } else {
+                item.quantity += increment;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    saveCartToLocalStorage();
+                    updateCartUI();
+                }
+            }
+        })
+
+
     }
 };
 
-window.removeFromCart = function(productId) {
+window.removeFromCart = function (productId) {
     cartItems = cartItems.filter(item => item.id !== productId);
     saveCartToLocalStorage();
     updateCartUI();
+        updateWishlistUI(); // Update wishlist UI when cart is changed
+
 };
 
 // Function to remove from wishlist
@@ -410,12 +449,50 @@ window.removeFromWishlist = function (productId) {
 
 // Function to move item from wishlist to cart
 window.moveToCart = function (productId) {
-    const item = wishlistItems.find(item => item.id === productId);
-    if (item) {
-        addToCart(item.id, item.imgSrc, item.title, item.price);
-       removeFromWishlist(productId);
-  }
+    findProductData(productId).then((productData) => {
+        const existingItemInCart = cartItems.find(item => item.id === productId);
+        if (existingItemInCart) {
+            showAlreadyInCartMessage(); // Show message if already in cart
+        } else {
+            const item = wishlistItems.find(item => item.id === productId);
+            if (item) {
+                addToCart(item.id, item.imgSrc, item.title, item.price, productData.amount); // Pass the amount
+                removeFromWishlist(productId);
+            }
+        }
+    })
 };
+function showAlreadyInCartMessage() {
+    const message = document.createElement('div');
+    message.textContent = 'هذا المنتج موجود بالفعل في السلة';
+    message.classList.add('out-of-stock-message');
+    document.body.appendChild(message);
+
+    setTimeout(() => {
+        message.remove();
+    }, 1500);
+}
+
+async function findProductData(productId) {
+
+    return fetch('product.json')
+        .then(response => response.json())
+        .then(data => {
+
+            for (const category in data.categories) {
+                for (const subcategory in data.categories[category]) {
+                    const product = data.categories[category][subcategory].find(p => p.id == productId);
+                    if (product) return product;
+                }
+            }
+        }).catch((e) => {
+            console.error('Error fetching products data:', e)
+            return null;
+        })
+
+
+
+}
 // Function to update cart UI
 function updateCartUI() {
     const cartItemsContainer = document.querySelector('.items_in_cart');
@@ -424,6 +501,7 @@ function updateCartUI() {
     cartItemsContainer.innerHTML = '';
     let totalPrice = 0;
     let totalQuantity = 0;
+
 
     if (cartItems.length === 0) {
         cartItemsContainer.innerHTML = `
@@ -434,53 +512,67 @@ function updateCartUI() {
         `;
     } else {
         cartItems.forEach(item => {
-            const cartItemHTML = `
-                <div class="item_cart">
-                    <img src="${item.imgSrc}" alt="${item.title}">
-                    <div class="cart-item-details">
-                        <h4>${item.title}</h4>
-                        <p>${item.price} جنيه</p>
-                        <div class="quantity_controls">
-                            <button onclick="updateCartQuantity(${item.id}, -1)">-</button>
-                            <span>${item.quantity}</span>
-                            <button onclick="updateCartQuantity(${item.id}, 1)">+</button>
-                        </div>
-                    </div>
-                    <button class="delete_item" onclick="removeFromCart(${item.id})"><i class="fa fa-trash"></i></button>
-                </div>
-            `;
-            cartItemsContainer.insertAdjacentHTML('beforeend', cartItemHTML);
+            findProductData(item.id).then((productData) => {
+                const disablePlus = productData && item.quantity >= productData.amount ? 'disabled' : '';
+
+                const cartItemHTML = `
+                                    <div class="item_cart">
+                                        <img src="${item.imgSrc}" alt="${item.title}">
+                                            <div class="cart-item-details">
+                                                <h4>${item.title}</h4>
+                                                    <p>${item.price} جنيه</p>
+                                                     <div class="quantity_controls">
+                                                          <button onclick="updateCartQuantity(${item.id}, -1)">-</button>
+                                                        <span>${item.quantity}</span>
+                                                        <button onclick="updateCartQuantity(${item.id}, 1)" ${disablePlus}>+</button>
+                                                    </div>
+                                             </div>
+                                     <button class="delete_item" onclick="removeFromCart(${item.id})"><i class="fa fa-trash"></i></button>
+                                  </div>
+                                  `;
+                cartItemsContainer.insertAdjacentHTML('beforeend', cartItemHTML);
+            })
+                
+
             totalPrice += parseFloat(item.price) * item.quantity;
             totalQuantity += item.quantity;
         });
     }
 
-     document.querySelectorAll('.cart_count').forEach(el => el.textContent = totalQuantity);
-     document.querySelectorAll('.price_cart_total').forEach(el => el.textContent = `${totalPrice} جنيه`);
+    document.querySelectorAll('.cart_count').forEach(el => el.textContent = totalQuantity);
+    document.querySelectorAll('.price_cart_total').forEach(el => el.textContent = `${totalPrice} جنيه`);
     document.querySelectorAll('.count_item').forEach(el => el.textContent = totalQuantity); // تحديث العداد بجانب ايقونة السلة
 }
 
 
 // Function to update wishlist UI
 function updateWishlistUI() {
-   const wishlistItemsContainer = document.querySelector('.items_in_wishlist');
+    const wishlistItemsContainer = document.querySelector('.items_in_wishlist');
     if (!wishlistItemsContainer) return;
-     
-  wishlistItemsContainer.innerHTML = '';
+
+    wishlistItemsContainer.innerHTML = '';
     let totalQuantity = 0;
 
 
-  if(wishlistItems.length === 0){
-       wishlistItemsContainer.innerHTML =`
+    if (wishlistItems.length === 0) {
+        wishlistItemsContainer.innerHTML = `
              <p class="empty-wishlist-message"></p>
               <div class="empty-wishlist-icon">
                 
              </div>
       `
-     }else {
+    } else {
 
         wishlistItems.forEach(item => {
-           const wishlistHTML = `
+            const existingItemInCart = cartItems.find(cartItem => cartItem.id === item.id);
+             let moveToCartButton;
+                if (existingItemInCart) {
+                  moveToCartButton = `<button class="btn_wishlist" disabled >موجود في السلة</button>`; // Disable if already in cart
+                } else {
+                    moveToCartButton = `<button class="btn_wishlist" onclick="moveToCart(${item.id})">نقل الي العربة</button>`
+                  }
+
+             const wishlistHTML = `
              <div class="item_wishlist">
                   <img src="${item.imgSrc}" alt="${item.title}">
                 <div class="wishlist-item-details">
@@ -488,23 +580,23 @@ function updateWishlistUI() {
                     <p>${item.price} جنيه</p>
                    </div>
                   <div class="wishlist_actions">
-                         <button class="btn_wishlist" onclick="moveToCart(${item.id})">نقل الي العربة</button>
+                         ${moveToCartButton}
                        <button class="delete_item" onclick="removeFromWishlist(${item.id})"><i class="fa fa-trash"></i></button>
                      </div>
               </div>
         `;
-      wishlistItemsContainer.insertAdjacentHTML('beforeend', wishlistHTML);
+            wishlistItemsContainer.insertAdjacentHTML('beforeend', wishlistHTML);
             totalQuantity++;
-       });
+        });
     }
-      document.querySelectorAll('.wishlist_count').forEach(el => el.textContent = totalQuantity);
+    document.querySelectorAll('.wishlist_count').forEach(el => el.textContent = totalQuantity);
 
 }
 
 
 window.addEventListener('load', () => {
     loadCartFromLocalStorage();
-   loadWishlistFromLocalStorage();
+    loadWishlistFromLocalStorage();
 });
 function saveCartToLocalStorage() {
     localStorage.setItem('cart', JSON.stringify(cartItems));
@@ -555,14 +647,14 @@ function formatDateTime() {
 // Send invoice via WhatsApp
 function sendInvoiceViaWhatsApp() {
     const storedCartItems = JSON.parse(localStorage.getItem('cart')) || [];
-     const totalPriceElement = document.querySelector('.price_cart_total');
-        const itemCountElement = document.querySelector('.cart_count');
+    const totalPriceElement = document.querySelector('.price_cart_total');
+    const itemCountElement = document.querySelector('.cart_count');
 
 
-        if (!storedCartItems || storedCartItems.length === 0) {
+    if (!storedCartItems || storedCartItems.length === 0) {
 
-            const noItemsMessage = document.createElement('div');
-             noItemsMessage.style.cssText = `
+        const noItemsMessage = document.createElement('div');
+        noItemsMessage.style.cssText = `
             position: fixed;
             top: 50%;
             left: 50%;
@@ -575,10 +667,10 @@ function sendInvoiceViaWhatsApp() {
              font-weight: bold;
               z-index: 999999;
             `;
-           noItemsMessage.textContent = 'هو انت لسه حطيت حاجه؟';
-            const closeButton = document.createElement('button');
-          closeButton.textContent = 'إغلاق';
-              closeButton.style.cssText = `
+        noItemsMessage.textContent = 'هو انت لسه حطيت حاجه؟';
+        const closeButton = document.createElement('button');
+        closeButton.textContent = 'إغلاق';
+        closeButton.style.cssText = `
             margin-top: 10px;
             padding: 5px 10px;
              background-color: rgb(202, 23, 23);
@@ -588,15 +680,15 @@ function sendInvoiceViaWhatsApp() {
              cursor: pointer;
             `;
         closeButton.onclick = () => {
-               noItemsMessage.remove();
+            noItemsMessage.remove();
         };
         noItemsMessage.appendChild(closeButton);
-          document.body.appendChild(noItemsMessage);
+        document.body.appendChild(noItemsMessage);
 
-           return;
-     }
-     const totalPrice = totalPriceElement.textContent
-      const itemCount =  itemCountElement.textContent;
+        return;
+    }
+    const totalPrice = totalPriceElement.textContent
+    const itemCount = itemCountElement.textContent;
 
 
 
@@ -641,7 +733,7 @@ function clearCart() {
     saveCartToLocalStorage();
     updateCartUI();
     document.querySelectorAll('.cart_count').forEach(el => el.textContent = '0');
-        document.querySelectorAll('.price_cart_total').forEach(el => el.textContent = '0 جنيه');
+    document.querySelectorAll('.price_cart_total').forEach(el => el.textContent = '0 جنيه');
     document.querySelectorAll('.count_item').forEach(el => el.textContent = '0'); // تحديث العداد بجانب ايقونة السلة
 }
 
