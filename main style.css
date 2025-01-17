@@ -846,7 +846,7 @@ nav button:hover h5 {
         font-size: 10px;
     }
 }
-/* أيقونة التمرير */
+
 /* أيقونة التمرير */
 .scroll-icon {
     position: absolute;
@@ -855,25 +855,35 @@ nav button:hover h5 {
     transform: translate(-50%, -50%);
     font-size: 32px; /* حجم الأيقونة */
     color: rgba(0, 0, 0, 0.8); /* لون الأيقونة */
-    animation: scrollEffect 1s infinite; /* حركة التمرير */
     pointer-events: none; /* منع التفاعل مع الأيقونة */
     z-index: 10;
     background: transparent; /* خلفية شفافة */
+     display: inline-block; /* لجعلها قابلة للدوران */
+      transform-origin: center center;
+   transition: opacity 1s ease-in-out;
+
+}
+.scroll-icon i{
+    animation: rotateEffect 2s linear infinite;
 }
 
-@keyframes scrollEffect {
+@keyframes rotateEffect {
     0% {
-        transform: translate(-50%, -50%) translateX(0); /* موضع البداية */
+        transform: rotate(0deg); /* نقطة البداية (توجيه للأعلى) */
+    }
+    25% {
+        transform: rotate(-25deg); /* ميل لليسار */
     }
     50% {
-        transform: translate(-50%, -50%) translateX(10px); /* حركة للأمام */
+        transform: rotate(0deg); /* العودة للتوجيه للأعلى) */
+    }
+    75% {
+        transform: rotate(25deg); /* ميل لليمين */
     }
     100% {
-        transform: translate(-50%, -50%) translateX(0); /* العودة للبداية */
+        transform: rotate(0deg); /* العودة للتوجيه للأعلى) */
     }
 }
-
-/* تحسين مكان الأيقونة في الحاوية */
 .nav-container {
     position: relative;
 }
