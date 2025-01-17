@@ -635,15 +635,16 @@ var swiper = new Swiper(".mySwiper", {
 });
 
 
-  // Swiper للأقسام (تم نقله إلى هنا ليكون منفصلاً)
-  document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     const navContainer = document.querySelector('.nav-container');
     const prevButton = document.querySelector('.prev-arrow');
     const nextButton = document.querySelector('.next-arrow');
-    const scrollStep = 15 ;
-     
-      function getScrollAmount(){
-        return  navContainer.firstElementChild.offsetWidth + scrollStep;
+    const scrollStep = 15;
+    let scrollIcon = null;
+
+
+    function getScrollAmount() {
+        return navContainer.firstElementChild.offsetWidth + scrollStep;
     }
 
     // إضافة أحداث للنقر على الأسهم مع حركة سلسة فقط
@@ -655,38 +656,31 @@ var swiper = new Swiper(".mySwiper", {
         navContainer.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
     });
 
-    // إضافة أيقونة التمرير
     function addScrollIcon() {
         if (scrollIcon) return; // إذا كانت الأيقونة موجودة، لا تضف واحدة جديدة
 
         scrollIcon = document.createElement('div');
         scrollIcon.classList.add('scroll-icon');
-        scrollIcon.innerHTML = `<i class="fas fa-hand-point-left"></i>`; // أيقونة اليد
+        scrollIcon.innerHTML = `<i class="fa-solid fa-hand-point-up"></i>`; // أيقونة اليد في البداية
         navContainer.appendChild(scrollIcon);
 
-        // إخفاء الأيقونة بعد 5 ثوانٍ
+         let intervalId;
+           // إخفاء الأيقونة بعد 5 ثوانٍ
         setTimeout(() => {
             scrollIcon.style.opacity = '0';
+             clearInterval(intervalId);
             setTimeout(() => {
                 scrollIcon.remove();
                 scrollIcon = null; // إعادة تعيين المتغير
+                 setTimeout(addScrollIcon, 5 * 60 * 1000) // إظهار الأيقونة بعد 5 دقائق
             }, 1000); // إزالة الأيقونة بعد انتهاء التأثير
         }, 5000);
-    }
- });
 
-    // عرض الأيقونة عند تحميل الصفحة
-    addScrollIcon();
+     }
 
-    // إظهار الأيقونة عند توقف المستخدم عن التفاعل لفترة طويلة
-    let interactionTimeout;
-    navContainer.addEventListener('scroll', () => {
-        clearTimeout(interactionTimeout);
-        interactionTimeout = setTimeout(() => {
-            addScrollIcon(); // إعادة عرض الأيقونة
-        }, 5000); // إعادة عرض الأيقونة بعد 5 ثوانٍ من التوقف
-    });
+       addScrollIcon();
 });
+
 
 function searchPerfumes() {
         const input = document.getElementById('searchInput2');
