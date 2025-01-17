@@ -156,42 +156,12 @@ function addEventListenersToProducts() {
             const title = product.querySelector('h2').textContent;
             const price = product.querySelector('.price span').textContent;
 
-            addToCart(productId, imgSrc, title, price);
-            this.innerHTML = '<i class="fa-solid fa-check"></i> تم الإضافة'; // تغيير النص مع الرمز
-            this.style.backgroundColor = '#ccc'; // تغيير اللون
-            this.disabled = true;
-            setTimeout(() => {
-                this.style.backgroundColor = '';
-                this.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> اضافة  ' // إعادة اللون الأصلي بعد ثانية واحدة
-            }, 1000);
-            updateCartTotal();
+           
         });
     });
-    // add to wishlist event
-     document.querySelectorAll('.btn_add_wishlist').forEach(button => {
-        button.addEventListener('click', function () {
-            const product = this.closest('.product');
-            const productId = product.dataset.id;
-             const imgSrc = product.querySelector('img').src;
-             const title = product.querySelector('h2').textContent;
-             const price = product.querySelector('.price span').textContent;
-
-           addToWishlist(productId, imgSrc, title, price);
-               this.innerHTML = '<i class="fa-solid fa-check"></i> تم الإضافة';
-                this.style.backgroundColor = '#ccc';
-                this.disabled = true;
-
-            setTimeout(() => {
-                  this.style.backgroundColor = '';
-                    this.innerHTML = '<i class="fa-regular fa-heart"></i>';
-                  this.disabled = false;
-                }, 1000);
-        });
-     });
+    
 }
 
-let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-let wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
 
 function saveCartToLocalStorage() {
     localStorage.setItem('cart', JSON.stringify(cartItems));
@@ -210,33 +180,73 @@ function loadWishlistFromLocalStorage() {
     updateWishlistUI();
 }
 
-function addToCart(productId, imgSrc, title, price, quantity = 1) {
+function addToCart(productId, imgSrc, title, price, availableQuantity) { // Accept availableQuantity
     const existingItem = cartItems.find(item => item.id === productId);
+
     if (existingItem) {
-        existingItem.quantity += quantity;
+        if (existingItem.quantity < availableQuantity) {  // check if product amount is more than existing item quantity
+            existingItem.quantity += 1;
+            saveCartToLocalStorage();
+            updateCartUI();
+
+        } else {
+            showOutOfStockMessage(); // Show message if over the amount
+        }
     } else {
-        const product = { id: productId, imgSrc, title, price, quantity };
-        cartItems.push(product);
+        if (availableQuantity > 0) { // Add if amount is greater than 0
+
+            const product = { id: productId, imgSrc, title, price, quantity: 1 };
+            cartItems.push(product);
+            saveCartToLocalStorage();
+            updateCartUI();
+
+        } else {
+            showOutOfStockMessage(); // Show message if over the amount
+
+        }
     }
-    saveCartToLocalStorage();
-    updateCartUI();
+
+
 }
 // Function to add product to wishlist
 function addToWishlist(productId, imgSrc, title, price) {
-     const existingItem = wishlistItems.find(item => item.id === productId);
-      if (!existingItem) {
-           const product = { id: productId, imgSrc, title, price };
-            wishlistItems.push(product);
-           saveWishlistToLocalStorage();
-          updateWishlistUI();
-       }
+    const existingItem = wishlistItems.find(item => item.id === productId);
+    if (!existingItem) {
+        const product = { id: productId, imgSrc, title, price };
+        wishlistItems.push(product);
+        saveWishlistToLocalStorage();
+        updateWishlistUI();
+    }
 }
+window.updateCartQuantity = function (productId, increment) {
+    const item = cartItems.find(item => item.id === productId);
+    if (item) {
+        findProductData(productId).then((productData) => {
+            if (increment > 0 && item.quantity >= productData.amount) {
+                showOutOfStockMessage(); // Show out of stock if exceeds product amount
 
-function removeFromCart(productId) {
+            } else {
+                item.quantity += increment;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    saveCartToLocalStorage();
+                    updateCartUI();
+                }
+            }
+        })
+
+
+    }
+};
+
+window.removeFromCart = function (productId) {
     cartItems = cartItems.filter(item => item.id !== productId);
     saveCartToLocalStorage();
     updateCartUI();
-}
+        updateWishlistUI(); // Update wishlist UI when cart is changed
+
+};
 // Function to remove from wishlist
 window.removeFromWishlist = function (productId) {
     wishlistItems = wishlistItems.filter(item => item.id !== productId);
@@ -258,24 +268,63 @@ function updateCartQuantity(productId, increment) {
 }
 // Function to move item from wishlist to cart
 window.moveToCart = function (productId) {
-    const item = wishlistItems.find(item => item.id === productId);
-    if (item) {
-        addToCart(item.id, item.imgSrc, item.title, item.price);
-       removeFromWishlist(productId);
-  }
+    findProductData(productId).then((productData) => {
+        const existingItemInCart = cartItems.find(item => item.id === productId);
+        if (existingItemInCart) {
+            showAlreadyInCartMessage(); // Show message if already in cart
+        } else {
+            const item = wishlistItems.find(item => item.id === productId);
+            if (item) {
+                addToCart(item.id, item.imgSrc, item.title, item.price, productData.amount); // Pass the amount
+                removeFromWishlist(productId);
+            }
+        }
+    })
 };
+function showAlreadyInCartMessage() {
+    const message = document.createElement('div');
+    message.textContent = 'هذا المنتج موجود بالفعل في السلة';
+    message.classList.add('out-of-stock-message');
+    document.body.appendChild(message);
+
+    setTimeout(() => {
+        message.remove();
+    }, 1500);
+}
+async function findProductData(productId) {
+
+    return fetch('product.json')
+        .then(response => response.json())
+        .then(data => {
+
+            for (const category in data.categories) {
+                for (const subcategory in data.categories[category]) {
+                    const product = data.categories[category][subcategory].find(p => p.id == productId);
+                    if (product) return product;
+                }
+            }
+        }).catch((e) => {
+            console.error('Error fetching products data:', e)
+            return null;
+        })
+
+
+
+}
 
 function updateCartUI() {
     const cartItemsContainer = document.querySelector('.items_in_cart');
     if (!cartItemsContainer) return;
 
+    // تنظيف العناصر الموجودة
     cartItemsContainer.innerHTML = '';
+
     let totalPrice = 0;
     let totalQuantity = 0;
 
     if (cartItems.length === 0) {
         cartItemsContainer.innerHTML = `
-            <p class="empty-cart-message">السلة فاضيه يباشا املاها شوية</p>
+            <p class="empty-cart-message">السلة فاضيه يباشا املاها شويه</p>
             <div class="empty-cart-icon">
                 <i class="fa-solid fa-cart-arrow-down"></i>
             </div>
@@ -298,35 +347,47 @@ function updateCartUI() {
                 </div>
             `;
             cartItemsContainer.insertAdjacentHTML('beforeend', cartItemHTML);
+
             totalPrice += parseFloat(item.price) * item.quantity;
             totalQuantity += item.quantity;
         });
     }
 
-    document.querySelectorAll('.count_item').forEach(el => el.textContent = totalQuantity);
-    document.querySelectorAll('.price_cart_total').forEach(el => el.textContent = `${totalPrice} جنيه`);
+    // تحديث الإحصائيات
     document.querySelectorAll('.cart_count').forEach(el => el.textContent = totalQuantity);
+    document.querySelectorAll('.price_cart_total').forEach(el => el.textContent = `${totalPrice} جنيه`);
+    document.querySelectorAll('.count_item').forEach(el => el.textContent = totalQuantity);
 }
+
+
 // Function to update wishlist UI
 function updateWishlistUI() {
-   const wishlistItemsContainer = document.querySelector('.items_in_wishlist');
+    const wishlistItemsContainer = document.querySelector('.items_in_wishlist');
     if (!wishlistItemsContainer) return;
-     
-  wishlistItemsContainer.innerHTML = '';
+
+    wishlistItemsContainer.innerHTML = '';
     let totalQuantity = 0;
 
 
-  if(wishlistItems.length === 0){
-       wishlistItemsContainer.innerHTML =`
+    if (wishlistItems.length === 0) {
+        wishlistItemsContainer.innerHTML = `
              <p class="empty-wishlist-message"></p>
               <div class="empty-wishlist-icon">
                 
              </div>
       `
-     }else {
+    } else {
 
         wishlistItems.forEach(item => {
-           const wishlistHTML = `
+            const existingItemInCart = cartItems.find(cartItem => cartItem.id === item.id);
+             let moveToCartButton;
+                if (existingItemInCart) {
+                  moveToCartButton = `<button class="btn_wishlist" disabled >موجود في السلة</button>`; // Disable if already in cart
+                } else {
+                    moveToCartButton = `<button class="btn_wishlist" onclick="moveToCart(${item.id})">نقل الي العربة</button>`
+                  }
+
+             const wishlistHTML = `
              <div class="item_wishlist">
                   <img src="${item.imgSrc}" alt="${item.title}">
                 <div class="wishlist-item-details">
@@ -334,18 +395,19 @@ function updateWishlistUI() {
                     <p>${item.price} جنيه</p>
                    </div>
                   <div class="wishlist_actions">
-                         <button class="btn_wishlist" onclick="moveToCart(${item.id})">نقل الي العربة</button>
+                         ${moveToCartButton}
                        <button class="delete_item" onclick="removeFromWishlist(${item.id})"><i class="fa fa-trash"></i></button>
                      </div>
               </div>
         `;
-      wishlistItemsContainer.insertAdjacentHTML('beforeend', wishlistHTML);
+            wishlistItemsContainer.insertAdjacentHTML('beforeend', wishlistHTML);
             totalQuantity++;
-       });
+        });
     }
-      document.querySelectorAll('.wishlist_count').forEach(el => el.textContent = totalQuantity);
+    document.querySelectorAll('.wishlist_count').forEach(el => el.textContent = totalQuantity);
 
 }
+
 
 window.addEventListener('load', () => {
     loadCartFromLocalStorage();
@@ -574,60 +636,6 @@ var swiper = new Swiper(".mySwiper", {
   const params = new URLSearchParams(window.location.search);
   const productId = params.get('id');
 
-  if (productId) {
-      fetch('product.json')
-          .then(response => response.json())
-          .then(data => {
-              let product;
-              for (const category in data.categories) {
-                  for (const subcategory in data.categories[category]) {
-                      product = data.categories[category][subcategory].find(p => p.id == productId);
-                      if (product) break;
-                  }
-                  if (product) break;
-              }
-
-              if (product) {
-                  const productDetails = `
-                      <div class="product">
-                          <img id="main-image" src="${product.image}" alt="${product.name}">
-                          <h2>${product.name}</h2>
-                          <p>السعر: <span>${product.price} جنيه</span></p>
-                          ${product.old_price ? `<p class="old_price">${product.old_price} جنيه</p>` : ''}
-                          <p>الوصف: ${product.tags ? product.tags.join(', ') : 'لا يوجد وصف'}</p>
-                          ${product.images ? renderImageGallery(product.images) : ''}
-                      </div>
-                             ${product.old_price ? `<div class="discount-badge">خصم ${((product.old_price - product.price) / product.old_price * 100).toFixed(0)}%</div>` : ''}
-                  `;
-                  document.getElementById('product-details').innerHTML = productDetails;
-                  attachImageGalleryEvents();
-              } else {
-                  document.getElementById('product-details').innerHTML = '<p>عذرًا، المنتج غير موجود.</p>';
-              }
-          })
-          .catch(error => console.error('خطأ في تحميل تفاصيل المنتج:', error));
-  } else {
-      document.getElementById('product-details').innerHTML = '<p>لم يتم تحديد المنتج.</p>';
-  }
-
-  function renderImageGallery(images) {
-      return `
-          <div class="image-gallery">
-              ${images.map(img => `<img src="${img}" alt="صورة إضافية">`).join('')}
-          </div>
-      `;
-  }
-
-  function attachImageGalleryEvents() {
-      const galleryImages = document.querySelectorAll('.image-gallery img');
-      const mainImage = document.getElementById('main-image');
-
-      galleryImages.forEach(img => {
-          img.addEventListener('click', () => {
-              mainImage.src = img.src;
-          });
-      });
-  }
 
   function closePage() {
       window.history.back();
