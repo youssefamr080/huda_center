@@ -2,6 +2,7 @@
 let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
 let wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
 let currentDisplayedImage = ''; // Track current displayed image
+let selectedColor = ''; // Track current selected color
 
 // Save cart to localStorage
 function saveCartToLocalStorage() {
@@ -149,8 +150,48 @@ function findSimilarProducts(data, currentProduct, limit) {
 
 // Function to render product details
 function renderProductDetails(product) {
+     const style = document.createElement('style');
+  style.textContent = `
+  .colors-container {
+  margin-top: 10px;
+  }
+  .colors-container h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+    .color-options {
+        display: flex;
+        gap: 10px;
+         flex-wrap: wrap;
+    }
+    .color-option {
+         display: flex;
+    align-items: center;
+     gap: 5px;
+    cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 5px;
+       border: 1px solid #ddd;
+    }
+      .color-option.selected {
+            border: 1px solid #000; /* Highlight border for selected color */
+              background-color: #f0f0f0;
+        }
+    .color-box {
+        width: 20px;
+        height: 20px;
+         border-radius: 50%;
+      display: inline-block;
+    }
+    .color-name {
+      font-size: 0.9rem;
+         white-space: nowrap;
+    }
+  `;
+    document.head.appendChild(style);
     currentDisplayedImage = product.image; // Initialize with main image
-
+    selectedColor = product.colors && product.colors[0] ? product.colors[0] : ''; // Set the first color as default
     const discount = product.old_price
         ? Math.round(((product.old_price - product.price) / product.old_price) * 100)
         : 0;
@@ -160,6 +201,23 @@ function renderProductDetails(product) {
     const amountText = product.amount > 0
         ? `<p class="amount-text">الكمية المتبقية: ${product.amount}</p>`
         : `<p class="amount-text out-of-stock">غير متوفر حاليًا</p>`;
+
+    const colorsHTML = product.colors && product.colors.length > 0 ? `
+    <div class="colors-container mt-4">
+        <h3 class="text-lg font-semibold mb-2">الألوان المتاحة:</h3>
+        <div class="color-options flex gap-2">
+            ${product.colors.map(color => `
+                <span 
+                    class="color-option ${color === selectedColor ? 'selected' : ''} flex items-center gap-1 cursor-pointer"
+                    data-color="${color}"
+                >
+                    <span class="color-box" style="background-color: ${color};"></span>
+                    <span class="color-name">${color}</span>
+                </span>
+            `).join('')}
+        </div>
+    </div>
+` : '';
 
     const productDetails = `
         <div class="product-container grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -176,6 +234,7 @@ function renderProductDetails(product) {
                
                 ${discountText}
                 ${amountText}
+                 ${colorsHTML}
                 ${product.description ? `<div class="description mt-4">
                     <h3 class="text-lg font-semibold mb-2">وصف المنتج:</h3>
                     <p>${product.description}</p>
@@ -202,6 +261,7 @@ function renderProductDetails(product) {
 
     document.getElementById('product-details').innerHTML = productDetails;
     attachImageGalleryEvents();
+    attachColorSelectionEvents(); // Attach events for color selection
     addEventListenersToProduct(product);
     // Disable the add to cart button if out of stock
     const addToCartButton = document.querySelector('.btn_add_cart');
@@ -222,7 +282,21 @@ function renderImageGallery(images) {
         </div>
     `;
 }
+// Function to attach event listeners to color options
+function attachColorSelectionEvents() {
+    const colorOptions = document.querySelectorAll('.color-option');
 
+    colorOptions.forEach(option => {
+        option.addEventListener('click', function () {
+            // remove 'selected' class from all options
+            colorOptions.forEach(opt => opt.classList.remove('selected'));
+            // add 'selected' class to the clicked option
+            this.classList.add('selected');
+             selectedColor = this.dataset.color;
+         });
+    });
+}
+// Function to render similar products
 // Function to render similar products
 function renderSimilarProducts(products) {
 
@@ -232,15 +306,23 @@ function renderSimilarProducts(products) {
     }
 
     const similarProductsHTML = `
-     ${products.map(product => `
-    <a href="product.html?id=${product.id}" class="product-card">
-     <img src="${product.image}" alt="${product.name}">
-          <div class="info">
-             <h4>${product.name}</h4>
-             <p class="price">${product.price} جنيه</p>
-            </div>
-       </a>
-  `).join('')}
+     ${products.map(product => {
+       const discount = product.old_price
+            ? Math.round(((product.old_price - product.price) / product.old_price) * 100)
+            : 0;
+
+        const discountBadge = discount > 0 ? `<span class="discount-badge">خصم ${discount}%</span>` : '';
+     return `
+        <a href="product.html?id=${product.id}" class="product-card">
+         <img src="${product.image}" alt="${product.name}">
+           ${discountBadge}
+              <div class="info">
+                <h4>${product.name}</h4>
+                <p class="price">${product.price} جنيه</p>
+             </div>
+        </a>
+     `
+  }).join('')}
       
   `;
     document.querySelector('.similar-products-grid').innerHTML = similarProductsHTML;
@@ -294,7 +376,7 @@ function addEventListenersToProduct(product) {
                 const price = product.price;
 
                 // Use product.amount to check against actual stock
-                addToCart(productId, imgSrc, title, price, product.amount); //Pass amount
+                addToCart(productId, imgSrc, title, price, product.amount, selectedColor); //Pass amount and color
                 //If added successfuly then show success message
                 this.innerHTML = '<i class="fa-solid fa-check"></i> تم الإضافة';
                 this.style.backgroundColor = '#ccc';
@@ -344,8 +426,8 @@ function addEventListenersToProduct(product) {
     }
 }
 // Function to add product to cart
-function addToCart(productId, imgSrc, title, price, availableQuantity) { // Accept availableQuantity
-    const existingItem = cartItems.find(item => item.id === productId);
+function addToCart(productId, imgSrc, title, price, availableQuantity, color) { // Accept availableQuantity and color
+    const existingItem = cartItems.find(item => item.id === productId && item.color === color);
 
     if (existingItem) {
         if (existingItem.quantity < availableQuantity) {  // check if product amount is more than existing item quantity
@@ -359,7 +441,7 @@ function addToCart(productId, imgSrc, title, price, availableQuantity) { // Acce
     } else {
         if (availableQuantity > 0) { // Add if amount is greater than 0
 
-            const product = { id: productId, imgSrc, title, price, quantity: 1 };
+            const product = { id: productId, imgSrc, title, price, quantity: 1, color:color };
             cartItems.push(product);
             saveCartToLocalStorage();
             updateCartUI();
@@ -395,8 +477,8 @@ function showOutOfStockMessage() {
 }
 
 // تأكد من أن هذه الدوال متاحة بشكل عام
-window.updateCartQuantity = function (productId, increment) {
-    const item = cartItems.find(item => item.id === productId);
+window.updateCartQuantity = function (productId, increment, color) {
+    const item = cartItems.find(item => item.id === productId && item.color === color);
     if (item) {
         findProductData(productId).then((productData) => {
             if (increment > 0 && item.quantity >= productData.amount) {
@@ -405,7 +487,7 @@ window.updateCartQuantity = function (productId, increment) {
             } else {
                 item.quantity += increment;
                 if (item.quantity <= 0) {
-                    removeFromCart(productId);
+                    removeFromCart(productId, color);
                 } else {
                     saveCartToLocalStorage();
                     updateCartUI();
@@ -417,8 +499,8 @@ window.updateCartQuantity = function (productId, increment) {
     }
 };
 
-window.removeFromCart = function (productId) {
-    cartItems = cartItems.filter(item => item.id !== productId);
+window.removeFromCart = function (productId, color) {
+    cartItems = cartItems.filter(item => !(item.id === productId && item.color === color));
     saveCartToLocalStorage();
     updateCartUI();
         updateWishlistUI(); // Update wishlist UI when cart is changed
@@ -441,8 +523,12 @@ window.moveToCart = function (productId) {
         } else {
             const item = wishlistItems.find(item => item.id === productId);
             if (item) {
-                addToCart(item.id, item.imgSrc, item.title, item.price, productData.amount); // Pass the amount
+                if (productData && productData.amount > 0) { // check if product amount is greater than 0
+                addToCart(item.id, item.imgSrc, item.title, item.price, productData.amount, selectedColor); // Pass the amount and color
                 removeFromWishlist(productId);
+                }else {
+                      showOutOfStockMessage();
+                }
             }
         }
     })
@@ -498,7 +584,7 @@ function updateCartUI() {
     } else {
         cartItems.forEach(item => {
             findProductData(item.id).then((productData) => {
-                const disablePlus = productData && item.quantity >= productData.amount ? 'disabled' : '';
+                  const disablePlus = productData && item.quantity >= productData.amount ? 'disabled' : '';
 
                 const cartItemHTML = `
                                     <div class="item_cart">
@@ -506,13 +592,14 @@ function updateCartUI() {
                                             <div class="cart-item-details">
                                                 <h4>${item.title}</h4>
                                                     <p>${item.price} جنيه</p>
+                                                     <p style="color:${item.color}">${item.color}</p>
                                                      <div class="quantity_controls">
-                                                          <button onclick="updateCartQuantity(${item.id}, -1)">-</button>
+                                                          <button onclick="updateCartQuantity(${item.id}, -1, '${item.color}')">-</button>
                                                         <span>${item.quantity}</span>
-                                                        <button onclick="updateCartQuantity(${item.id}, 1)" ${disablePlus}>+</button>
+                                                        <button onclick="updateCartQuantity(${item.id}, 1, '${item.color}')" ${disablePlus}>+</button>
                                                     </div>
                                              </div>
-                                     <button class="delete_item" onclick="removeFromCart(${item.id})"><i class="fa fa-trash"></i></button>
+                                     <button class="delete_item" onclick="removeFromCart(${item.id}, '${item.color}')"><i class="fa fa-trash"></i></button>
                                   </div>
                                   `;
                 cartItemsContainer.insertAdjacentHTML('beforeend', cartItemHTML);
@@ -563,6 +650,7 @@ function updateWishlistUI() {
                 <div class="wishlist-item-details">
                       <h4>${item.title}</h4>
                     <p>${item.price} جنيه</p>
+                     
                    </div>
                   <div class="wishlist_actions">
                          ${moveToCartButton}
@@ -693,6 +781,7 @@ function sendInvoiceViaWhatsApp() {
         message += `  🆔 *ID:* ${item.id}\n`;
         message += `   *الاسم:* ${item.title}\n`;
         message += `   *الكمية:* ${item.quantity}\n`;
+          message += `   *اللون:* ${item.color}\n`;
         message += `   *السعر للوحدة:* ${item.price} \n`;
         message += `  *الإجمالي:* ${parseFloat(item.price) * item.quantity} جنيه\n`;
         message += `----------------------------------------\n`;
