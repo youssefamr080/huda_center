@@ -621,6 +621,7 @@ function renderImageGallery(images) {
         </div>
     `;
 }
+// Swiper للصور
 var swiper = new Swiper(".mySwiper", {
     scrollbar: {
       el: ".swiper-scrollbar",
@@ -633,14 +634,9 @@ var swiper = new Swiper(".mySwiper", {
     loop: true,
   });
 
-  const params = new URLSearchParams(window.location.search);
-  const productId = params.get('id');
 
-
-  function closePage() {
-      window.history.back();
-  }
-  document.addEventListener('DOMContentLoaded', function () {
+  // Swiper للأقسام (تم نقله إلى هنا ليكون منفصلاً)
+document.addEventListener('DOMContentLoaded', function () {
     const navContainer = document.querySelector('.nav-container');
     const prevButton = document.querySelector('.prev-arrow');
     const nextButton = document.querySelector('.next-arrow');
