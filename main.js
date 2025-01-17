@@ -636,62 +636,23 @@ var swiper = new Swiper(".mySwiper", {
 
 
   // Swiper للأقسام (تم نقله إلى هنا ليكون منفصلاً)
- document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function () {
     const navContainer = document.querySelector('.nav-container');
     const prevButton = document.querySelector('.prev-arrow');
     const nextButton = document.querySelector('.next-arrow');
-    const scrollStep = navContainer.firstElementChild.offsetWidth + 15;
-    let scrollIcon;
-    let isScrolling = false;
-
-
-    // التمرير في اتجاه معين
-    function scrollNav(direction) {
-        if (isScrolling) return; // منع التمرير المتزامن
-        isScrolling = true;
-    
-        const maxScroll = navContainer.scrollWidth - navContainer.clientWidth;
-        let newScrollLeft = navContainer.scrollLeft + direction * scrollStep;
-    
-        // ضبط القيمة لتكون ضمن الحدود المسموح بها
-        newScrollLeft = Math.max(0, Math.min(newScrollLeft, maxScroll));
-    
-        navContainer.scroll({
-            left: newScrollLeft,
-            behavior: 'smooth' // إضافة حركة سلسة
-        });
-          
-        // عند الانتهاء من التمرير يتم تعيين isScrolling إلى false
-        setTimeout(() => {
-            isScrolling = false;
-        }, 300); // يفضل أن يكون هذا الوقت مساوياً أو أطول من مدة حركة التمرير
-    
+    const scrollStep = 15 ;
+     
+      function getScrollAmount(){
+        return  navContainer.firstElementChild.offsetWidth + scrollStep;
     }
-    
 
-    // إضافة أحداث للنقر على الأسهم
-    prevButton.addEventListener('click', () => {
-        scrollNav(-1);
-    });
-
+    // إضافة أحداث للنقر على الأسهم مع حركة سلسة فقط
     nextButton.addEventListener('click', () => {
-        scrollNav(1);
+        navContainer.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
     });
 
-    // دعم السحب (Swipe) على الأجهزة المحمولة
-    let startX = 0;
-    navContainer.addEventListener('touchstart', (e) => {
-        startX = e.touches[0].clientX;
-    });
-
-    navContainer.addEventListener('touchend', (e) => {
-        const endX = e.changedTouches[0].clientX;
-        const swipeThreshold = 50;
-        if (startX - endX > swipeThreshold) {
-            scrollNav(1); // السحب لليسار
-        } else if (endX - startX > swipeThreshold) {
-            scrollNav(-1); // السحب لليمين
-        }
+    prevButton.addEventListener('click', () => {
+        navContainer.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
     });
 
     // إضافة أيقونة التمرير
@@ -712,6 +673,7 @@ var swiper = new Swiper(".mySwiper", {
             }, 1000); // إزالة الأيقونة بعد انتهاء التأثير
         }, 5000);
     }
+ });
 
     // عرض الأيقونة عند تحميل الصفحة
     addScrollIcon();
