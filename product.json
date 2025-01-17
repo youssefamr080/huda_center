@@ -1,108 +1,117 @@
 {
-    "categories": {
-      "men": {
-        "watches_men": [
-          {
-            "id": 1,
-            "name": "روليكس جلد اسود",
-            "price": 350,
-            "old_price": 450,
-            "amount": 2,
-            "image": "u beast.jpg",
-            "images": ["u beast.jpg","virgin island.jpg","oil.jpg"],
-            "tags": ["روليكس", "جلد", "اسود", "ساعة"],
-            "description": "وصف روليكس جلد اسود"
-          },
-          {
-            "id": 2,
-            "name": "ساعة رقم 2",
-            "price": 380,
-            "old_price": 450,
-            "amount": 0,
-            "image": "virgin island.jpg",
-             "images": ["virgin island.jpg","oil.jpg","u beast.jpg"],
-            "tags": ["روليكس", "جلد", "اسود", "ساعة"],
-            "description": "وصف ساعة رقم 2"
-          },
-          {
-            "id": 3,
-            "name": "روليكس جلد ابيض",
-            "price": 370,
-            "old_price": 450,
-            "amount": 0,
-            "image": "oil.jpg",
-             "images": ["oil.jpg","u beast.jpg","virgin island.jpg"],
-            "tags": ["روليكس", "جلد", "اسود", "ساعة"],
-            "description": "وصف روليكس جلد ابيض"
-          },
-          {
-            "id": 4,
-            "name": "روليكس جلداخضر",
-            "price": 360,
-            "old_price": 450,
-            "amount": 0,
-            "image": "men wallet.jpg",
-             "images": ["men wallet.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
-            "tags": ["روليكس", "جلد", "اسود", "ساعة"],
-              "description": "وصف روليكس جلداخضر"
-          }
-        ],
-        "wallets_men": [
-          {
-            "id": 5,
-            "name": "محفظة جلد جامد رجالي",
-            "price": 240,
-            "old_price": 300,
-            "amount": 1,
-            "image": "men wallet.jpg",
-             "images": ["men wallet.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
-              "description": "وصف محفظة جلد جامد رجالي"
-          },
-          {
-            "id": 6,
-            "name": "محفظة جلد اوي جامد رجالي",
-            "price": 280,
-            "old_price": 300,
-            "amount": 1,
-            "image": "women Accessories.jpg",
-            "images": ["women Accessories.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
-              "description": "وصف محفظة جلد اوي جامد رجالي"
-          }
-        ],
-        "perfumes_men": [
-          {
-            "id": 7,
-            "name": " جلد عطر",
-            "price": 251,
-            "old_price": 300,
-            "amount": 1,
-            "image": "oil.jpg",
-            "images": ["oil.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
-            "tags": ["عطر", "جلد"],
-              "description": "وصف  جلد عطر"
-          },
-          {
-            "id": 8,
-            "name": "عطر رجالي",
-            "price": 2830,
-            "old_price": 300,
-            "amount": 1,
-            "image": "virgin island.jpg",
-              "images": ["virgin island.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
-              "description": "وصف عطر رجالي"
-          }
-        ],
-        "spray-men": [
+  "categories": {
+    "men": {
+      "watches_men": [
+        {
+          "id": 1,
+          "name": "روليكس جلد اسود",
+          "price": 350,
+          "old_price": 450,
+          "amount": 4,
+          "image": "images/u beast.jpg",
+          "images": ["images/u beast.jpg","images/virgin island.jpg","images/oil.jpg"],
+          "tags": ["روليكس", "جلد", "اسود", "ساعة"],
+          "description": "وصف روليكس جلد اسود",
+           "colors": ["black", "green","silver"] 
+        },
+        {
+          "id": 2,
+          "name": "ساعة رقم 2",
+          "price": 380,
+          "old_price": 450,
+          "amount": 0,
+          "image": "images/virgin island.jpg",
+           "images": ["images/virgin island.jpg","images/oil.jpg","images/u beast.jpg"],
+          "tags": ["روليكس", "جلد", "اسود", "ساعة"],
+          "description": "وصف ساعة رقم 2",
+           "colors": ["silver", "gold"]
+        },
+        {
+          "id": 3,
+          "name": "روليكس جلد ابيض",
+          "price": 370,
+          "old_price": 450,
+          "amount": 0,
+          "image": "images/oil.jpg",
+           "images": ["images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+          "tags": ["روليكس", "جلد", "اسود", "ساعة"],
+          "description": "وصف روليكس جلد ابيض",
+          "colors": ["white", "gray"]
+        },
+        {
+          "id": 4,
+          "name": "روليكس جلداخضر",
+          "price": 360,
+          "old_price": 450,
+          "amount": 0,
+          "image": "images/men wallet.jpg",
+           "images": ["images/men wallet.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+          "tags": ["روليكس", "جلد", "اسود", "ساعة"],
+            "description": "وصف روليكس جلداخضر",
+           "colors": ["green", "black"]
+        }
+      ],
+      "wallets_men": [
+        {
+          "id": 5,
+          "name": "محفظة جلد جامد رجالي",
+          "price": 240,
+          "old_price": 300,
+          "amount": 1,
+          "image": "images/men wallet.jpg",
+           "images": ["images/men wallet.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+            "description": "وصف محفظة جلد جامد رجالي",
+          "colors": ["brown", "black"]
+        },
+        {
+          "id": 6,
+          "name": "محفظة جلد اوي جامد رجالي",
+          "price": 280,
+          "old_price": 300,
+          "amount": 1,
+          "image": "images/women Accessories.jpg",
+          "images": ["images/women Accessories.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+            "description": "وصف محفظة جلد اوي جامد رجالي",
+             "colors": ["gray", "blue"]
+        }
+      ],
+      "perfumes_men": [
+        {
+          "id": 7,
+          "name": " جلد عطر",
+          "price": 251,
+          "old_price": 300,
+          "amount": 1,
+          "image": "images/oil.jpg",
+          "images": ["images/oil.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+          "tags": ["عطر", "جلد"],
+            "description": "وصف  جلد عطر",
+            "colors": ["brown"]
+        },
+        {
+          "id": 8,
+          "name": "عطر رجالي",
+          "price": 2830,
+          "old_price": 300,
+          "amount": 1,
+          "image": "images/virgin island.jpg",
+            "images": ["images/virgin island.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+            "description": "وصف عطر رجالي",
+             "colors": ["blue","black","gray"]
+        }
+      ],
+       "spray-men": [
           {
             "id": 45,
             "name": " جلد2 عطر",
             "price": 251,
             "old_price": 300,
             "amount": 1,
-            "image": "oil.jpg",
-             "images": ["oil.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
+            "image": "images/oil.jpg",
+             "images": ["images/oil.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
             "tags": ["عطر", "جلد"],
-            "description": "وصف  جلد2 عطر"
+            "description": "وصف  جلد2 عطر",
+             "colors": ["brown", "green"]
           },
           {
             "id": 50,
@@ -110,9 +119,10 @@
             "price": 280,
             "old_price": 300,
             "amount": 1,
-            "image": "virgin island.jpg",
-             "images": ["virgin island.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
-              "description": "وصف عطر3 رجالي"
+            "image": "images/virgin island.jpg",
+             "images": ["images/virgin island.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+              "description": "وصف عطر3 رجالي",
+             "colors": ["gray", "red"]
           }
         ],
          "sunglasses_men": [
@@ -122,10 +132,11 @@
             "price": 272,
             "old_price": 300,
             "amount": 1,
-            "image": "women sunglasses.jpg",
-             "images": ["women sunglasses.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
+            "image": "images/women sunglasses.jpg",
+             "images": ["images/women sunglasses.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
             "tags": ["عطر", "جلد"],
-              "description": "وصف  nadara "
+              "description": "وصف  nadara ",
+              "colors": ["black", "silver"]
           },
           {
             "id": 10,
@@ -133,21 +144,23 @@
             "price": 280,
             "old_price": 300,
               "amount": 1,
-            "image": "women sunglasses.jpg",
-              "images": ["women sunglasses.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
-                "description": "وصف nadara rgali "
+            "image": "images/women sunglasses.jpg",
+              "images": ["images/women sunglasses.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+                "description": "وصف nadara rgali ",
+                  "colors": ["blue", "red","black"]
           }
         ],
-        "hand-bags": [
+         "hand-bags": [
           {
             "id": 11,
             "name": " hand bag 1 ",
             "price": 272,
             "old_price": 300,
               "amount": 1,
-            "image": "hand bag.jpg",
-             "images": ["hand bag.jpg"],
-              "description": "وصف  hand bag 1 "
+            "image": "images/hand bag.jpg",
+             "images": ["images/hand bag.jpg"],
+              "description": "وصف  hand bag 1 ",
+                 "colors": ["black", "brown"]
           },
           {
             "id": 12,
@@ -155,68 +168,74 @@
             "price": 280,
             "old_price": 300,
               "amount": 1,
-            "image": "hand bag.jpg",
-             "images": ["hand bag.jpg"],
-             "description": "وصف hand bag 2 "
+            "image": "images/hand bag.jpg",
+             "images": ["images/hand bag.jpg"],
+             "description": "وصف hand bag 2 ",
+             "colors": ["gray", "beige"]
           }
         ]
-      },
-      "women": {
-        "watches_women": [
-          {
-            "id": 13,
-            "name": "روليكس جلد احمر",
-            "price": 350,
-            "old_price": 450,
-             "amount": 1,
-            "image": "virgin island.jpg",
-             "images": ["virgin island.jpg"],
-             "description": "وصف روليكس جلد احمر"
-          },
-          {
-            "id": 14,
-            "name": "ساعة رقم 4",
-            "price": 380,
-            "old_price": 450,
-              "amount": 1,
-            "image": "u beast.jpg",
-             "images": ["u beast.jpg"],
-             "description": "وصف ساعة رقم 4"
-          }
-        ],
-        "perfumes_women": [
-          {
-            "id": 15,
-            "name": "عطر زهرة",
-            "price": 300,
-            "old_price": 400,
-            "amount": 2,
-            "image": "perfume1.jpg",
-             "images": ["perfume1.jpg"],
-            "description": "وصف عطر زهرة"
-          },
-          {
-            "id": 16,
-            "name": "عطر المساء",
-            "price": 450,
-            "old_price": 550,
-              "amount": 1,
-            "image": "perfume2.jpg",
-            "images": ["perfume2.jpg"],
-              "description": "وصف عطر المساء"
-          }
-        ],
-        "spray-women": [
+    },
+    "women": {
+      "watches_women": [
+        {
+          "id": 13,
+          "name": "روليكس جلد احمر",
+          "price": 350,
+          "old_price": 450,
+           "amount": 1,
+          "image": "images/virgin island.jpg",
+           "images": ["images/virgin island.jpg"],
+           "description": "وصف روليكس جلد احمر",
+           "colors": ["red", "pink","white"]
+        },
+        {
+          "id": 14,
+          "name": "ساعة رقم 4",
+          "price": 380,
+          "old_price": 450,
+            "amount": 1,
+          "image": "images/u beast.jpg",
+           "images": ["images/u beast.jpg"],
+           "description": "وصف ساعة رقم 4",
+            "colors": ["gold", "silver"]
+        }
+      ],
+      "perfumes_women": [
+        {
+          "id": 15,
+          "name": "عطر زهرة",
+          "price": 300,
+          "old_price": 400,
+          "amount": 2,
+          "image": "images/perfume1.jpg",
+           "images": ["images/perfume1.jpg"],
+          "description": "وصف عطر زهرة",
+            "colors": ["yellow", "pink"]
+        },
+        {
+          "id": 16,
+          "name": "عطر المساء",
+          "price": 450,
+          "old_price": 550,
+            "amount": 1,
+          "image": "images/perfume2.jpg",
+          "images": ["images/perfume2.jpg"],
+            "description": "وصف عطر المساء",
+            "colors": ["purple", "blue"]
+        }
+      ],
+       "spray-women": [
            {
             "id": 45,
             "name": " جلد2 عطر",
             "price": 251,
             "old_price": 300,
             "amount": 1,
-            "image": "oil.jpg",
-             "images": ["oil.jpg"],
+            "image": "images/oil.jpg",
+             "images": ["images/oil.jpg"],
             "tags": ["عطر", "جلد"],
-             "description": "وصف  جلد2 عطر"
+             "description": "وصف  جلد2 عطر",
+              "colors": ["gray", "white"]
           },
           {
             "id": 50,
@@ -224,163 +243,178 @@
             "price": 280,
             "old_price": 300,
               "amount": 1,
-            "image": "virgin island.jpg",
-             "images": ["virgin island.jpg"],
-             "description": "وصف عطر3 رجالي"
+            "image": "images/virgin island.jpg",
+             "images": ["images/virgin island.jpg"],
+             "description": "وصف عطر3 رجالي",
+              "colors": ["red", "gray"]
           }
         ],
-        "wallets_women": [
-          {
-            "id": 17,
-            "name": "محفظة حريمي جلدية",
-            "price": 200,
-            "old_price": 250,
-              "amount": 1,
-            "image": "wallet1.jpg",
-             "images": ["wallet1.jpg"],
-              "description": "وصف محفظة حريمي جلدية"
-          },
-          {
-            "id": 18,
-            "name": "محفظة حريمي صغيرة",
-            "price": 150,
-            "old_price": 200,
-              "amount": 1,
-            "image": "wallet2.jpg",
-            "images": ["wallet2.jpg"],
-              "description": "وصف محفظة حريمي صغيرة"
-          }
-        ],
-        "sunglasses_women": [
-          {
-            "id": 19,
-            "name": "نظارة شمسية كلاسيكية",
-            "price": 500,
-            "old_price": 700,
-              "amount": 1,
-            "image": "women sunglasses.jpg",
-             "images": ["women sunglasses.jpg"],
-              "description": "وصف نظارة شمسية كلاسيكية"
-          },
-          {
-            "id": 20,
-            "name": "نظارة شمسية حديثة",
-            "price": 600,
-            "old_price": 800,
+      "wallets_women": [
+        {
+          "id": 17,
+          "name": "محفظة حريمي جلدية",
+          "price": 200,
+          "old_price": 250,
             "amount": 1,
-            "image": "women sunglasses.jpg",
-            "images": ["women sunglasses.jpg"],
-              "description": "وصف نظارة شمسية حديثة"
-          }
-        ],
-        "Accessories": [
-          {
-            "id": 21,
-            "name": "اكسسوار ذهبي",
-            "price": 100,
-            "old_price": 150,
-              "amount": 1,
-            "image": "women Accessories.jpg",
-             "images": ["women Accessories.jpg"],
-              "description": "وصف اكسسوار ذهبي"
-          },
-          {
-            "id": 22,
-            "name": "اكسسوار فضي",
-            "price": 120,
-            "old_price": 180,
-              "amount": 1,
-            "image": "women Accessories.jpg",
-            "images": ["women Accessories.jpg"],
-            "description": "وصف اكسسوار فضي"
-          }
-        ]
-      },
-      "kids": {
-        "watches_kids": [
-          {
-            "id": 23,
-            "name": "روليكس جلد احمر",
-            "price": 350,
-            "old_price": 450,
-              "amount": 1,
-            "image": "https://scontent.faly8-1.fna.fbcdn.net/v/t39.30808-6/470140876_565765003017842_2304744025759683285_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=_7b7XPL9JCIQ7kNvgE4uTt-&_nc_zt=23&_nc_ht=scontent.faly8-1.fna&_nc_gid=AynWXhS8F7qmlnH9PESdCSB&oh=00_AYBuqZZrzltnP1-5WfCuGiA-zylerxLS9eav6NypnijL1Q&oe=67862DA0",
-            "images": ["https://scontent.faly8-1.fna.fbcdn.net/v/t39.30808-6/470140876_565765003017842_2304744025759683285_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=_7b7XPL9JCIQ7kNvgE4uTt-&_nc_zt=23&_nc_ht=scontent.faly8-1.fna&_nc_gid=AynWXhS8F7qmlnH9PESdCSB&oh=00_AYBuqZZrzltnP1-5WfCuGiA-zylerxLS9eav6NypnijL1Q&oe=67862DA0"],
-              "description": "وصف روليكس جلد احمر"
-          },
-          {
-            "id": 24,
-            "name": "ساعة رقم 45",
-            "price": 380,
-            "old_price": 450,
-             "amount": 1,
-            "image": "u beast.jpg",
-             "images": ["u beast.jpg"],
-              "description": "وصف ساعة رقم 45"
-          },
-          {
-            "id": 29,
-            "name": "روليكس جلد 70",
-            "price": 340,
-            "old_price": 450,
+          "image": "images/wallet1.jpg",
+           "images": ["images/wallet1.jpg"],
+            "description": "وصف محفظة حريمي جلدية",
+              "colors": ["brown", "pink"]
+        },
+        {
+          "id": 18,
+          "name": "محفظة حريمي صغيرة",
+          "price": 150,
+          "old_price": 200,
             "amount": 1,
-            "image": "virgin island.jpg",
-              "images": ["virgin island.jpg"],
-              "description": "وصف روليكس جلد 70"
-          },
-          {
-            "id": 30,
-            "name": "ساعة رقم 44",
-            "price": 380,
-            "old_price": 450,
-              "amount": 1,
-            "image": "u beast.jpg",
-            "images": ["u beast.jpg"],
-              "description": "وصف ساعة رقم 44"
-          },
-          {
-            "id": 31,
-            "name": "روليكس جلد 30",
-            "price": 350,
-            "old_price": 450,
-              "amount": 1,
-            "image": "virgin island.jpg",
-              "images": ["virgin island.jpg"],
-              "description": "وصف روليكس جلد 30"
-          },
-          {
-            "id": 32,
-            "name": "ساعة رقم 50",
-            "price": 380,
-            "old_price": 450,
-             "amount": 1,
-            "image": "u beast.jpg",
-             "images": ["u beast.jpg"],
-              "description": "وصف ساعة رقم 50"
-          }
-        ],
-        "toys": [
-          {
-            "id": 25,
-            "name": "Buzz Lightyear",
-            "price": 275,
-            "old_price": 350,
-              "amount": 1,
-            "image": "https://lh3.googleusercontent.com/UWrurIxOxJ58YFtcPXmZXK5Kzb93jCug8__LGBW5fUpzXaQHU68fqCkfFOwLS-5rg0sTmtPX_uhyX3ZYk2A5Je9b3C_NXlbuNVdzJQxix5CUXAmRUw4bRNfVPxnXGTUYhw=w1280",
-             "images": ["https://lh3.googleusercontent.com/UWrurIxOxJ58YFtcPXmZXK5Kzb93jCug8__LGBW5fUpzXaQHU68fqCkfFOwLS-5rg0sTmtPX_uhyX3ZYk2A5Je9b3C_NXlbuNVdzJQxix5CUXAmRUw4bRNfVPxnXGTUYhw=w1280"],
-              "description": "وصف Buzz Lightyear"
-          },
-          {
-            "id": 26,
-            "name": "Woody",
-            "price": 275,
-            "old_price": 350,
-             "amount": 1,
-            "image": "https://lh6.googleusercontent.com/gQWNTmXoWE3pu_DxV0g37ndpuYXmSQUbx0QkQJMZgA-a7ryMt7yfS61ELDRqLL8cbi8NRcHXzKPQA6AOOubKWtzPz63m-knfZn3ljg9vER0VKozqVimR1Uvs_jKLXlgdwQ=w1280",
-             "images": ["https://lh6.googleusercontent.com/gQWNTmXoWE3pu_DxV0g37ndpuYXmSQUbx0QkQJMZgA-a7ryMt7yfS61ELDRqLL8cbi8NRcHXzKPQA6AOOubKWtzPz63m-knfZn3ljg9vER0VKozqVimR1Uvs_jKLXlgdwQ=w1280"],
-               "description": "وصف  Woody"
-          },
-             {
+          "image": "images/wallet2.jpg",
+          "images": ["images/wallet2.jpg"],
+            "description": "وصف محفظة حريمي صغيرة",
+            "colors": ["beige", "black"]
+        }
+      ],
+      "sunglasses_women": [
+        {
+          "id": 19,
+          "name": "نظارة شمسية كلاسيكية",
+          "price": 500,
+          "old_price": 700,
+            "amount": 1,
+          "image": "images/women sunglasses.jpg",
+           "images": ["images/women sunglasses.jpg"],
+            "description": "وصف نظارة شمسية كلاسيكية",
+             "colors": ["black", "gold"]
+        },
+        {
+          "id": 20,
+          "name": "نظارة شمسية حديثة",
+          "price": 600,
+          "old_price": 800,
+          "amount": 1,
+          "image": "images/women sunglasses.jpg",
+          "images": ["images/women sunglasses.jpg"],
+            "description": "وصف نظارة شمسية حديثة",
+             "colors": ["silver", "blue"]
+        }
+      ],
+      "Accessories": [
+        {
+          "id": 21,
+          "name": "اكسسوار ذهبي",
+          "price": 100,
+          "old_price": 150,
+            "amount": 1,
+          "image": "images/women Accessories.jpg",
+           "images": ["images/women Accessories.jpg"],
+            "description": "وصف اكسسوار ذهبي",
+              "colors": ["gold"]
+        },
+        {
+          "id": 22,
+          "name": "اكسسوار فضي",
+          "price": 120,
+          "old_price": 180,
+            "amount": 1,
+          "image": "images/women Accessories.jpg",
+          "images": ["images/women Accessories.jpg"],
+          "description": "وصف اكسسوار فضي",
+          "colors": ["silver"]
+        }
+      ]
+    },
+    "kids": {
+      "watches_kids": [
+        {
+          "id": 23,
+          "name": "روليكس جلد احمر",
+          "price": 350,
+          "old_price": 450,
+            "amount": 1,
+          "image": "https://scontent.faly8-1.fna.fbcdn.net/v/t39.30808-6/470140876_565765003017842_2304744025759683285_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=_7b7XPL9JCIQ7kNvgE4uTt-&_nc_zt=23&_nc_ht=scontent.faly8-1.fna&_nc_gid=AynWXhS8F7qmlnH9PESdCSB&oh=00_AYBuqZZrzltnP1-5WfCuGiA-zylerxLS9eav6NypnijL1Q&oe=67862DA0",
+          "images": ["https://scontent.faly8-1.fna.fbcdn.net/v/t39.30808-6/470140876_565765003017842_2304744025759683285_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=_7b7XPL9JCIQ7kNvgE4uTt-&_nc_zt=23&_nc_ht=scontent.faly8-1.fna&_nc_gid=AynWXhS8F7qmlnH9PESdCSB&oh=00_AYBuqZZrzltnP1-5WfCuGiA-zylerxLS9eav6NypnijL1Q&oe=67862DA0"],
+            "description": "وصف روليكس جلد احمر",
+              "colors": ["red", "blue"]
+        },
+        {
+          "id": 24,
+          "name": "ساعة رقم 45",
+          "price": 380,
+          "old_price": 450,
+           "amount": 1,
+          "image": "images/u beast.jpg",
+           "images": ["images/u beast.jpg"],
+            "description": "وصف ساعة رقم 45",
+              "colors": ["white", "blue"]
+        },
+         {
+          "id": 29,
+          "name": "روليكس جلد 70",
+          "price": 340,
+          "old_price": 450,
+           "amount": 1,
+          "image": "images/virgin island.jpg",
+            "images": ["images/virgin island.jpg"],
+            "description": "وصف روليكس جلد 70",
+             "colors": ["gray", "black"]
+        },
+         {
+          "id": 30,
+          "name": "ساعة رقم 44",
+          "price": 380,
+          "old_price": 450,
+            "amount": 1,
+          "image": "images/u beast.jpg",
+          "images": ["images/u beast.jpg"],
+            "description": "وصف ساعة رقم 44",
+             "colors": ["yellow", "pink"]
+        },
+         {
+          "id": 31,
+          "name": "روليكس جلد 30",
+          "price": 350,
+          "old_price": 450,
+            "amount": 1,
+          "image": "images/virgin island.jpg",
+            "images": ["images/virgin island.jpg"],
+            "description": "وصف روليكس جلد 30",
+             "colors": ["red", "blue"]
+        },
+        {
+          "id": 32,
+          "name": "ساعة رقم 50",
+          "price": 380,
+          "old_price": 450,
+           "amount": 1,
+          "image": "images/u beast.jpg",
+           "images": ["images/u beast.jpg"],
+            "description": "وصف ساعة رقم 50",
+             "colors": ["white", "blue"]
+        }
+      ],
+      "toys": [
+        {
+          "id": 25,
+          "name": "Buzz Lightyear",
+          "price": 275,
+          "old_price": 350,
+            "amount": 1,
+          "image": "https://lh3.googleusercontent.com/UWrurIxOxJ58YFtcPXmZXK5Kzb93jCug8__LGBW5fUpzXaQHU68fqCkfFOwLS-5rg0sTmtPX_uhyX3ZYk2A5Je9b3C_NXlbuNVdzJQxix5CUXAmRUw4bRNfVPxnXGTUYhw=w1280",
+           "images": ["https://lh3.googleusercontent.com/UWrurIxOxJ58YFtcPXmZXK5Kzb93jCug8__LGBW5fUpzXaQHU68fqCkfFOwLS-5rg0sTmtPX_uhyX3ZYk2A5Je9b3C_NXlbuNVdzJQxix5CUXAmRUw4bRNfVPxnXGTUYhw=w1280"],
+            "description": "وصف Buzz Lightyear",
+             "colors": ["white", "green"]
+        },
+        {
+          "id": 26,
+          "name": "Woody",
+          "price": 275,
+          "old_price": 350,
+           "amount": 1,
+          "image": "https://lh6.googleusercontent.com/gQWNTmXoWE3pu_DxV0g37ndpuYXmSQUbx0QkQJMZgA-a7ryMt7yfS61ELDRqLL8cbi8NRcHXzKPQA6AOOubKWtzPz63m-knfZn3ljg9vER0VKozqVimR1Uvs_jKLXlgdwQ=w1280",
+           "images": ["https://lh6.googleusercontent.com/gQWNTmXoWE3pu_DxV0g37ndpuYXmSQUbx0QkQJMZgA-a7ryMt7yfS61ELDRqLL8cbi8NRcHXzKPQA6AOOubKWtzPz63m-knfZn3ljg9vER0VKozqVimR1Uvs_jKLXlgdwQ=w1280"],
+             "description": "وصف  Woody",
+              "colors": ["brown", "yellow"]
+        },
+         {
                       "id": 33,
                       "name": "علبة مكياج",
                       "price": 165,
@@ -388,7 +422,8 @@
                        "amount": 1,
                       "image": "https://lh6.googleusercontent.com/8kkCGcoV2lGD27UEvItQ66O4d59hL-LlAi0e-2Q-D3Cg8mtIRno_-LuhFXI1qBHr2chMLFRQaLj91b9e9D2Mw9DgMlvUZ-i10dgfh6FIGxF-9MRIzpffWP1Sm6DnBNg4Ag=w1280",
                        "images": ["https://lh6.googleusercontent.com/8kkCGcoV2lGD27UEvItQ66O4d59hL-LlAi0e-2Q-D3Cg8mtIRno_-LuhFXI1qBHr2chMLFRQaLj91b9e9D2Mw9DgMlvUZ-i10dgfh6FIGxF-9MRIzpffWP1Sm6DnBNg4Ag=w1280"],
-                         "description": "وصف علبة مكياج"
+                         "description": "وصف علبة مكياج",
+                          "colors": ["pink", "red"]
                   },
                   {
                       "id": 34,
@@ -398,7 +433,8 @@
                        "amount": 1,
                       "image": "https://lh5.googleusercontent.com/ZQ5PqrakdNbQUuJqnRu4hPSeO4Oj1OMRztcxlmEtg-vbiv3W1FqdKjFhXBmHtzO-fU-sWxpqCwEZ0_MWrGUMaptCb38xGj0i7aDc3YTcyF1eAp_XDpmOS8M97Q_aqBO7Wg=w1280",
                        "images": ["https://lh5.googleusercontent.com/ZQ5PqrakdNbQUuJqnRu4hPSeO4Oj1OMRztcxlmEtg-vbiv3W1FqdKjFhXBmHtzO-fU-sWxpqCwEZ0_MWrGUMaptCb38xGj0i7aDc3YTcyF1eAp_XDpmOS8M97Q_aqBO7Wg=w1280"],
-                       "description": "وصف علبة خرز للبنات"
+                       "description": "وصف علبة خرز للبنات",
+                          "colors": ["blue", "red"]
                   },
                   {
                       "id": 35,
@@ -408,32 +444,34 @@
                       "amount": 1,
                       "image": "",
                        "images": [""],
-                        "description": "وصف علبة خرز للبنات"
+                        "description": "وصف علبة خرز للبنات",
+                          "colors": ["white","pink"]
                   }
-                  
         ],
-        "fur": [
-          {
-            "id": 27,
-            "name": "محفظة حريمي جلدية",
-            "price": 200,
-            "old_price": 250,
-              "amount": 1,
-            "image": "wallet1.jpg",
-             "images": ["wallet1.jpg"],
-              "description": "وصف محفظة حريمي جلدية"
-          },
-          {
-            "id": 28,
-            "name": "محفظة حريمي صغيرة",
-            "price": 150,
-            "old_price": 200,
-              "amount": 1,
-            "image": "wallet2.jpg",
-             "images": ["wallet2.jpg"],
-              "description": "وصف محفظة حريمي صغيرة"
-          }
-        ]
-      }
+      "fur": [
+        {
+          "id": 27,
+          "name": "محفظة حريمي جلدية",
+          "price": 200,
+          "old_price": 250,
+            "amount": 1,
+          "image": "images/wallet1.jpg",
+           "images": ["images/wallet1.jpg"],
+            "description": "وصف محفظة حريمي جلدية",
+            "colors": ["brown", "black"]
+        },
+        {
+          "id": 28,
+          "name": "محفظة حريمي صغيرة",
+          "price": 150,
+          "old_price": 200,
+            "amount": 1,
+          "image": "images/wallet2.jpg",
+           "images": ["images/wallet2.jpg"],
+            "description": "وصف محفظة حريمي صغيرة",
+              "colors": ["pink", "beige"]
+        }
+      ]
     }
   }
+}
