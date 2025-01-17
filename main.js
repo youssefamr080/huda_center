@@ -645,8 +645,8 @@ var swiper = new Swiper(".mySwiper", {
     const prevButton = document.querySelector('.prev-arrow');
     const nextButton = document.querySelector('.next-arrow');
     let scrollInterval;
-    const scrollStep = 180; // عدد البيكسلات للتمرير
-    const scrollSpeed = 5000; // مدة التمرير التلقائي (5 ثوانٍ)
+    const scrollStep = 1;
+    const scrollSpeed = 25;
 
     // التمرير في الاتجاه المحدد
     function scrollNav(direction) {
