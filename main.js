@@ -632,60 +632,87 @@ var swiper = new Swiper(".mySwiper", {
       disableOnInteraction: false,
     },
     loop: true,
-  });
+});
 
 
   // Swiper للأقسام (تم نقله إلى هنا ليكون منفصلاً)
-document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function () {
     const navContainer = document.querySelector('.nav-container');
     const prevButton = document.querySelector('.prev-arrow');
     const nextButton = document.querySelector('.next-arrow');
-    let scrollInterval;
-    const scrollStep = 1;
-    const scrollSpeed = 25;
+    const scrollStep = navContainer.firstElementChild.offsetWidth + 15; // عرض القسم + الفجوة
+    let scrollIcon;
 
-    // التمرير في الاتجاه المحدد
+    // التمرير في اتجاه معين
     function scrollNav(direction) {
-        navContainer.scrollBy({
-            left: direction * scrollStep,
-            behavior: 'smooth', // تمرير سلس
-        });
-    }
+        const maxScroll = navContainer.scrollWidth - navContainer.clientWidth;
+        const newScrollLeft = navContainer.scrollLeft + direction * scrollStep;
 
-    // بدء التمرير التلقائي
-    function autoScroll() {
-        if (navContainer.scrollLeft + navContainer.offsetWidth >= navContainer.scrollWidth) {
-            navContainer.scrollLeft = 0; // العودة إلى البداية عند الوصول للنهاية
+        if (newScrollLeft > maxScroll) {
+            navContainer.scrollLeft = maxScroll; // منع التمرير بعد النهاية
+        } else if (newScrollLeft < 0) {
+            navContainer.scrollLeft = 0; // منع التمرير قبل البداية
         } else {
-            scrollNav(1);
+            navContainer.scrollLeft = newScrollLeft;
         }
     }
 
-    // تشغيل التمرير التلقائي
-    function startAutoScroll() {
-        scrollInterval = setInterval(autoScroll, scrollSpeed);
-    }
-
-    // إيقاف التمرير التلقائي
-    function stopAutoScroll() {
-        clearInterval(scrollInterval);
-    }
-
     // إضافة أحداث للنقر على الأسهم
-    prevButton.addEventListener('click', () => scrollNav(-1));
-    nextButton.addEventListener('click', () => scrollNav(1));
+    prevButton.addEventListener('click', () => {
+        scrollNav(-1);
+    });
 
-    // تشغيل التمرير التلقائي عند تحميل الصفحة
-    startAutoScroll();
+    nextButton.addEventListener('click', () => {
+        scrollNav(1);
+    });
 
-    // إيقاف التمرير التلقائي عند التفاعل مع الشريط
-    navContainer.addEventListener('mouseenter', stopAutoScroll);
-    navContainer.addEventListener('mouseleave', startAutoScroll);
+    // دعم السحب (Swipe) على الأجهزة المحمولة
+    let startX = 0;
+    navContainer.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+    });
 
-    // دعم التمرير باللمس على الهواتف
-    navContainer.addEventListener('touchstart', stopAutoScroll);
-    navContainer.addEventListener('touchend', startAutoScroll);
+    navContainer.addEventListener('touchend', (e) => {
+        const endX = e.changedTouches[0].clientX;
+        if (startX - endX > 50) {
+            scrollNav(1); // السحب لليسار
+        } else if (endX - startX > 50) {
+            scrollNav(-1); // السحب لليمين
+        }
+    });
+
+    // إضافة أيقونة التمرير
+    function addScrollIcon() {
+        if (scrollIcon) return; // إذا كانت الأيقونة موجودة، لا تضف واحدة جديدة
+
+        scrollIcon = document.createElement('div');
+        scrollIcon.classList.add('scroll-icon');
+        scrollIcon.innerHTML = `<i class="fas fa-hand-point-left"></i>`; // أيقونة اليد
+        navContainer.appendChild(scrollIcon);
+
+        // إخفاء الأيقونة بعد 5 ثوانٍ
+        setTimeout(() => {
+            scrollIcon.style.opacity = '0';
+            setTimeout(() => {
+                scrollIcon.remove();
+                scrollIcon = null; // إعادة تعيين المتغير
+            }, 1000); // إزالة الأيقونة بعد انتهاء التأثير
+        }, 5000);
+    }
+
+    // عرض الأيقونة عند تحميل الصفحة
+    addScrollIcon();
+
+    // إظهار الأيقونة عند توقف المستخدم عن التفاعل لفترة طويلة
+    let interactionTimeout;
+    navContainer.addEventListener('scroll', () => {
+        clearTimeout(interactionTimeout);
+        interactionTimeout = setTimeout(() => {
+            addScrollIcon(); // إعادة عرض الأيقونة
+        }, 5000); // إعادة عرض الأيقونة بعد 5 ثوانٍ من التوقف
+    });
 });
+
 function searchPerfumes() {
         const input = document.getElementById('searchInput2');
         const filter = input.value.toUpperCase();
