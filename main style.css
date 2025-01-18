@@ -455,7 +455,7 @@ header .top-nav {
 .cart {
     position: fixed;
     top: 0;
-    right: -100%;
+    right: -200%;
     height: 100%;
     width: 400px;
     background-color: #fff;
@@ -614,7 +614,7 @@ header .top-nav {
 .wishlist {
     position: fixed;
     top: 0;
-    right: -100%; /* تم تغيير الاتجاه إلى اليسار */
+    right: -200%; /* تم تغيير الاتجاه إلى اليسار */
     height: 100%;
     width: 400px;
     background-color: #fff;
