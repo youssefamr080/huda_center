@@ -1632,7 +1632,7 @@ a:focus, button:focus, input:focus {
         display: none;
     }
 }
-/* تصميم الفوتر */
+/* تنسيق الفوتر */
 #footer {
     background-color: #2c3e50;
     color: #ecf0f1;
@@ -1642,11 +1642,6 @@ a:focus, button:focus, input:focus {
     bottom: 0;
     position: relative;
     margin-top: auto;
-}
-#footer p {
-    margin-top: 0px;
-    font-size: 0.9rem;
-    color: #d0d4d6;
 }
 
 #footer .footer-container h3 {
@@ -1695,10 +1690,10 @@ a:focus, button:focus, input:focus {
     font-size: 1.2rem;
 }
 
-
-#footer .share-button:hover {
-    background-color: #e67e22;
-    transform: scale(1.1);
+#footer p {
+    margin-top: 0px;
+    font-size: 0.9rem;
+    color: #c7cdd1;
 }
 .empty-cart-message {
     text-align: center;
