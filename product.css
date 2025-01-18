@@ -1137,14 +1137,6 @@ text-align: center;
 
 }
 
-      .cart {
-          width: 500px; /* wider cart for better user experience */
-      }
-       .wishlist {
-          width: 500px; /* wider cart for better user experience */
-        }
-    
-    }
     @media (min-width: 768px) {
         main {
             padding: 30px; /* increased padding */
@@ -1353,11 +1345,8 @@ text-align: center;
 
 }
 
-      .cart {
-          width: 500px; /* wider cart for better user experience */
-      }
+     
     
-    }
     @media (min-width: 768px) {
         main {
             padding: 30px; /* increased padding */
@@ -1520,10 +1509,7 @@ object-fit: cover;
         z-index: 1001;
     }
 
-    .cart {
-        width: 100%;
-        right: -200%;
-    }
+  
 
     .product {
         padding: 1rem;
