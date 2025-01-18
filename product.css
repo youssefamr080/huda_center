@@ -13,6 +13,7 @@
 
 /* المتغيرات العامة */
 :root {
+    color-scheme: light;
     --main-color: #ffcc55;
     --dark-color: #333;
     --light-bg: #f5f6f9;
@@ -27,7 +28,7 @@
 
 /* تنسيق الجسم */
 body {
-    background: var(--light-bg);
+    background: #fff;
     margin-top: 150px;
     font-family: 'Tajawal', sans-serif;
 }
@@ -1137,6 +1138,14 @@ text-align: center;
 
 }
 
+      .cart {
+          width: 500px; /* wider cart for better user experience */
+      }
+       .wishlist {
+          width: 500px; /* wider cart for better user experience */
+        }
+    
+    }
     @media (min-width: 768px) {
         main {
             padding: 30px; /* increased padding */
@@ -1345,8 +1354,11 @@ text-align: center;
 
 }
 
-     
+      .cart {
+          width: 500px; /* wider cart for better user experience */
+      }
     
+    }
     @media (min-width: 768px) {
         main {
             padding: 30px; /* increased padding */
@@ -1509,7 +1521,10 @@ object-fit: cover;
         z-index: 1001;
     }
 
-  
+    .cart {
+        width: 100%;
+        right: -200%;
+    }
 
     .product {
         padding: 1rem;
