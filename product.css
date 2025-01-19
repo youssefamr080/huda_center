@@ -1763,7 +1763,17 @@ a:focus, button:focus, input:focus {
           gap: 10px; /* تقليل المسافة بين الروابط */
          margin: 15px 0; /* تقليل المسافة أعلى وأسفل الروابط */
     }
-
+    #footer .social-links a {
+        font-size: 0.9rem; /* تصغير الخط في الروابط */
+         padding: 10px 15px; /* تقليل المساحة الداخلية للروابط */
+      }
+         #footer .social-links a i {
+            font-size: 1.1rem; /* تصغير حجم الايقونة  في الروابط */
+        }
+       #footer p {
+         margin-top: 15px;
+        font-size: 0.9rem; /* تصغير حجم الخط في حقوق الفوتر */
+      }
 
 }
 .empty-cart-message {

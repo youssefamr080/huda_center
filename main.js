@@ -364,14 +364,34 @@ async function addToWishlist(productId, imgSrc, title, price, color) {
         updateWishlistUI();
     }
 }
-window.updateCartQuantity = async function (productId, increment, color) { // Receive color argument
+function showMaxQuantityMessage() {
+    const message = document.createElement('div');
+    message.textContent = 'مفيش تاني';
+    message.classList.add('max-quantity-message');
+    document.body.appendChild(message);
+
+    setTimeout(() => {
+        message.remove();
+    }, 1500);
+}
+function showOutOfStockMessage() {
+    const message = document.createElement('div');
+    message.textContent = 'خلص والله';
+    message.classList.add('out-of-stock-message');
+    document.body.appendChild(message);
+
+    setTimeout(() => {
+        message.remove();
+    }, 1500);
+}
+
+window.updateCartQuantity = async function (productId, increment, color) {
     const uniqueId = `${productId}-${color}`;
-    const item = cartItems.find(item => item.uniqueId === uniqueId); // Find product with its color
+    const item = cartItems.find(item => item.uniqueId === uniqueId);
     if (item) {
         findProductData(productId).then(async (productData) => {
             if (increment > 0 && item.quantity >= productData.amount) {
-                showOutOfStockMessage(); // Show out of stock if exceeds product amount
-
+                showMaxQuantityMessage(); // Show out of stock if exceeds product amount
             } else {
                 item.quantity += increment;
                 if (item.quantity <= 0) {
@@ -382,8 +402,6 @@ window.updateCartQuantity = async function (productId, increment, color) { // Re
                 }
             }
         })
-
-
     }
 };
 // Modify the removeFromCart to accept color
@@ -414,12 +432,12 @@ window.moveToCart = async function (productId, color) {
         } else {
             const item = wishlistItems.find(item => item.uniqueId === uniqueId);
             if (item) {
-                if (productData && productData.amount > 0) { // check if product amount is greater than 0
-                await    addToCart(item.id, item.imgSrc, item.title, item.price, productData.amount, color); // Pass the amount and color
-                 await  removeFromWishlist(productId, color);
-                }else {
+                 if (!productData || productData.amount <= 0) {
                       showOutOfStockMessage();
-                }
+                 }else {
+                     await addToCart(item.id, item.imgSrc, item.title, item.price, productData.amount, color); // Pass the amount and color
+                    await  removeFromWishlist(productId, color);
+                 }
             }
         }
     })
@@ -435,16 +453,8 @@ function showAlreadyInCartMessage() {
     }, 1500);
 }
 
-function showAlreadyInCartMessage() {
-    const message = document.createElement('div');
-    message.textContent = 'هذا المنتج موجود بالفعل في السلة';
-    message.classList.add('out-of-stock-message');
-    document.body.appendChild(message);
 
-    setTimeout(() => {
-        message.remove();
-    }, 1500);
-}
+
 async function findProductData(productId) {
 
     return fetch('product.json')
@@ -615,7 +625,7 @@ function formatDateTime() {
 }
 
 // Send invoice via WhatsApp
-function sendInvoiceViaWhatsApp() {
+async function sendInvoiceViaWhatsApp() {
     const storedCartItems = cartItems;
     const totalPriceElement = document.querySelector('.price_cart_total');
     const itemCountElement = document.querySelector('.cart_count');
@@ -672,21 +682,21 @@ function sendInvoiceViaWhatsApp() {
     message += `========================================\n\n`;
 
     message += ` *تفاصيل الطلب:*\n\n`;
-
-    storedCartItems.forEach((item, index) => {
-        message += ` *المنتج ${index + 1}:*\n`;
-        message += `  🆔 *ID:* ${item.id}\n`;
-        message += `   *الاسم:* ${item.title}\n`;
-        message += `   *الكمية:* ${item.quantity}\n`;
-          message += `   *اللون:* ${item.color}\n`;
-        message += `   *السعر للوحدة:* ${item.price} \n`;
+   for (let i = 0; i < storedCartItems.length; i++) {
+        const item = storedCartItems[i];
+         message += ` *المنتج ${i + 1}:*\n`;
+        message += `  🆔 *ID:* ${item.id}\n`;
+        message += `   *الاسم:* ${item.title}\n`;
+        message += `   *الكمية:* ${item.quantity}\n`;
+         message += `   *اللون:* ${item.color}\n`;
+        message += `   *السعر للوحدة:* ${item.price} \n`;
         message += `  *الإجمالي:* ${parseFloat(item.price) * item.quantity} جنيه\n`;
         message += `----------------------------------------\n`;
-    });
+    }
 
     message += `\n *ملخص الطلب:*\n`;
-    message += `  ️ *عدد المنتجات:* ${itemCount}\n`;
-    message += `   *المجموع الكلي:* ${totalPrice} \n`;
+    message += `  ️ *عدد المنتجات:* ${itemCount}\n`;
+    message += `   *المجموع الكلي:* ${totalPrice} \n`;
     message += `========================================\n\n`;
 
     message += ` *شكرًا لتسوقك معنا!* \n`;
@@ -696,7 +706,7 @@ function sendInvoiceViaWhatsApp() {
     const whatsappLink = `https://wa.me/201026972523?text=${encodedMessage}`;
     window.open(whatsappLink, '_blank');
 
-    clearCart();
+    await clearCart();
 }
 // Clear the cart
 async function clearCart() {
@@ -706,7 +716,6 @@ async function clearCart() {
     document.querySelectorAll('.count_item').forEach(el => el.textContent = '0');
     document.querySelectorAll('.price_cart_total').forEach(el => el.textContent = '0 جنيه');
 }
-
 document.addEventListener('DOMContentLoaded', () => {
     const menuTitle = document.getElementById('menu-title');
     const submenuLinks = document.querySelectorAll('.submenu-link');
@@ -875,4 +884,3 @@ document.addEventListener('DOMContentLoaded', () => {
         sendInvoiceButton.addEventListener('click', sendInvoiceViaWhatsApp);
     }
 });
-

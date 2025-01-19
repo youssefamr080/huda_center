@@ -455,7 +455,7 @@ header .top-nav {
 .cart {
     position: fixed;
     top: 0;
-    right: -200%;
+    right: -100%;
     height: 100%;
     width: 400px;
     background-color: #fff;
@@ -614,7 +614,7 @@ header .top-nav {
 .wishlist {
     position: fixed;
     top: 0;
-    right: -200%; /* تم تغيير الاتجاه إلى اليسار */
+    right: -100%; /* تم تغيير الاتجاه إلى اليسار */
     height: 100%;
     width: 400px;
     background-color: #fff;
@@ -1055,7 +1055,6 @@ h2 {
         align-self: flex-end;
     }
 }
-
 /* تنسيق الفوتر */
 #footer {
     background-color: #f0f0f0; /* لون خلفية فاتح وناعم */
@@ -1187,6 +1186,17 @@ h2 {
           gap: 10px; /* تقليل المسافة بين الروابط */
          margin: 15px 0; /* تقليل المسافة أعلى وأسفل الروابط */
     }
+    #footer .social-links a {
+        font-size: 0.9rem; /* تصغير الخط في الروابط */
+         padding: 10px 15px; /* تقليل المساحة الداخلية للروابط */
+      }
+         #footer .social-links a i {
+            font-size: 1.1rem; /* تصغير حجم الايقونة  في الروابط */
+        }
+       #footer p {
+         margin-top: 15px;
+        font-size: 0.9rem; /* تصغير حجم الخط في حقوق الفوتر */
+      }
 
 
 }
@@ -1380,4 +1390,18 @@ h2 {
     font-size: 20px;
     color: #555;
     margin-top: 50%;
+}
+.out-of-stock-message,
+.max-quantity-message{
+    position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   background-color: rgba(0, 0, 0, 0.7);
+   color: white;
+   padding: 20px;
+   border-radius: 10px;
+   font-size: 20px;
+   font-weight: bold;
+   z-index: 999999;
 }

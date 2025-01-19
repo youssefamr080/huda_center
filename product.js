@@ -659,19 +659,31 @@ window.updateCartQuantity = async function (productId, increment, color) {
 
 window.removeFromCart = async function (productId, color) {
     const uniqueId = `${productId}-${color}`;
+    const productElement = document.querySelector(`.item_cart[data-product-id="${productId}-${color}"]`);
+       const addToCartButton = document.querySelector(`.btn_add_cart`);
+
     cartItems = cartItems.filter(item => item.uniqueId !== uniqueId);
     await saveCartToIndexedDB();
     updateCartUI();
         updateWishlistUI(); // Update wishlist UI when cart is changed
+        if (addToCartButton) {
+            addToCartButton.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> إضافة للسلة';
+             addToCartButton.style.backgroundColor = '';
+            addToCartButton.disabled = false;
+        }
 
 };
 
 // Function to remove from wishlist
 window.removeFromWishlist = async function (productId, color) {
       const uniqueId = `${productId}-${color}`;
+     const addToWishlistButton = document.querySelector('.btn_add_wishlist');
     wishlistItems = wishlistItems.filter(item => item.uniqueId !== uniqueId);
     await saveWishlistToIndexedDB();
     updateWishlistUI();
+    if (addToWishlistButton) {
+      addToWishlistButton.innerHTML = '<i class="fa-regular fa-heart"></i> إضافة للمفضلة';
+    }
 };
 
 // Function to move item from wishlist to cart
@@ -750,7 +762,7 @@ async function updateCartUI() {
                   const disablePlus = productData && item.quantity >= productData.amount ? 'disabled' : '';
 
                 const cartItemHTML = `
-                                    <div class="item_cart">
+                                    <div class="item_cart" data-product-id="${item.id}-${item.color}">
                                         <img src="${item.imgSrc}" alt="${item.title}">
                                             <div class="cart-item-details">
                                                 <h4>${item.title}</h4>
@@ -806,7 +818,7 @@ function updateWishlistUI() {
                   }
 
              const wishlistHTML = `
-             <div class="item_wishlist">
+             <div class="item_wishlist" data-product-id="${item.id}-${item.color}">
                   <img src="${item.imgSrc}" alt="${item.title}">
                 <div class="wishlist-item-details">
                       <h4>${item.title}</h4>
@@ -863,14 +875,13 @@ function generateInvoiceId() {
 }
 
 // Send invoice via WhatsApp
-function sendInvoiceViaWhatsApp() {
+async function sendInvoiceViaWhatsApp() {
     const storedCartItems = cartItems;
     const totalPriceElement = document.querySelector('.price_cart_total');
     const itemCountElement = document.querySelector('.cart_count');
-
+   
 
     if (!storedCartItems || storedCartItems.length === 0) {
-
         const noItemsMessage = document.createElement('div');
         noItemsMessage.style.cssText = `
             position: fixed;
@@ -905,9 +916,9 @@ function sendInvoiceViaWhatsApp() {
 
         return;
     }
-    const totalPrice = totalPriceElement.textContent
+    
+    const totalPrice = totalPriceElement.textContent;
     const itemCount = itemCountElement.textContent;
-
 
 
     const invoiceId = generateInvoiceId();
@@ -921,16 +932,18 @@ function sendInvoiceViaWhatsApp() {
 
     message += ` *تفاصيل الطلب:*\n\n`;
 
-    storedCartItems.forEach((item, index) => {
-        message += ` *المنتج ${index + 1}:*\n`;
+    for (let i = 0; i < storedCartItems.length; i++) {
+        const item = storedCartItems[i];
+         message += ` *المنتج ${i + 1}:*\n`;
         message += `  🆔 *ID:* ${item.id}\n`;
         message += `   *الاسم:* ${item.title}\n`;
         message += `   *الكمية:* ${item.quantity}\n`;
-          message += `   *اللون:* ${item.color}\n`;
-        message += `   *السعر للوحدة:* ${item.price} \n`;
+        message += `   *اللون:* ${item.color}\n`;
+         message += `   *السعر للوحدة:* ${item.price} \n`;
         message += `  *الإجمالي:* ${parseFloat(item.price) * item.quantity} جنيه\n`;
         message += `----------------------------------------\n`;
-    });
+    }
+
 
     message += `\n *ملخص الطلب:*\n`;
     message += `  ️ *عدد المنتجات:* ${itemCount}\n`;
@@ -944,20 +957,30 @@ function sendInvoiceViaWhatsApp() {
     const whatsappLink = `https://wa.me/201026972523?text=${encodedMessage}`;
     window.open(whatsappLink, '_blank');
 
+    await clearCart(); // Clear the cart after sending the invoice
 
-    clearCart();
 }
 // Clear the cart
 async function clearCart() {
     cartItems = [];
-     await saveCartToIndexedDB();
+    await saveCartToIndexedDB();
     updateCartUI();
     document.querySelectorAll('.count_item').forEach(el => el.textContent = '0');
     document.querySelectorAll('.price_cart_total').forEach(el => el.textContent = '0 جنيه');
 }
 
-
 // Function to close the product page
 function closePage() {
     window.history.back();
+}
+
+// Helper function to format date and time
+function formatDateTime() {
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
