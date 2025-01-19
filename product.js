@@ -482,10 +482,24 @@ function attachImageGalleryEvents() {
 }
 
 // Function to add event listeners to product buttons
-function addEventListenersToProduct(product) {
+async function addEventListenersToProduct(product) {
     const addToCartButton = document.querySelector('.btn_add_cart');
     const addToWishlistButton = document.querySelector('.btn_add_wishlist');
     const favoritesButton = document.querySelector('.share-button');
+
+        // Function to check if a product is in the wishlist
+    const isInWishlist = (productId, color) => {
+    const uniqueId = `${productId}-${color}`;
+         return wishlistItems.some(item => item.uniqueId === uniqueId);
+    };
+   // Function to set the wishlist button text based on the product
+  const setWishlistButtonState = async () => {
+          if (addToWishlistButton) {
+                const inWishlist = isInWishlist(product.id, selectedColor);
+                addToWishlistButton.innerHTML = inWishlist ? '<i class="fa-solid fa-heart-crack"></i> إزالة من المفضلة' : '<i class="fa-regular fa-heart"></i> إضافة للمفضلة';
+            }
+        };
+    setWishlistButtonState();
 
     if (addToCartButton) {
         if (product.amount <= 0) {
@@ -494,7 +508,7 @@ function addEventListenersToProduct(product) {
                 event.preventDefault(); // Prevent default click behavior
 
                 const message = document.createElement('div');
-                message.textContent = 'هذا المنتج غير متوفر حاليا';
+                message.textContent = 'خلص والله';
                 message.classList.add('out-of-stock-message'); // Apply CSS class
                 document.body.appendChild(message);
 
@@ -503,45 +517,51 @@ function addEventListenersToProduct(product) {
                 }, 1500);
             });
         } else {
-            addToCartButton.addEventListener('click', function () {
+            addToCartButton.addEventListener('click', async function () {
                 const productId = product.id;
                 const imgSrc = currentDisplayedImage || product.image;
                 const title = product.name;
                 const price = product.price;
 
                 // Use product.amount to check against actual stock
-                addToCart(productId, imgSrc, title, price, product.amount, selectedColor); //Pass amount and color
+                const cartResult = await addToCart(productId, imgSrc, title, price, product.amount, selectedColor); //Pass amount and color
+            if (cartResult === 'added') {
                 //If added successfuly then show success message
-                this.innerHTML = '<i class="fa-solid fa-check"></i> تم الإضافة';
+                 this.innerHTML = '<i class="fa-solid fa-check"></i> تم الإضافة';
                 this.style.backgroundColor = '#ccc';
-                this.disabled = true;
+               this.disabled = true;
 
-                setTimeout(() => {
+                 setTimeout(() => {
                     this.style.backgroundColor = '';
-                    this.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> إضافة للسلة';
-                    this.disabled = false;
+                   this.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> إضافة للسلة';
+                   this.disabled = false;
                 }, 1000);
+
+            } else if (cartResult === 'max_quantity_reached') {
+                 this.textContent = 'انت حطيت كله خلاص';
+                 this.disabled = true;
+               this.style.backgroundColor = 'orange';
+            }
             });
         }
     }
     if (addToWishlistButton) {
-        addToWishlistButton.addEventListener('click', function () {
+        addToWishlistButton.addEventListener('click', async function () {
+
             const productId = product.id;
             const imgSrc = currentDisplayedImage || product.image;
             const title = product.name;
             const price = product.price;
 
-            addToWishlist(productId, imgSrc, title, price, selectedColor);
+            const inWishlist = isInWishlist(productId, selectedColor);
 
-            this.innerHTML = '<i class="fa-solid fa-check"></i> تم الإضافة';
-            this.style.backgroundColor = '#ccc';
-            this.disabled = true;
+             if (inWishlist) {
+               await removeFromWishlist(productId, selectedColor); // Remove from wishlist if already exists
+              } else {
+                 await addToWishlist(productId, imgSrc, title, price, selectedColor);
+              }
+               setWishlistButtonState();
 
-            setTimeout(() => {
-                this.style.backgroundColor = '';
-                this.innerHTML = '<i class="fa-regular fa-heart"></i> إضافة للمفضلة';
-                this.disabled = false;
-            }, 1000);
         });
     }
 
@@ -569,9 +589,10 @@ async function addToCart(productId, imgSrc, title, price, availableQuantity, col
             existingItem.quantity += 1;
           await  saveCartToIndexedDB();
             updateCartUI();
+            return 'added';
 
         } else {
-            showOutOfStockMessage(); // Show message if over the amount
+           return 'max_quantity_reached'; // return  if over the amount
         }
     } else {
         if (availableQuantity > 0) { // Add if amount is greater than 0
@@ -579,9 +600,12 @@ async function addToCart(productId, imgSrc, title, price, availableQuantity, col
             cartItems.push(product);
            await saveCartToIndexedDB();
             updateCartUI();
+              return 'added';
 
         } else {
             showOutOfStockMessage(); // Show message if over the amount
+             return 'out_of_stock';
+
 
         }
     }
@@ -600,7 +624,7 @@ async function addToWishlist(productId, imgSrc, title, price, color) {
 
 function showOutOfStockMessage() {
     const message = document.createElement('div');
-    message.textContent = 'لا يوجد المزيد من هذا المنتج في المخزون';
+    message.textContent = 'خلص والله';
     message.classList.add('out-of-stock-message');
     document.body.appendChild(message);
 
@@ -672,7 +696,7 @@ window.moveToCart = async function (productId, color) {
 };
 function showAlreadyInCartMessage() {
     const message = document.createElement('div');
-    message.textContent = 'هذا المنتج موجود بالفعل في السلة';
+    message.textContent = 'موجود';
     message.classList.add('out-of-stock-message');
     document.body.appendChild(message);
 
@@ -836,18 +860,6 @@ function generateInvoiceId() {
     const timestamp = Date.now();
     const random = Math.floor(Math.random() * 1000);
     return `INV-${timestamp}-${random}`;
-}
-
-// Format the current date and time
-function formatDateTime() {
-    const options = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-    };
-    return new Date().toLocaleDateString('ar-EG', options);
 }
 
 // Send invoice via WhatsApp
