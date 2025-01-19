@@ -1058,68 +1058,138 @@ h2 {
 
 /* تنسيق الفوتر */
 #footer {
-    background-color: #2c3e50;
-    color: #ecf0f1;
+    background-color: #f0f0f0; /* لون خلفية فاتح وناعم */
+    color: #333; /* لون نص داكن للقراءة الجيدة */
     text-align: center;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Cairo', sans-serif; /* خط عربي جميل وواضح */
     width: 100%;
     bottom: 0;
     position: relative;
     margin-top: auto;
+    padding: 40px 0; /* زيادة المساحة الداخلية للفوتر */
+     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* ظل خفيف في الأعلى */
 }
 
 #footer .footer-container h3 {
-    font-size: 1.6rem;
-    margin-bottom: 20px;
-    color: #f39c12;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: #ffcc55; /* لون مميز للعناوين */
     font-weight: bold;
     line-height: 1.5;
-    padding-top: 25px;
+    padding-top: 20px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); /* ظل خفيف للنص */
 }
 
 #footer .social-links {
     list-style: none;
     padding: 0;
-    margin: 10px 0;
+    margin: 20px 0;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 20px; /* زيادة المسافة بين الروابط */
 }
 
 #footer .social-links li {
-    margin: 1px 0;
+    margin: 5px 0;
 }
 
 #footer .social-links a {
-    color: #ecf0f1;
-    font-size: 1rem;
+    font-size: 1.1rem;
     text-decoration: none;
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 15px;
-    border: 2px solid #f39c12;
-    border-radius: 5px;
+    gap: 10px;
+    padding: 12px 20px; /* مساحة داخلية أكبر للروابط */
+    border-radius: 30px; /* حواف دائرية للروابط */
     transition: all 0.3s ease-in-out;
+    border: 2px solid transparent;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); /* ظل أكثر وضوحًا */
+    background-color: #fff;
 }
 
 #footer .social-links a:hover {
-    background-color: #f39c12;
-    color: #2c3e50;
-    transform: translateY(-5px);
+    transform: translateY(-3px);
+     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* زيادة الظل عند التحويم */
 }
 
 #footer .social-links a i {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
 }
 
 #footer p {
-    margin-top: 0px;
-    font-size: 0.9rem;
-    color: #c7cdd1;
+    margin-top: 25px;
+    font-size: 1rem;
+    color: #777; /* لون نص رمادي فاتح للحقوق */
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1); /* ظل خفيف للنص */
 }
 
+/* أنماط الروابط المخصصة */
+#footer .whatsapp-link {
+    color: #25D366;
+     border-color: #25D366;
+}
+
+#footer .whatsapp-link:hover {
+     background-color: #25D366;
+     color: #fff;
+}
+
+#footer .messenger-link {
+    color: #0084FF;
+     border-color: #0084FF;
+}
+
+#footer .messenger-link:hover {
+   background-color: #0084FF;
+   color: #fff;
+}
+
+#footer .maps-link {
+    color: #DB4437;
+    border-color: #DB4437;
+}
+
+#footer .maps-link:hover {
+    background-color: #DB4437;
+   color: #fff;
+}
+
+#footer .telegram-link {
+    color: #229ED9;
+    border-color: #229ED9;
+}
+
+#footer .telegram-link:hover {
+   background-color: #229ED9;
+    color: #fff;
+}
+
+#footer .facebook-link {
+    color: #1877F2;
+    border-color: #1877F2;
+}
+
+#footer .facebook-link:hover {
+    background-color: #1877F2;
+    color: #fff;
+}
+@media (max-width: 768px) {
+    #footer {
+        padding: 30px 0; /* تقليل المساحة الداخلية */
+    }
+    #footer .footer-container h3 {
+        font-size: 1.4rem; /* تقليل حجم الخط في العنوان */
+        margin-bottom: 20px; /* تقليل المسافة أسفل العنوان */
+        padding-top: 15px; /* تقليل المساحة أعلى العنوان */
+    }
+      #footer .social-links {
+          gap: 10px; /* تقليل المسافة بين الروابط */
+         margin: 15px 0; /* تقليل المسافة أعلى وأسفل الروابط */
+    }
+
+
+}
 .quantity_controls {
     display: flex;
     align-items: center;
