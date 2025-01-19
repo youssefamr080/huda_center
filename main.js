@@ -868,3 +868,11 @@ function searchPerfumes() {
 
         noResults.style.display = hasResults ? "none" : "block";
     }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const sendInvoiceButton = document.querySelector('.send-invoice-button');
+    if (sendInvoiceButton) {
+        sendInvoiceButton.addEventListener('click', sendInvoiceViaWhatsApp);
+    }
+});
+
