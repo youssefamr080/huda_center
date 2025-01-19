@@ -46,8 +46,7 @@ p {
 
 /* تصميم الحاوية العامة */
 .container {
-    max-width: var(--container-width);
-    width: 90%;
+    max-width:80%;
     margin: auto;
 }
 
