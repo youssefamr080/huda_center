@@ -468,7 +468,7 @@ header .top-nav {
     top: 0;
     right: -200%;
     height: 100%;
-    width: 400px;
+    width: 95%;
     background-color: #fff;
     padding: 20px;
     box-shadow: -2px 0px 5px rgba(0,0,0,0.2);
@@ -640,7 +640,7 @@ header .top-nav {
   top: 0;
   right: -200%;
   height: 100%;
-  width: 400px;
+  width: 95%;
   background-color: #fff;
   padding: 20px;
     box-shadow: -2px 0px 5px rgba(0,0,0,0.2);
@@ -1030,28 +1030,20 @@ text-align: left;
    /* Two images per row up to 360px */
   @media (max-width: 576px)  {
     .similar-products-grid img {
-           width: calc(50% - 1.5rem); /* Two images per row */
+           width: calc(48% - 1.5rem); /* Two images per row */
      }
   }
   
   /* One image per row on the smallest screens */
   @media (max-width: 360px) {
    .similar-products-grid img {
-           width: calc(calc(50% - 1rem));/* One image per row */
+           width: calc(calc(45% - 1rem));/* One image per row */
       }
       .similar-products-grid{
            gap: 1rem; /* reduce the gap  */
       }
   }
-  /* Adjust for very small screens */
-  @media (max-width: 300px) {
-     .similar-products-grid img {
-         width: calc(100% - 0.5rem);/* One image per row */
-      }
-       .similar-products-grid{
-           gap: 0.5rem; /* reduce the gap  */
-      }
-  }
+  
 /* image Gallery  */
 .image-gallery {
     display: flex;
