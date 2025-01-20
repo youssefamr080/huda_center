@@ -455,9 +455,9 @@ header .top-nav {
 .cart {
     position: fixed;
     top: 0;
-    right: -100%;
+    right: -150%; /* تم تغيير الاتجاه إلى اليسار */
     height: 100%;
-    width: 400px;
+    width: 95%;
     background-color: #fff;
     padding: 20px;
       box-shadow: -2px 0px 5px rgba(0,0,0,0.2);
@@ -614,9 +614,9 @@ header .top-nav {
 .wishlist {
     position: fixed;
     top: 0;
-    right: -100%; /* تم تغيير الاتجاه إلى اليسار */
+    right: -150%; /* تم تغيير الاتجاه إلى اليسار */
     height: 100%;
-    width: 400px;
+    width: 95%;
     background-color: #fff;
     padding: 20px;
     box-shadow: -2px 0px 5px rgba(0,0,0,0.2);
@@ -899,7 +899,7 @@ h1 {
 .products {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+
     gap: 20px;
     margin: 20px;
 }
@@ -978,7 +978,7 @@ h2 {
 
 @media (max-width: 768px) {
     .product {
-        width: 200px;
+        width: calc(45% - 5px);
         gap: 15px;
     }
 
@@ -1005,7 +1005,7 @@ h2 {
 
 @media (max-width: 480px) {
     .product {
-        width: 180px;
+        width: calc(45% - 5px);
         gap: 2px;
     }
 
@@ -1033,13 +1033,14 @@ h2 {
     }
 
     .product {
-        width: 160px;
+        width: calc(45% - 5px);
         gap: 3px;
     }
 
     .price {
         flex-direction: row;
         align-items: center;
+        padding: 10px;
     }
 
     .icons {
