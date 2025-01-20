@@ -1044,35 +1044,101 @@ text-align: left;
       }
   }
   
-/* image Gallery  */
-.image-gallery {
+  .image-gallery {
     display: flex;
-    gap: 0.5rem;
-    margin-top: 1rem;
-    overflow-x: auto; /* Enable horizontal scrolling */
-}
-
-.image-gallery img {
-  width: 100px; /* Keep small enough */
-  height: 100px;
-  object-fit: cover;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.image-gallery img:hover {
-  opacity: 0.75;
-    transform: scale(1.05); /* légèrement larger on hover for engagement */
+    gap: 1rem;
+    margin: 1.5rem 0;
+    padding: 0.75rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  
+  /* Custom Scrollbar Styling */
+  .image-gallery::-webkit-scrollbar {
+    height: 4px;
+    background: transparent;
+  }
+  
+  .image-gallery::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 999px;
+  }
+  
+  .image-gallery::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  /* Image Container */
+  .gallery-item {
+    position: relative;
+    flex: 0 0 auto;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    perspective: 1000px;
+  }
+  
+  /* Image Styling */
+  .gallery-image {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backface-visibility: hidden;
+  }
+  
+  /* Hover Effects */
+  .gallery-item:hover .gallery-image {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  }
+  
+  /* Selected State */
+  .gallery-image.selected {
+    border: 2px solid #3b82f6;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #3b82f6;
+    transform: scale(1.05);
+  }
+  
+  /* Loading State */
+  .gallery-image.loading {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .image-gallery {
+      gap: 0.75rem;
+      padding: 0.5rem;
+    }
     
-}
-
-.image-gallery img.selected {
-    opacity: 1; /* Increased opacity when selected */
-      border: 2px solid var(--main-color);
-
-
-}
+    .gallery-image {
+      width: 80px;
+      height: 80px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .image-gallery {
+      gap: 0.5rem;
+    }
+    
+    .gallery-image {
+      width: 70px;
+      height: 70px;
+    }
+  }
 
 
 /* Quantity Controls */
