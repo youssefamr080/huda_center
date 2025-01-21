@@ -877,8 +877,7 @@ window.moveToGift = async function (productId, color) {
                    await   addToGift(item.id, item.imgSrc, item.title, item.price, productData.amount, color); // Pass the amount and color
                          await  removeFromWishlist(productId, color);
                 }else {
-                   showOutOfStockMessage();
-                 }
+                   showOutOfStockMessage();                 }
               }
         }
       })
@@ -1089,10 +1088,10 @@ function updateWishlistUI() {
 window.addEventListener('load', () => {
     
 });
-window.addEventListener('DOMContentLoaded', () => {
-     loadCartFromIndexedDB();
-      loadWishlistFromIndexedDB();
-     loadGiftFromIndexedDB();
+window.addEventListener('DOMContentLoaded', async () => {
+    await loadCartFromIndexedDB();
+    await loadWishlistFromIndexedDB();
+    await loadGiftFromIndexedDB();
 });
 var cart = document.querySelector('.cart');
 function open_cart() {
