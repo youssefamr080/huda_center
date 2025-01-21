@@ -903,6 +903,26 @@ text-align: left;
   .icons .btn_add_cart i {
       margin-left: 5px; /* Space between icon and text */
   }
+  .icons .btn_add_gift{
+    background-color:palevioletred;
+  color: #fff;
+  font-size: 1rem;
+    text-align: center;
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  flex: 1;
+
+}
+  .icons .btn_add_gift:disabled {
+      background-color: #ccc; /* Grey background for disabled button */
+      cursor: not-allowed; /* Change cursor to not-allowed */
+    }
+  
+  .icons .btn_add_gift i {
+      margin-left: 5px; /* Space between icon and text */
+  }
    .icons .btn_add_wishlist{
       color: #fff;
       background: #db3a3a;
@@ -1798,23 +1818,22 @@ a:focus, button:focus, input:focus {
       }
 
 }
-.empty-cart-message {
+.empty-cart-message,
+.empty-gift-message,
+.empty-wishlist-message
+ {
     text-align: center;
     font-size: 18px;
     color: #555;
     margin-top: 50%;
 }
-.empty-cart-icon {
+.empty-cart-icon,
+.empty-gift-icon,
+.empty-wishlist-icon {
     text-align: center;
     font-size: 50px;
     color: #ccc;
     margin-top: 3%;
-}
-.empty-wishlist-message{
-    text-align: center;
-    font-size: 20px;
-    color: #555;
-    margin-top: 50%;
 }
 /* تنسيق نص الخصم المضاف أعلى وصف المنتج */
 .discount-text {

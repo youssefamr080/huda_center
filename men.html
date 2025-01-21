@@ -1,42 +1,33 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl"></html>
+<html lang="ar" dir="rtl">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-X57BMEHRKV"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-X57BMEHRKV');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الهدي سنتر</title>
-    <link rel="icon" href="icon.png">
-    <link rel="stylesheet" href="main style.css">
+    <link rel="icon" href="images/icon.png">
+    <link rel="stylesheet" href="css/main style.css">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
 </head>
 <body>
-    
     <!--Start of Tawk.to Script-->
 <script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/6787ee70825083258e05a9c6/1ihlhrlvo';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/6787ee70825083258e05a9c6/1ihlfmpuj';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
     <header>
         <div class="container top-nav">
-            <a href="" class="logo"><img src="logo.png" alt=""></a>
+            <a href="" class="logo"><img src="images/logo.png" alt=""></a>
             <form class="search-bar">
                 <div class="menu">
                     <div class="item">
@@ -74,6 +65,12 @@ s0.parentNode.insertBefore(s1,s0);
                         <span class="wishlist_count">0</span>
                     </div>
                 </div>
+                <div class="gift_header">
+                    <div class="icon_gift" onclick="open_gift()">
+                     <i class="fa-solid fa-gift"></i>
+                     <span class="gift_count">0</span>
+                    </div>
+                </div>
                 <div class="cart_header">
                     <div onclick="open_cart()" class="icon_cart">
                         <i class="fa-solid fa-cart-shopping"></i>
@@ -84,17 +81,15 @@ s0.parentNode.insertBefore(s1,s0);
                     <span class="price_cart_total">0 جنيه</span>
                 </div>
             </div>
-            
-        </div>
     </header>
     <div class="swiper mySwiper">
         <div class="swiper-wrapper">
-          <div class="swiper-slide"><img src="Add a heading (4).jpg" alt=""></div>
-          <div class="swiper-slide"><img src="intro.jpg" alt=""></div>
-          <div class="swiper-slide"><img src="mug prent.jpg" alt=""></div>
-          <div class="swiper-slide"><img src="potrait slider.jpg" alt=""></div>
-          <div class="swiper-slide"><img src="walet slider.jpg" alt=""></div>
-          <div class="swiper-slide"><img src="mug slider.jpg" alt=""></div>
+          <div class="swiper-slide"><img src="images/Add a heading (4).jpg" alt=""></div>
+          <div class="swiper-slide"><img src="images/intro.jpg" alt=""></div>
+          <div class="swiper-slide"><img src="images/mug prent.jpg" alt=""></div>
+          <div class="swiper-slide"><img src="images/potrait slider.jpg" alt=""></div>
+          <div class="swiper-slide"><img src="images/walet slider.jpg" alt=""></div>
+          <div class="swiper-slide"><img src="images/mug slider.jpg" alt=""></div>
         </div>
         <div class="swiper-scrollbar"></div>
        
@@ -129,35 +124,51 @@ s0.parentNode.insertBefore(s1,s0);
             </div>
         </div>
     </div>
+    <div class="gift">
+        <div class="top_gift">
+            <h3>سلة الهدية <span>(<span class="gift_count">0</span> منتجات)</span></h</div>
+            <div class="close_gift" onclick="close_gift()"><i class="fa fa-times"></i></div>
+        </div>
+        <div class="items_in_gift"></div>
+        <div class="bottom_gift">
+            <div class="total">
+                <span>المجموع:</span>
+                <span class="price_gift_total">0 جنيه</span>
+            </div>
+            <div class="button_gift">
+                <button class="btn_gift"onclick="completegift()">اكمال الهدية</button>
+                <button class="btn_gift trans_bg" onclick="close_gift()">متابعة التسوق</button>
+            </div>
+        </div>
+    </div>
 
    <!-- Navigation with arrows and styling  -->
      <nav id="sectionNav" class="navigation"  >
           <button class="nav-arrow prev-arrow"  aria-label="Previous"><i class="fa fa-chevron-right"></i></button>
            <div class="nav-container">
 
-
             <button onclick="showSection('watches_men')">
-                <img src="watch section.jpg" alt="ساعات">
+                <img src="images/watch section.jpg" alt="ساعات">
                 <h5>ساعات</h5>
             </button>
             <button onclick="showSection('wallets_men')">
-                <img src="men wallet.jpg" alt="محافظ">
+                <img src="images/men wallet.jpg" alt="محافظ">
                 <h5>محافظ</h5>
             </button>
            <button onclick="showSection('perfumes_men')">
-            <img src="men perfum section.jpg" alt="عطور">
+            <img src="images/men perfum section.jpg" alt="عطور">
             <h5>عطور</h5>
         </button>
             <button onclick="showSection('sunglasses_men')">
-                <img src="men sunglasses.jpg" alt="نظارات شمسية">
+                <img src="images/men sunglasses.jpg" alt="نظارات شمسية">
                 <h5>نظارات شمسية </h5>
             </button>
            <button onclick="showSection('hand-bags')">
-               <img src="hand bag.jpg" alt="شنط يد">
+               <img src="images/hand bag.jpg" alt="شنط يد">
                <h5>شنط يد</h5>
           </button>
           <button onclick="showSection('oil-men')">
-            <img src="oil.jpg" alt="زيوت عطريه">
+            <img src="images/oil.jpg" alt="زيوت عطريه">
             <h5>زيوت عطريه</h5>
         </button>  
         <button onclick="showSection('spray-men')">
@@ -286,9 +297,9 @@ s0.parentNode.insertBefore(s1,s0);
     </div>
  
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="product.json"></script>
-    <script src="main.js"></script>
-    
+    <script src="java/main.js"></script>
+   
+      
 </body>
 <footer id="footer">
     <div class="footer-container">

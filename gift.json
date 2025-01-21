@@ -1,0 +1,85 @@
+{
+    "packaging": {
+      "boxes": [
+        {
+          "id": "box-small",
+          "name": "علبة صغيرة",
+          "price": 5,
+          "image": "images/oil.jpg",
+          "size": "صغير"
+        },
+         {
+          "id": "box-medium",
+          "name": "علبة متوسطة",
+          "price": 10,
+          "image": "images/oil.jpg",
+           "size": "متوسط"
+        },
+        {
+          "id": "box-large",
+          "name": "علبة كبيرة",
+          "price": 15,
+          "image": "images/oil.jpg",
+           "size": "كبير"
+        }
+      ],
+      "packs": [
+          {
+            "id": "pack-small",
+              "name": "باكت صغير",
+            "price": 8,
+            "image": "images/oil.jpg",
+            "size": "صغير"
+        },
+        {
+          "id": "pack-medium",
+            "name": "باكت متوسط",
+            "price": 12,
+          "image": "images/u beast.jpg",
+          "size": "متوسط"
+  
+        },
+        {
+            "id": "pack-large",
+          "name": "باكت كبير",
+          "price": 16,
+         "image": "images/u beast.jpg",
+         "size":"كبير"
+        }
+      ]
+    },
+    "sweets": [
+      {
+        "id": "chocolate",
+        "name": "شيكولاتة",
+        "price": 20,
+        "image": "images/u beast.jpg"
+      },
+      {
+        "id": "candy",
+        "name": "حلوى",
+        "price": 15,
+        "image": "images/u beast.jpg"
+      }
+    ],
+    "decorations": [
+      {
+        "id": "wrapping-1",
+        "name": "تغليف رقم 1",
+        "price": 10,
+        "image": "images/u beast.jpg"
+      },
+      {
+        "id": "wrapping-2",
+        "name": "تغليف رقم 2",
+        "price": 5,
+        "image": "images/u beast.jpg"
+      },
+      {
+        "id": "wrapping-3",
+        "name": "تغليف رقم 3",
+        "price": 15,
+        "image": "images/u beast.jpg"
+      }
+    ]
+  }

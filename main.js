@@ -25,6 +25,7 @@ request.onsuccess = async (event) => {
     // Load data from IndexedDB once the database is ready
    await loadCartFromIndexedDB();
   await  loadWishlistFromIndexedDB();
+  loadGiftFromLocalStorage();
 
 };
 
@@ -158,6 +159,26 @@ async function saveWishlistToIndexedDB() {
         })
         .catch(error => console.error("Error loading wishlist from IndexedDB:", error));
 }
+
+// --- Gift Functions ---
+
+let giftItems = [];
+
+function saveGiftToLocalStorage() {
+    localStorage.setItem('giftItems', JSON.stringify(giftItems));
+}
+
+function loadGiftFromLocalStorage() {
+    const storedGiftItems = localStorage.getItem('giftItems');
+    giftItems = storedGiftItems ? JSON.parse(storedGiftItems) : [];
+    updateGiftUI();
+}
+function clearGift() {
+    giftItems = [];
+    saveGiftToLocalStorage();
+    updateGiftUI();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('.section');
 
@@ -364,6 +385,34 @@ async function addToWishlist(productId, imgSrc, title, price, color) {
         updateWishlistUI();
     }
 }
+// Function to add product to gift
+async function addToGift(productId, imgSrc, title, price, availableQuantity, color) {
+    const uniqueId = `${productId}-${color}`;
+     const existingItem = giftItems.find(item => item.uniqueId === uniqueId);
+     if (existingItem) {
+         if (existingItem.quantity < availableQuantity) {
+              existingItem.quantity += 1;
+               saveGiftToLocalStorage();
+              updateGiftUI();
+              return 'added';
+          } else {
+              return 'max_quantity_reached';
+          }
+      } else {
+           if (availableQuantity > 0) {
+               const product = { uniqueId: uniqueId, id: productId, imgSrc, title, price, color: color, quantity: 1 };
+            giftItems.push(product);
+             saveGiftToLocalStorage();
+              updateGiftUI();
+              return 'added';
+        } else {
+             showOutOfStockMessage();
+               return 'out_of_stock';
+          }
+    }
+
+}
+
 function showMaxQuantityMessage() {
     const message = document.createElement('div');
     message.textContent = 'مفيش تاني';
@@ -404,6 +453,27 @@ window.updateCartQuantity = async function (productId, increment, color) {
         })
     }
 };
+window.updateGiftQuantity = async function (productId, increment, color) {
+    const uniqueId = `${productId}-${color}`;
+       const item = giftItems.find(item => item.uniqueId === uniqueId);
+    if (item) {
+        findProductData(productId).then(async (productData) => {
+            if (increment > 0 && item.quantity >= productData.amount) {
+                showOutOfStockMessage(); // Show out of stock if exceeds product amount
+            } else {
+               item.quantity += increment;
+               if (item.quantity <= 0) {
+                    await removeFromGift(productId, color);
+                 } else {
+                       saveGiftToLocalStorage();
+                     updateGiftUI();
+                }
+          }
+    })
+
+    }
+
+};
 // Modify the removeFromCart to accept color
 window.removeFromCart = async function (productId, color) {
    const uniqueId = `${productId}-${color}`;
@@ -412,6 +482,13 @@ window.removeFromCart = async function (productId, color) {
     updateCartUI();
     updateWishlistUI(); // Update wishlist UI when cart is changed
 
+};
+// Function to remove from gift
+window.removeFromGift = async function (productId, color) {
+    const uniqueId = `${productId}-${color}`;
+     giftItems = giftItems.filter(item => item.uniqueId !== uniqueId);
+     saveGiftToLocalStorage();
+     updateGiftUI();
 };
 // Function to remove from wishlist
 window.removeFromWishlist = async function (productId, color) {
@@ -452,8 +529,29 @@ function showAlreadyInCartMessage() {
         message.remove();
     }, 1500);
 }
-
-
+window.completegift =  () => {
+    // الحصول على عناصر الهدية
+     const giftItems = document.querySelectorAll('.items_in_gift .item_gift');
+     // تهيئة مصفوفة لحفظ البيانات
+     let giftData = [];
+ 
+     giftItems.forEach(item => {
+       const productId = item.dataset.productId.split('-')[0];
+          const color = item.dataset.productId.split('-')[1];
+          const image = item.querySelector('img').src;
+         const title = item.querySelector('h4').textContent;
+           const price = item.querySelector('p').textContent;
+            const quantity =  item.querySelector('.quantity_controls span').textContent
+           giftData.push({productId, image, title, price , color, quantity})
+     });
+ 
+     // حفظ بيانات الهدية في localStorage
+   localStorage.setItem('giftData', JSON.stringify(giftData));
+ 
+   // إعادة التوجيه إلى صفحة الهدية
+      window.location.href = 'gift.html';
+ 
+ };
 
 async function findProductData(productId) {
 
@@ -499,7 +597,7 @@ async function updateCartUI() {
             const productData = await findProductData(item.id);
         const disablePlus = productData && item.quantity >= productData.amount ? 'disabled' : '';
          const cartItemHTML = `
-                    <div class="item_cart">
+                    <div class="item_cart" data-product-id="${item.id}-${item.color}">
                         <img src="${item.imgSrc}" alt="${item.title}">
                         <div class="cart-item-details">
                             <h4>${item.title}</h4>
@@ -555,7 +653,7 @@ function updateWishlistUI() {
                   }
 
              const wishlistHTML = `
-             <div class="item_wishlist">
+             <div class="item_wishlist" data-product-id="${item.id}-${item.color}">
                   <img src="${item.imgSrc}" alt="${item.title}">
                 <div class="wishlist-item-details">
                       <h4>${item.title}</h4>
@@ -575,6 +673,54 @@ function updateWishlistUI() {
     document.querySelectorAll('.wishlist_count').forEach(el => el.textContent = totalQuantity);
 
 }
+// Function to update gift UI
+async function updateGiftUI() {
+   const giftItemsContainer = document.querySelector('.items_in_gift');
+    if (!giftItemsContainer) return;
+     giftItemsContainer.innerHTML = '';
+     let totalPrice = 0;
+     let totalQuantity = 0;
+    if (giftItems.length === 0) {
+         giftItemsContainer.innerHTML = `
+         <p class="empty-gift-message"> مش هتجيب هدية؟ </p>
+         <div class="empty-gift-icon">
+             <i class="fa-solid fa-gift"></i>
+          </div>
+         `;
+     } else {
+      for (const item of giftItems) {
+              const productData = await findProductData(item.id);
+            const disablePlus = productData && item.quantity >= productData.amount ? 'disabled' : '';
+
+           const giftItemHTML = `
+           <div class="item_gift" data-product-id="${item.id}-${item.color}">
+               <img src="${item.imgSrc}" alt="${item.title}">
+              <div class="gift-item-details">
+                 <h4>${item.title}</h4>
+                 <p>${item.price} جنيه</p>
+                <p style="color: ${item.color}">${item.color}</p>
+                  <div class="quantity_controls">
+                       <button onclick="updateGiftQuantity(${item.id}, -1, '${item.color}')">-</button>
+                        <span>${item.quantity}</span>
+                       <button onclick="updateGiftQuantity(${item.id}, 1, '${item.color}')" ${disablePlus}>+</button>
+                    </div>
+               </div>
+               <div class="gift_actions">
+                     <button class="delete_item" onclick="removeFromGift(${item.id}, '${item.color}')"><i class="fa fa-trash"></i></button>
+                </div>
+           </div>
+            `;
+            giftItemsContainer.insertAdjacentHTML('beforeend', giftItemHTML);
+             totalPrice += parseFloat(item.price) * item.quantity;
+             totalQuantity += item.quantity;
+
+      }
+     }
+       document.querySelectorAll('.gift_count').forEach(el => el.textContent = totalQuantity);
+     document.querySelectorAll('.price_gift_total').forEach(el => el.textContent = `${totalPrice} جنيه`);
+
+}
+
 
 
 window.addEventListener('load', () => {
@@ -584,6 +730,7 @@ window.addEventListener('DOMContentLoaded', () => {
         // Load cart and wishlist from IndexedDB here
      loadCartFromIndexedDB();
     loadWishlistFromIndexedDB();
+      loadGiftFromLocalStorage();
 });
 var cart = document.querySelector('.cart');
 function open_cart() {
@@ -592,6 +739,15 @@ function open_cart() {
 function close_cart() {
     cart.classList.remove("active");
 }
+
+var gift = document.querySelector('.gift');
+function open_gift() {
+    gift.classList.add("active");
+}
+function close_gift() {
+    gift.classList.remove("active");
+}
+
 
 var wishlist = document.querySelector('.wishlist');
 function open_wishlist() {

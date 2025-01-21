@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الهدي سنتر</title>
+    <link rel="icon" href="images/icon.png">
+    <link rel="stylesheet" href="css/gift.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+</head>
+
+<body>
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/6787ee70825083258e05a9c6/1ihlfmpuj';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+    <header>
+        <div class="container top-nav">
+            <a href="" class="logo"><img src="images/logo.png" alt=""></a>
+
+            <form class="search-bar">
+                <div class="menu">
+                    <div class="item">
+                        <a href="#" class="link">
+                            <span id="menu-title"> الاقسام </span>
+                            <svg viewBox="0 0 360 360" xml:space="preserve">
+                                <g id="SVGRepo_iconCarrier">
+                                    <path id="XMLID_225_" d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393 c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393 s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z"></path>
+                                </g>
+                            </svg>
+                        </a>
+                        <div class="submenu">
+                            <div class="submenu-item">
+                                <a href="men.html" class="submenu-link" data-title="رجالي"> رجالي </a>
+                            </div>
+                            <div class="submenu-item">
+                                <a href="women.html" class="submenu-link" data-title="حريمي"> حريمي </a>
+                            </div>
+                            <div class="submenu-item">
+                                <a href="kids.html" class="submenu-link" data-title="اطفال"> اطفال </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="text" name="search" id="search" placeholder="انت بتدور علي اي؟" required>
+                <div id="results"></div> <button type="button" class="search-btn" id="searchButton">
+                    <i class="fa-solid fa-search"></i>
+                </button>
+            </form>
+        </div>
+        <div class="gift-total-header">
+            <p>المجموع: <span id="giftTotal">0</span> جنيه</p>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <h1 class="text-center mb-8">تخصيص الهدية</h1>
+            <section id="added-items" class="added-items-section">
+            </section>
+            <section id="gift-products">
+            </section>
+           <section class="packaging-section">
+                <h2 class="text-xl font-bold mb-4">اختر الباكت المناسب</h2>
+                 <div class="packs-container">
+                      <div class="swiper packs-swiper">
+                          <div class="swiper-wrapper" id="packs-options">
+                           </div>
+                         <div class="swiper-button-next"></div>
+                         <div class="swiper-button-prev"></div>
+                     </div>
+               </div>
+                 <div class="boxes-container">
+                     <h2 class="text-xl font-bold mb-4">اختر البوكس المناسب</h2>
+                      <div class="swiper boxes-swiper">
+                        <div class="swiper-wrapper" id="boxes-options">
+                           </div>
+                         <div class="swiper-button-next"></div>
+                         <div class="swiper-button-prev"></div>
+                      </div>
+                   </div>
+            </section>
+            <section class="sweets-section">
+                <h2 class="text-xl font-bold mb-4">اختر الحلويات</h2>
+                <div class="swiper sweets-swiper">
+                    <div class="swiper-wrapper" id="sweets-options">
+
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </section>
+            <section class="wrapping-section">
+                <h2 class="text-xl font-bold mb-4">اختر الزينة</h2>
+                 <div class="swiper wrapping-swiper">
+                     <div class="swiper-wrapper"  id="wrapping-options">
+                        </div>
+                       <div class="swiper-button-next"></div>
+                     <div class="swiper-button-prev"></div>
+                 </div>
+            </section>
+            <section class="note-section">
+                <h2 class="text-xl font-bold mb-4">رسالة (اختياري)</h2>
+                <textarea id="note-area" class="note-area" placeholder="أدخل رسالتك هنا"></textarea>
+            </section>
+            <div class="total_gift mt-6">
+                <button id="confirmButton" class="complete_button"> اتمام الطلب</button>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="java/gift.js"></script>
+    <footer id="footer">
+        <div class="footer-container">
+            <h3>للدعم أو الاستفسار، تواصل معنا عبر الواتساب أو فيسبوك. نحن هنا لمساعدتك!</h3>
+            <ul class="social-links">
+                <li><a href="https://wa.me/+201026972523" target="_blank" class="whatsapp-link"><i
+                            class="fab fa-whatsapp"></i> واتساب</a></li>
+                <li><a href="http://m.me/104124002518682" target="_blank" class="messenger-link"><i
+                            class="fab fa-facebook-messenger"></i> ماسنجر</a></li>
+                <li><a href="https://www.google.com/maps/place/31%C2%B001%2753.5%22N+30%C2%B027%2749.0%22E/@31.031505,30.463736,20z/data=!4m4!3m3!8m2!3d31.031533!4d30.463614?hl=ar&entry=ttu"
+                        target="_blank" class="maps-link"><i class="fas fa-map-marker-alt"></i> موقعنا</a></li>
+                <li><a href="https://t.me/+VMKBOk1oqqS3Ciyt" target="_blank" class="telegram-link"><i
+                            class="fab fa-telegram-plane"></i> تيليجرام</a></li>
+                <li><a href="https://www.facebook.com/profile.php?id=100087530415837&mibextid=ZbWKwL"
+                        target="_blank" class="facebook-link"><i class="fab fa-facebook-f"></i> فيسبوك</a></li>
+            </ul>
+
+            <p>جميع حقوق الملكية محفوظة لدى الهدى سنتر © 2025</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

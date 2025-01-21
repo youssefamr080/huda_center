@@ -314,7 +314,7 @@ header .top-nav {
 .header-icons {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 35px;
 }
 
 .cart_header {
@@ -409,6 +409,67 @@ header .top-nav {
     justify-content: center;
     align-items: center;
 }
+
+/* تنسيق أيقونة الهدية */
+.gift_header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.gift_header .icon_gift {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition);
+}
+
+.gift_header .icon_gift i {
+    font-size: 20px;
+    color: var(--dark-color);
+}
+
+.gift_header .icon_gift:hover {
+    background: var(--main-color);
+    color: #fff;
+}
+
+.gift_header .gift_count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 20px;
+    height: 20px;
+    background: var(--main-color);
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gift_header .total_price {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.gift_header .total_price p{
+    font-size: 14px;
+}
+.gift_header .total_price span {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--main-color);
+}
+
 /* لتنسيق سعر سلة المشتريات */
 .cart_header .total_price {
     display: flex;
@@ -427,11 +488,13 @@ header .top-nav {
 /* تعديلات الشاشات الصغيرة */
 @media (max-width: 768px) {
     .cart_header,
-    .wishlist_header {
+    .wishlist_header,
+    .gift_header {
         justify-content: flex-start;
     }
 
     .cart_header .icon_cart,
+    .gift_header .icon_gift,
     .wishlist_header .icon_wishlist {
         width: 50px;
         height: 50px;
@@ -441,70 +504,92 @@ header .top-nav {
     }
 
     .cart_header .count_item,
+    .gift_header .gift_count,
     .wishlist_header .wishlist_count {
         width: 25px;
         height: 25px;
         top: -10px;
         right: -10px;
     }
-     .cart_header .total_price {
+     .cart_header .total_price,
+     .gift_header .total_price  {
         display: none;
     }
 }
-/* تنسيق العربة */
-.cart {
+/* تنسيق الهديه */
+/* التنسيقات الأساسية المشتركة للقوائم الجانبية */
+.cart,
+.gift,
+.wishlist {
     position: fixed;
     top: 0;
     right: -150%; /* تم تغيير الاتجاه إلى اليسار */
     height: 100%;
-    width: 95%;
+    width: 25%;
     background-color: #fff;
     padding: 20px;
-      box-shadow: -2px 0px 5px rgba(0,0,0,0.2);
+    box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
     z-index: 100;
     transition: right 0.5s ease-in-out;
     display: flex;
     flex-direction: column;
 }
 
-.cart.active {
+
+.cart.active,
+.gift.active,
+.wishlist.active {
     right: 0;
 }
-
-.cart .top_cart {
+ /*تنسيق العناصر في top   لكل قائمة*/
+.top_cart,
+.top_gift,
+.top_wishlist{
     display: flex;
     align-items: center;
     justify-content: space-between;
-      margin-bottom: 20px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 20px;
+    margin-bottom: 20px;
+     padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
 }
 
-.cart .top_cart .close_cart i {
+  /*تنسيق  عنصر  الاغلاق   في   top  لكل قائمة*/
+.top_cart .close_cart i,
+.top_gift .close_gift i,
+.top_wishlist .close_wishlist i {
     display: flex;
     font-size: 35px;
     cursor: pointer;
     position: relative;
     align-items: center;
 }
-
-.cart .top_cart h3 {
+     /*تنسيق  عنصر h3    في top لكل قائمة*/
+.top_cart h3,
+.top_gift h3,
+.top_wishlist h3{
     font-size: 18px;
 }
-
-.cart .top_cart h3 span {
+       /*تنسيق  عنصر h3  span  في  top   لكل قائمة*/
+.top_cart h3 span,
+.top_gift h3 span,
+.top_wishlist h3 span{
     font-size: 14px;
     color: var(--parg-color);
     font-weight: normal;
 }
-
-.cart .items_in_cart {
+  /* تنسيقات عامة لعرض العناصر داخل  كل قائمة  */
+.items_in_cart,
+.items_in_gift,
+.items_in_wishlist {
     flex-grow: 1;
     overflow-y: auto;
     margin-bottom: 20px;
 }
 
-.cart .item_cart {
+  /*تنسيقات عامة  لكل عنصر في القائمة   (مثل  صورة , و  العنوان)*/
+.item_cart,
+.item_gift,
+.item_wishlist {
     display: flex;
     gap: 20px;
     align-items: center;
@@ -512,239 +597,169 @@ header .top-nav {
     margin-bottom: 25px;
 }
 
-.cart .item_cart:last-child {
+.item_cart:last-child,
+.item_gift:last-child,
+.item_wishlist:last-child{
     margin-bottom: 0;
 }
 
-.cart .item_cart img {
-    width: 100px;
-}
 
-.cart .item_cart h4 {
-    margin-bottom: 10px;
-    font-weight: 500;
-}
-
-.cart .item_cart .delete_item {
-    outline: none;
-    border: none;
-}
-
-.cart .item_cart .delete_item i {
-    font-size: 22px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.cart .item_cart .delete_item i:hover {
-    color: var(--dark-red);
-    transform: scale(1.2);
-}
-
-.cart .bottom_cart {
-    position: sticky;
-    bottom: 0;
-    background: #fff;
-    padding-top: 10px;
-    border-top: 1px solid var(--border-color);
-}
-
-.cart .bottom_cart .total {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-}
-
-.cart .button_cart {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.cart .button_cart .btn_cart {
-    border: 4px solid var(--main-color);
-    border-radius: 5px;
-    color: var(--dark-color);
-    padding: 15px 0;
-    text-align: center;
-    font-size: 16px;
-    text-transform: uppercase;
-    cursor: pointer;
-    background: var(--main-color);
-    transition: 0.25s ease;
-}
-.wishlist .button_wishlist {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.wishlist .button_wishlist .btn_wishlist {
-    border: 4px solid var(--main-color);
-    border-radius: 5px;
-    color: var(--dark-color);
-    padding: 15px 0;
-    text-align: center;
-    font-size: 16px;
-    text-transform: uppercase;
-    cursor: pointer;
-    background: var(--main-color);
-    transition: 0.25s ease;
-}
-
-
-.cart .button_cart .btn_cart:hover {
-    background: transparent;
-}
-
-.cart .button_cart .trans_bg {
-    background: transparent;
-}
-
-.cart .button_cart .trans_bg:hover {
-    background: var(--main-color);
-}
-.wishlist .button_wishlist .trans_bg {
-    background: transparent;
-}
-
-.wishlist .button_wishlist .trans_bg:hover {
-    background: var(--main-color);
-}
-.wishlist {
-    position: fixed;
-    top: 0;
-    right: -150%; /* تم تغيير الاتجاه إلى اليسار */
-    height: 100%;
-    width: 95%;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: -2px 0px 5px rgba(0,0,0,0.2);
-    z-index: 100;
-    transition: right 0.5s ease-in-out;
-    display: flex;
-    flex-direction: column;
-
-}
-
-.wishlist.active {
-    right: 0; /* تم تغيير الاتجاه إلى اليسار */
-}
-
-.wishlist .top_wishlist {
-       display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #eee;
-     padding-bottom: 20px;
-}
-
-
-.wishlist .top_wishlist {
-      display: flex;
-     align-items: center;
-      justify-content: space-between;
+    .item_cart img,
+    .item_gift img,
+   .item_wishlist img{
+        width: 100px;
     }
-   
-   
-    .wishlist .top_wishlist .close_wishlist i{
-      display: flex;
-        font-size: 35px;
-       cursor: pointer;
-        position: relative;
-     align-items: center;
+     /* تنسيقات   العنوان داخل كل عنصر  */
+   .item_cart h4,
+    .item_gift h4,
+    .item_wishlist h4{
+        margin-bottom: 10px;
+         font-weight: 500;
 
-}
-  
- .wishlist .top_wishlist h3{
-        font-size: 18px;
-   }
-     .wishlist .top_wishlist h3 span{
-        font-size: 14px;
-     color: var(--parg-color);
-       font-weight: normal;
     }
 
- .wishlist .items_in_wishlist{
-     flex-grow: 1;
-    overflow-y: auto;
-      margin-bottom: 20px;
- }
-  
-   .wishlist .item_wishlist{
-       display: flex;
-      gap: 20px;
-    align-items: center;
-     justify-content: center;
-    margin-bottom: 25px;
- }
-    .wishlist .item_wishlist:last-child{
-   margin-bottom: 0;
-     }
- .wishlist .item_wishlist img{
-     width: 100px;
-    }
-    .wishlist .item_wishlist h4{
-  margin-bottom: 10px;
-        font-weight: 500;
- }
-   .wishlist .wishlist_actions {
-   display: flex;
-    gap: 15px;
-}
-  .wishlist .wishlist_actions button {
-    cursor: pointer;
-     }
-  .wishlist .wishlist_actions .btn_wishlist{
-         padding: 5px;
-         font-size: 14px;
-         border: 2px solid var(--main-color);
-    border-radius: 5px;
-         color: var(--dark-color);
-          background: var(--main-color);
 
-  transition: 0.25s ease;
-     }
+   /*تنسيق عام لأزرار  التحكم لكل عنصر داخل القائمة  */
+ .wishlist_actions ,.gift_actions{
+          display: flex;
+         flex-direction: column;
+         gap: 10px;
+       }
+   /*  تنسيق عام لأزرار الحذف  داخل كل قائمة*/
 
- .wishlist .wishlist_actions .btn_wishlist:hover{
- background: transparent;
+  .item_cart .delete_item,
+   .item_gift .delete_item,
+   .item_wishlist .delete_item{
+            outline: none;
+           border: none;
+        }
+   /* تنسيق عام لايقونه زر الحذف  داخل كل قائمة  */
 
-
- }
-
-.wishlist .item_wishlist .delete_item{
- outline: none;
-  border: none;
-    }
-
- .wishlist .item_wishlist .delete_item i{
-        font-size: 22px;
-   cursor: pointer;
+  .item_cart .delete_item i,
+ .item_gift .delete_item i,
+ .item_wishlist .delete_item i {
+            font-size: 22px;
+         cursor: pointer;
        transition: 0.3s;
-    }
-  .wishlist .item_wishlist .delete_item i:hover{
-        color: var(--dark-red);
-   transform: scale(1.2);
 
- }
-.close-btn{
-    position: absolute;
-      top: 15px;
-     right: 10px;
-     background-color: #fff;
-      color: #666;
-      font-size: 22px;
-      border: none;
-      cursor: pointer;
-      padding: 8px;
-      transition: color 0.3s ease, background-color 0.3s ease; 
+   }
+  /* تنسيق عند التحويم علي ايقونه الحذف داخل اي قائمه */
+   .item_cart .delete_item i:hover,
+    .item_gift .delete_item i:hover,
+ .item_wishlist .delete_item i:hover{
+        color: var(--dark-red);
+  transform: scale(1.2);
+}
+
+
+   /* تنسيقات مشتركة لأسفل كل قائمة   */
+.bottom_cart,
+.bottom_gift,
+.bottom_wishlist{
+        position: sticky;
+          bottom: 0;
+        background: #fff;
+        padding-top: 10px;
+       border-top: 1px solid var(--border-color);
 
   }
-  .close-btn:hover {
-    color: #fff;
-    background-color: var(--main-color); /* لون خلفية مميز عند التحويم */
+
+
+/* تنسيقات لـ total */
+.bottom_cart .total,
+.bottom_gift .total,
+  .wishlist .total {
+      display: flex;
+   justify-content: space-between;
+  padding: 10px 0;
+ }
+
+
+.button_cart ,
+.button_gift ,
+.button_wishlist {
+  display: flex;
+ flex-direction: column;
+     gap: 10px;
+  }
+
+ .button_cart .btn_cart,
+.button_gift .btn_gift ,
+ .button_wishlist .btn_wishlist  {
+  border: 4px solid var(--main-color);
+  border-radius: 5px;
+    color: var(--dark-color);
+     padding: 15px 0;
+   text-align: center;
+   font-size: 16px;
+   text-transform: uppercase;
+  cursor: pointer;
+     background: var(--main-color);
+     transition: 0.25s ease;
+  }
+
+.button_cart .btn_cart:hover,
+.button_gift .btn_gift:hover ,
+.button_wishlist .btn_wishlist:hover {
+   background: transparent;
+   }
+
+   .button_cart .trans_bg,
+.button_gift .trans_bg ,
+.wishlist .button_wishlist .trans_bg  {
+        background: transparent;
+
+  }
+
+  .button_cart .trans_bg:hover,
+.button_gift .trans_bg:hover,
+.wishlist .button_wishlist .trans_bg:hover{
+       background: var(--main-color);
 
 }
+
+
+   .wishlist .wishlist_actions .btn_wishlist{
+        padding: 5px;
+     font-size: 14px;
+     border: 2px solid var(--main-color);
+     border-radius: 5px;
+         color: var(--dark-color);
+   background: var(--main-color);
+  transition: 0.25s ease;
+    }
+  .wishlist .wishlist_actions .btn_wishlist:hover{
+     background: transparent;
+     }
+
+/* تنسيقات زر الاغلاق */
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+    right: 10px;
+     background-color: #fff;
+    color: #666;
+      font-size: 22px;
+     border: none;
+   cursor: pointer;
+     padding: 8px;
+      transition: color 0.3s ease, background-color 0.3s ease;
+    }
+
+    .close-btn:hover {
+       color: #fff;
+     background-color: var(--main-color); /* لون خلفية مميز عند التحويم */
+   }
+
+@media (max-width: 768px) {
+        .cart,
+        .gift,
+          .wishlist {
+              width: 90%;
+              
+         }
+   }
 /* تنسيق التنقل */
 .navigation {
     display: flex;
@@ -1231,14 +1246,18 @@ h2 {
     font-size: 16px;
 }
 
-.empty-cart-message {
+.empty-cart-message,
+.empty-gift-message,
+.empty-wishlist-message
+ {
     text-align: center;
     font-size: 18px;
     color: #555;
     margin-top: 50%;
 }
-
-.empty-cart-icon {
+.empty-cart-icon,
+.empty-gift-icon,
+.empty-wishlist-icon {
     text-align: center;
     font-size: 50px;
     color: #ccc;
