@@ -1,3 +1,5 @@
+// --- START OF FILE product.js ---
+
 // Initialize IndexedDB
 let db;
 const dbName = 'productsDB';
@@ -18,6 +20,9 @@ request.onupgradeneeded = (event) => {
     if (!db.objectStoreNames.contains('wishlist')) {
         db.createObjectStore('wishlist', { keyPath: 'uniqueId' });
     }
+    if (!db.objectStoreNames.contains('gift')) {
+      db.createObjectStore('gift', { keyPath: 'uniqueId' });
+  }
 };
 
 request.onsuccess = async (event) => {
@@ -25,6 +30,7 @@ request.onsuccess = async (event) => {
     // Load data from IndexedDB once the database is ready
   await  loadCartFromIndexedDB();
    await loadWishlistFromIndexedDB();
+   await loadGiftFromIndexedDB();
 };
 
 
@@ -155,6 +161,39 @@ async function loadWishlistFromIndexedDB() {
         })
         .catch(error => console.error("Error loading wishlist from IndexedDB:", error));
 }
+
+// --- Gift Functions ---
+let giftItems = [];
+
+async function saveGiftToIndexedDB() {
+    try {
+        const store = getObjectStore('gift', 'readwrite');
+
+        // Clear existing gift items
+        const clearRequest = store.clear();
+        await new Promise((resolve, reject) => {
+            clearRequest.onsuccess = resolve;
+            clearRequest.onerror = reject;
+        });
+
+        // Add each item to the object store
+        for (const item of giftItems) {
+            await addToIndexedDB('gift', item);
+        }
+    } catch (error) {
+        console.error("Error saving gift to IndexedDB:", error);
+    }
+}
+
+async function loadGiftFromIndexedDB() {
+     return getAllFromIndexedDB('gift')
+        .then(items => {
+            giftItems = items;
+           return  updateGiftUI();
+        })
+        .catch(error => console.error("Error loading gift from IndexedDB:", error));
+}
+
 let currentDisplayedImage = '';
 let selectedColor = '';
 
@@ -378,6 +417,9 @@ function renderProductDetails(product) {
                     <span class="btn_add_cart ${product.amount <= 0 ? 'out-of-stock-btn' : ''}">
                         <i class="fa-solid fa-cart-shopping"></i> إضافة للسلة
                     </span>
+                     <span class="btn_add_gift ${product.amount <= 0 ? 'out-of-stock-btn' : ''}">
+                        <i class="fa-solid fa-gift"></i> أضف للهدية
+                    </span>
                      <span class="btn_add_wishlist">
                         <i class="fa-regular fa-heart"></i> إضافة للمفضلة
                      </span>
@@ -401,6 +443,11 @@ function renderProductDetails(product) {
     const addToCartButton = document.querySelector('.btn_add_cart');
     if (product.amount <= 0 && addToCartButton) {
         addToCartButton.disabled = true;
+    }
+     // Disable the add to gift button if out of stock
+    const addToGiftButton = document.querySelector('.btn_add_gift');
+    if (product.amount <= 0 && addToGiftButton) {
+        addToGiftButton.disabled = true;
     }
 }
 
@@ -485,6 +532,7 @@ function attachImageGalleryEvents() {
 async function addEventListenersToProduct(product) {
     const addToCartButton = document.querySelector('.btn_add_cart');
     const addToWishlistButton = document.querySelector('.btn_add_wishlist');
+    const addToGiftButton = document.querySelector('.btn_add_gift');
     const favoritesButton = document.querySelector('.share-button');
 
         // Function to check if a product is in the wishlist
@@ -545,6 +593,50 @@ async function addEventListenersToProduct(product) {
             });
         }
     }
+     if (addToGiftButton) {
+          if (product.amount <= 0) {
+            // If the product is out of stock
+               addToGiftButton.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent default click behavior
+
+                const message = document.createElement('div');
+                message.textContent = 'خلص والله';
+                message.classList.add('out-of-stock-message'); // Apply CSS class
+                document.body.appendChild(message);
+
+                setTimeout(() => {
+                    message.remove();
+                }, 1500);
+            });
+         }else {
+               addToGiftButton.addEventListener('click', async function () {
+                const productId = product.id;
+                const imgSrc = currentDisplayedImage || product.image;
+                const title = product.name;
+                const price = product.price;
+
+                // Use product.amount to check against actual stock
+                const giftResult = await addToGift(productId, imgSrc, title, price, product.amount, selectedColor); //Pass amount and color
+              if (giftResult === 'added') {
+                //If added successfuly then show success message
+                 this.innerHTML = '<i class="fa-solid fa-check"></i> تم الإضافة';
+                this.style.backgroundColor = '#ccc';
+               this.disabled = true;
+
+                 setTimeout(() => {
+                    this.style.backgroundColor = '';
+                   this.innerHTML = '<i class="fa-solid fa-gift"></i> أضف للهدية';
+                   this.disabled = false;
+                }, 1000);
+
+            } else if (giftResult === 'max_quantity_reached') {
+                 this.textContent = 'انت حطيت كله خلاص';
+                 this.disabled = true;
+               this.style.backgroundColor = 'orange';
+            }
+            });
+          }
+     }
     if (addToWishlistButton) {
         addToWishlistButton.addEventListener('click', async function () {
 
@@ -610,6 +702,37 @@ async function addToCart(productId, imgSrc, title, price, availableQuantity, col
         }
     }
 }
+// Function to add product to gift
+async function addToGift(productId, imgSrc, title, price, availableQuantity, color) { // Accept availableQuantity and color
+   const uniqueId = `${productId}-${color}`;
+    const existingItem = giftItems.find(item => item.uniqueId === uniqueId);
+
+    if (existingItem) {
+        if (existingItem.quantity < availableQuantity) {  // check if product amount is more than existing item quantity
+            existingItem.quantity += 1;
+          await  saveGiftToIndexedDB();
+            updateGiftUI();
+            return 'added';
+
+        } else {
+           return 'max_quantity_reached'; // return  if over the amount
+        }
+    } else {
+        if (availableQuantity > 0) { // Add if amount is greater than 0
+            const product = { uniqueId: uniqueId, id: productId, imgSrc, title, price, quantity: 1, color:color };
+            giftItems.push(product);
+           await saveGiftToIndexedDB();
+            updateGiftUI();
+              return 'added';
+
+        } else {
+            showOutOfStockMessage(); // Show message if over the amount
+             return 'out_of_stock';
+
+
+        }
+    }
+}
 // Function to add product to wishlist
 async function addToWishlist(productId, imgSrc, title, price, color) {
     const uniqueId = `${productId}-${color}`;
@@ -657,6 +780,28 @@ window.updateCartQuantity = async function (productId, increment, color) {
     }
 };
 
+window.updateGiftQuantity = async function (productId, increment, color) {
+    const uniqueId = `${productId}-${color}`;
+      const item = giftItems.find(item => item.uniqueId === uniqueId);
+    if (item) {
+        findProductData(productId).then(async (productData) => {
+            if (increment > 0 && item.quantity >= productData.amount) {
+                showOutOfStockMessage(); // Show out of stock if exceeds product amount
+
+            } else {
+                item.quantity += increment;
+                if (item.quantity <= 0) {
+                   await removeFromGift(productId, color);
+                } else {
+                  await  saveGiftToIndexedDB();
+                   updateGiftUI();
+                }
+            }
+        })
+
+
+    }
+};
 window.removeFromCart = async function (productId, color) {
     const uniqueId = `${productId}-${color}`;
     const productElement = document.querySelector(`.item_cart[data-product-id="${productId}-${color}"]`);
@@ -673,7 +818,21 @@ window.removeFromCart = async function (productId, color) {
         }
 
 };
+window.removeFromGift = async function (productId, color) {
+    const uniqueId = `${productId}-${color}`;
+    const productElement = document.querySelector(`.item_gift[data-product-id="${productId}-${color}"]`);
+       const addToGiftButton = document.querySelector(`.btn_add_gift`);
 
+    giftItems = giftItems.filter(item => item.uniqueId !== uniqueId);
+    await saveGiftToIndexedDB();
+    updateGiftUI();
+        updateWishlistUI(); // Update wishlist UI when gift is changed
+       if (addToGiftButton) {
+            addToGiftButton.innerHTML = '<i class="fa-solid fa-gift"></i> أضف للهدية';
+             addToGiftButton.style.backgroundColor = '';
+            addToGiftButton.disabled = false;
+        }
+};
 // Function to remove from wishlist
 window.removeFromWishlist = async function (productId, color) {
       const uniqueId = `${productId}-${color}`;
@@ -706,6 +865,26 @@ window.moveToCart = async function (productId, color) {
         }
     })
 };
+// Function to move item from wishlist to gift
+window.moveToGift = async function (productId, color) {
+    findProductData(productId).then(async (productData) => {
+             const uniqueId = `${productId}-${color}`;
+         const existingItemInGift = giftItems.find(item => item.uniqueId === uniqueId);
+        if (existingItemInGift) {
+            showAlreadyInGiftMessage(); // Show message if already in gift
+        } else {
+            const item = wishlistItems.find(item => item.uniqueId === uniqueId);
+            if (item) {
+                if (productData && productData.amount > 0) { // check if product amount is greater than 0
+                 await   addToGift(item.id, item.imgSrc, item.title, item.price, productData.amount, color); // Pass the amount and color
+                    await removeFromWishlist(productId, color);
+                }else {
+                      showOutOfStockMessage();
+                }
+            }
+        }
+    })
+};
 function showAlreadyInCartMessage() {
     const message = document.createElement('div');
     message.textContent = 'موجود';
@@ -714,6 +893,15 @@ function showAlreadyInCartMessage() {
 
     setTimeout(() => {
         message.remove();
+    }, 1500);
+}
+function showAlreadyInGiftMessage() {
+    const message = document.createElement('div');
+    message.textContent = 'موجود';
+    message.classList.add('out-of-stock-message');
+    document.body.appendChild(message);
+
+    setTimeout(() => {     message.remove();
     }, 1500);
 }
 
@@ -789,7 +977,52 @@ async function updateCartUI() {
     document.querySelectorAll('.price_cart_total').forEach(el => el.textContent = `${totalPrice} جنيه`);
     document.querySelectorAll('.count_item').forEach(el => el.textContent = totalQuantity);
 }
-// Function to update wishlist UI
+async function updateGiftUI() {
+    const giftItemsContainer = document.querySelector('.items_in_gift');
+    if (!giftItemsContainer) return;
+
+    // Clear gift content
+    giftItemsContainer.innerHTML = '';
+
+    let totalPrice = 0;
+    let totalQuantity = 0;
+      if (giftItems.length === 0) {
+         giftItemsContainer.innerHTML = `
+             <p class="empty-gift-message">مفيش هدايا يباشا</p>
+              <div class="empty-gift-icon">
+                    <i class="fa-solid fa-gift"></i>
+             </div>
+      `;
+    } else {
+         for (const item of giftItems) {
+            const productData = await findProductData(item.id);
+                const disablePlus = productData && item.quantity >= productData.amount ? 'disabled' : '';
+                const giftItemHTML = `
+                <div class="item_gift" data-product-id="${item.id}-${item.color}">
+                    <img src="${item.imgSrc}" alt="${item.title}">
+                     <div class="gift-item-details">
+                         <h4>${item.title}</h4>
+                        <p>${item.price} جنيه</p>
+                         <p style="color:${item.color}">${item.color}</p>
+                         <div class="quantity_controls">
+                             <button onclick="updateGiftQuantity(${item.id}, -1, '${item.color}')">-</button>
+                             <span>${item.quantity}</span>
+                             <button onclick="updateGiftQuantity(${item.id}, 1, '${item.color}')"  ${disablePlus}>+</button>
+                        </div>
+                    </div>
+                    <button class="delete_item" onclick="removeFromGift(${item.id}, '${item.color}')"><i class="fa fa-trash"></i></button>
+                </div>
+                `;
+            giftItemsContainer.insertAdjacentHTML('beforeend', giftItemHTML);
+               totalPrice += parseFloat(item.price) * item.quantity;
+             totalQuantity += item.quantity;
+        }
+    }
+
+    // Update statistics
+    document.querySelectorAll('.gift_count').forEach(el => el.textContent = totalQuantity);
+   document.querySelectorAll('.price_gift_total').forEach(el => el.textContent = `${totalPrice} جنيه`);
+}
 // Function to update wishlist UI
 function updateWishlistUI() {
     const wishlistItemsContainer = document.querySelector('.items_in_wishlist');
@@ -810,11 +1043,18 @@ function updateWishlistUI() {
 
         wishlistItems.forEach(item => {
             const existingItemInCart = cartItems.find(cartItem => cartItem.uniqueId === item.uniqueId);
+            const existingItemInGift = giftItems.find(giftItem => giftItem.uniqueId === item.uniqueId);
              let moveToCartButton;
+             let moveToGiftButton;
                 if (existingItemInCart) {
                   moveToCartButton = `<button class="btn_wishlist" disabled >موجود في السلة</button>`; // Disable if already in cart
                 } else {
                     moveToCartButton = `<button class="btn_wishlist" onclick="moveToCart(${item.id}, '${item.color}')">نقل الي العربة</button>`
+                  }
+                if (existingItemInGift) {
+                     moveToGiftButton = `<button class="btn_wishlist" disabled >موجود في الهدية</button>`; // Disable if already in gift
+                }else {
+                     moveToGiftButton = `<button class="btn_wishlist" onclick="moveToGift(${item.id}, '${item.color}')">نقل الي الهدية</button>`
                   }
 
              const wishlistHTML = `
@@ -827,6 +1067,7 @@ function updateWishlistUI() {
                    </div>
                   <div class="wishlist_actions">
                          ${moveToCartButton}
+                         ${moveToGiftButton}
                        <button class="delete_item" onclick="removeFromWishlist(${item.id}, '${item.color}')"><i class="fa fa-trash"></i></button>
                      </div>
               </div>
@@ -846,6 +1087,7 @@ window.addEventListener('load', () => {
 window.addEventListener('DOMContentLoaded', () => {
      loadCartFromIndexedDB();
       loadWishlistFromIndexedDB();
+      loadGiftFromIndexedDB();
 });
 var cart = document.querySelector('.cart');
 function open_cart() {
@@ -853,6 +1095,13 @@ function open_cart() {
 }
 function close_cart() {
     cart.classList.remove("active");
+}
+var gift = document.querySelector('.gift');
+function open_gift() {
+    gift.classList.add("active");
+}
+function close_gift() {
+    gift.classList.remove("active");
 }
 
 var wishlist = document.querySelector('.wishlist');
@@ -938,7 +1187,7 @@ async function sendInvoiceViaWhatsApp() {
         message += `  🆔 *ID:* ${item.id}\n`;
         message += `   *الاسم:* ${item.title}\n`;
         message += `   *الكمية:* ${item.quantity}\n`;
-        message += `   *اللون:* ${item.color}\n`;
+         message += `   *اللون:* ${item.color}\n`;
          message += `   *السعر للوحدة:* ${item.price} \n`;
         message += `  *الإجمالي:* ${parseFloat(item.price) * item.quantity} جنيه\n`;
         message += `----------------------------------------\n`;
@@ -967,6 +1216,10 @@ async function clearCart() {
     updateCartUI();
     document.querySelectorAll('.count_item').forEach(el => el.textContent = '0');
     document.querySelectorAll('.price_cart_total').forEach(el => el.textContent = '0 جنيه');
+}
+// Function to handle "Complete Gift" button
+function completeGift() {
+    window.open('gift.html', '_blank'); // Open gift.html in a new tab
 }
 
 // Function to close the product page
