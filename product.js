@@ -185,6 +185,7 @@ async function saveGiftToIndexedDB() {
     }
 }
 
+
 async function loadGiftFromIndexedDB() {
      return getAllFromIndexedDB('gift')
         .then(items => {
@@ -710,7 +711,7 @@ async function addToGift(productId, imgSrc, title, price, availableQuantity, col
     if (existingItem) {
         if (existingItem.quantity < availableQuantity) {  // check if product amount is more than existing item quantity
             existingItem.quantity += 1;
-          await  saveGiftToIndexedDB();
+           await saveGiftToIndexedDB(); // Corrected: Save gift data after modifying
             updateGiftUI();
             return 'added';
 
@@ -901,7 +902,8 @@ function showAlreadyInGiftMessage() {
     message.classList.add('out-of-stock-message');
     document.body.appendChild(message);
 
-    setTimeout(() => {     message.remove();
+    setTimeout(() => {
+        message.remove();
     }, 1500);
 }
 
