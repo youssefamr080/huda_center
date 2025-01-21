@@ -8,8 +8,8 @@
           "price": 350,
           "old_price": 450,
           "amount": 4,
-          "image": "images/u beast.jpg",
-          "images": ["images/u beast.jpg","images/virgin island.jpg","images/oil.jpg"],
+          "image": "u beast.jpg",
+          "images": ["u beast.jpg","virgin island.jpg","oil.jpg"],
           "tags": ["روليكس", "جلد", "اسود", "ساعة"],
           "description": "وصف روليكس جلد اسود",
            "colors": ["black", "green","silver"] 
@@ -20,8 +20,8 @@
           "price": 380,
           "old_price": 450,
           "amount": 0,
-          "image": "images/virgin island.jpg",
-           "images": ["images/virgin island.jpg","images/oil.jpg","images/u beast.jpg"],
+          "image": "virgin island.jpg",
+           "images": ["virgin island.jpg","oil.jpg","u beast.jpg"],
           "tags": ["روليكس", "جلد", "اسود", "ساعة"],
           "description": "وصف ساعة رقم 2",
            "colors": ["silver", "gold"]
@@ -32,8 +32,8 @@
           "price": 370,
           "old_price": 450,
           "amount": 0,
-          "image": "images/oil.jpg",
-           "images": ["images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+          "image": "oil.jpg",
+           "images": ["oil.jpg","u beast.jpg","virgin island.jpg"],
           "tags": ["روليكس", "جلد", "اسود", "ساعة"],
           "description": "وصف روليكس جلد ابيض",
           "colors": ["white", "gray"]
@@ -44,8 +44,8 @@
           "price": 360,
           "old_price": 450,
           "amount": 0,
-          "image": "images/men wallet.jpg",
-           "images": ["images/men wallet.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+          "image": "men wallet.jpg",
+           "images": ["men wallet.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
           "tags": ["روليكس", "جلد", "اسود", "ساعة"],
             "description": "وصف روليكس جلداخضر",
            "colors": ["green", "black"]
@@ -58,8 +58,8 @@
           "price": 240,
           "old_price": 300,
           "amount": 1,
-          "image": "images/men wallet.jpg",
-           "images": ["images/men wallet.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+          "image": "men wallet.jpg",
+           "images": ["men wallet.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
             "description": "وصف محفظة جلد جامد رجالي",
           "colors": ["brown", "black"]
         },
@@ -69,8 +69,8 @@
           "price": 280,
           "old_price": 300,
           "amount": 1,
-          "image": "images/women Accessories.jpg",
-          "images": ["images/women Accessories.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+          "image": "women Accessories.jpg",
+          "images": ["women Accessories.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
             "description": "وصف محفظة جلد اوي جامد رجالي",
              "colors": ["gray", "blue"]
         }
@@ -82,8 +82,8 @@
           "price": 251,
           "old_price": 300,
           "amount": 1,
-          "image": "images/oil.jpg",
-          "images": ["images/oil.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+          "image": "oil.jpg",
+          "images": ["oil.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
           "tags": ["عطر", "جلد"],
             "description": "وصف  جلد عطر",
             "colors": ["brown"]
@@ -94,8 +94,8 @@
           "price": 2830,
           "old_price": 300,
           "amount": 1,
-          "image": "images/virgin island.jpg",
-            "images": ["images/virgin island.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+          "image": "virgin island.jpg",
+            "images": ["virgin island.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
             "description": "وصف عطر رجالي",
              "colors": ["blue","black","gray"]
         }
@@ -107,8 +107,8 @@
             "price": 251,
             "old_price": 300,
             "amount": 1,
-            "image": "images/oil.jpg",
-             "images": ["images/oil.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+            "image": "oil.jpg",
+             "images": ["oil.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
             "tags": ["عطر", "جلد"],
             "description": "وصف  جلد2 عطر",
              "colors": ["brown", "green"]
@@ -119,8 +119,8 @@
             "price": 280,
             "old_price": 300,
             "amount": 1,
-            "image": "images/virgin island.jpg",
-             "images": ["images/virgin island.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+            "image": "virgin island.jpg",
+             "images": ["virgin island.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
               "description": "وصف عطر3 رجالي",
              "colors": ["gray", "red"]
           }
@@ -132,8 +132,8 @@
             "price": 272,
             "old_price": 300,
             "amount": 1,
-            "image": "images/women sunglasses.jpg",
-             "images": ["images/women sunglasses.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+            "image": "women sunglasses.jpg",
+             "images": ["women sunglasses.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
             "tags": ["عطر", "جلد"],
               "description": "وصف  nadara ",
               "colors": ["black", "silver"]
@@ -144,8 +144,8 @@
             "price": 280,
             "old_price": 300,
               "amount": 1,
-            "image": "images/women sunglasses.jpg",
-              "images": ["images/women sunglasses.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+            "image": "women sunglasses.jpg",
+              "images": ["women sunglasses.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
                 "description": "وصف nadara rgali ",
                   "colors": ["blue", "red","black"]
           }
@@ -157,8 +157,8 @@
             "price": 272,
             "old_price": 300,
               "amount": 1,
-            "image": "images/hand bag.jpg",
-             "images": ["images/hand bag.jpg"],
+            "image": "hand bag.jpg",
+             "images": ["hand bag.jpg"],
               "description": "وصف  hand bag 1 ",
                  "colors": ["black", "brown"]
           },
@@ -168,8 +168,8 @@
             "price": 280,
             "old_price": 300,
               "amount": 1,
-            "image": "images/hand bag.jpg",
-             "images": ["images/hand bag.jpg"],
+            "image": "hand bag.jpg",
+             "images": ["hand bag.jpg"],
              "description": "وصف hand bag 2 ",
              "colors": ["gray", "beige"]
           }
@@ -183,8 +183,8 @@
           "price": 350,
           "old_price": 450,
            "amount": 1,
-          "image": "images/virgin island.jpg",
-           "images": ["images/virgin island.jpg"],
+          "image": "virgin island.jpg",
+           "images": ["virgin island.jpg"],
            "description": "وصف روليكس جلد احمر",
            "colors": ["red", "pink","white"]
         },
@@ -194,8 +194,8 @@
           "price": 380,
           "old_price": 450,
             "amount": 1,
-          "image": "images/u beast.jpg",
-           "images": ["images/u beast.jpg"],
+          "image": "u beast.jpg",
+           "images": ["u beast.jpg"],
            "description": "وصف ساعة رقم 4",
             "colors": ["gold", "silver"]
         }
@@ -207,8 +207,8 @@
           "price": 300,
           "old_price": 400,
           "amount": 2,
-          "image": "images/perfume1.jpg",
-           "images": ["images/perfume1.jpg"],
+          "image": "perfume1.jpg",
+           "images": ["perfume1.jpg"],
           "description": "وصف عطر زهرة",
             "colors": ["yellow", "pink"]
         },
@@ -218,8 +218,8 @@
           "price": 450,
           "old_price": 550,
             "amount": 1,
-          "image": "images/perfume2.jpg",
-          "images": ["images/perfume2.jpg"],
+          "image": "perfume2.jpg",
+          "images": ["perfume2.jpg"],
             "description": "وصف عطر المساء",
             "colors": ["purple", "blue"]
         }
@@ -231,8 +231,8 @@
             "price": 251,
             "old_price": 300,
             "amount": 1,
-            "image": "images/oil.jpg",
-             "images": ["images/oil.jpg"],
+            "image": "oil.jpg",
+             "images": ["oil.jpg"],
             "tags": ["عطر", "جلد"],
              "description": "وصف  جلد2 عطر",
               "colors": ["gray", "white"]
@@ -243,8 +243,8 @@
             "price": 280,
             "old_price": 300,
               "amount": 1,
-            "image": "images/virgin island.jpg",
-             "images": ["images/virgin island.jpg"],
+            "image": "virgin island.jpg",
+             "images": ["virgin island.jpg"],
              "description": "وصف عطر3 رجالي",
               "colors": ["red", "gray"]
           }
@@ -256,8 +256,8 @@
           "price": 200,
           "old_price": 250,
             "amount": 1,
-          "image": "images/wallet1.jpg",
-           "images": ["images/wallet1.jpg"],
+          "image": "wallet1.jpg",
+           "images": ["wallet1.jpg"],
             "description": "وصف محفظة حريمي جلدية",
               "colors": ["brown", "pink"]
         },
@@ -267,8 +267,8 @@
           "price": 150,
           "old_price": 200,
             "amount": 1,
-          "image": "images/wallet2.jpg",
-          "images": ["images/wallet2.jpg"],
+          "image": "wallet2.jpg",
+          "images": ["wallet2.jpg"],
             "description": "وصف محفظة حريمي صغيرة",
             "colors": ["beige", "black"]
         }
@@ -280,8 +280,8 @@
           "price": 500,
           "old_price": 700,
             "amount": 1,
-          "image": "images/women sunglasses.jpg",
-           "images": ["images/women sunglasses.jpg"],
+          "image": "women sunglasses.jpg",
+           "images": ["women sunglasses.jpg"],
             "description": "وصف نظارة شمسية كلاسيكية",
              "colors": ["black", "gold"]
         },
@@ -291,8 +291,8 @@
           "price": 600,
           "old_price": 800,
           "amount": 1,
-          "image": "images/women sunglasses.jpg",
-          "images": ["images/women sunglasses.jpg"],
+          "image": "women sunglasses.jpg",
+          "images": ["women sunglasses.jpg"],
             "description": "وصف نظارة شمسية حديثة",
              "colors": ["silver", "blue"]
         }
@@ -304,8 +304,8 @@
           "price": 100,
           "old_price": 150,
             "amount": 1,
-          "image": "images/women Accessories.jpg",
-           "images": ["images/women Accessories.jpg"],
+          "image": "women Accessories.jpg",
+           "images": ["women Accessories.jpg"],
             "description": "وصف اكسسوار ذهبي",
               "colors": ["gold"]
         },
@@ -315,8 +315,8 @@
           "price": 120,
           "old_price": 180,
             "amount": 1,
-          "image": "images/women Accessories.jpg",
-          "images": ["images/women Accessories.jpg"],
+          "image": "women Accessories.jpg",
+          "images": ["women Accessories.jpg"],
           "description": "وصف اكسسوار فضي",
           "colors": ["silver"]
         }
@@ -341,8 +341,8 @@
           "price": 380,
           "old_price": 450,
            "amount": 1,
-          "image": "images/u beast.jpg",
-           "images": ["images/u beast.jpg"],
+          "image": "u beast.jpg",
+           "images": ["u beast.jpg"],
             "description": "وصف ساعة رقم 45",
               "colors": ["white", "blue"]
         },
@@ -352,8 +352,8 @@
           "price": 340,
           "old_price": 450,
            "amount": 1,
-          "image": "images/virgin island.jpg",
-            "images": ["images/virgin island.jpg"],
+          "image": "virgin island.jpg",
+            "images": ["virgin island.jpg"],
             "description": "وصف روليكس جلد 70",
              "colors": ["gray", "black"]
         },
@@ -363,8 +363,8 @@
           "price": 380,
           "old_price": 450,
             "amount": 1,
-          "image": "images/u beast.jpg",
-          "images": ["images/u beast.jpg"],
+          "image": "u beast.jpg",
+          "images": ["u beast.jpg"],
             "description": "وصف ساعة رقم 44",
              "colors": ["yellow", "pink"]
         },
@@ -374,8 +374,8 @@
           "price": 350,
           "old_price": 450,
             "amount": 1,
-          "image": "images/virgin island.jpg",
-            "images": ["images/virgin island.jpg"],
+          "image": "virgin island.jpg",
+            "images": ["virgin island.jpg"],
             "description": "وصف روليكس جلد 30",
              "colors": ["red", "blue"]
         },
@@ -385,8 +385,8 @@
           "price": 380,
           "old_price": 450,
            "amount": 1,
-          "image": "images/u beast.jpg",
-           "images": ["images/u beast.jpg"],
+          "image": "u beast.jpg",
+           "images": ["u beast.jpg"],
             "description": "وصف ساعة رقم 50",
              "colors": ["white", "blue"]
         }
@@ -455,8 +455,8 @@
           "price": 200,
           "old_price": 250,
             "amount": 1,
-          "image": "images/wallet1.jpg",
-           "images": ["images/wallet1.jpg"],
+          "image": "wallet1.jpg",
+           "images": ["wallet1.jpg"],
             "description": "وصف محفظة حريمي جلدية",
             "colors": ["brown", "black"]
         },
@@ -466,8 +466,8 @@
           "price": 150,
           "old_price": 200,
             "amount": 1,
-          "image": "images/wallet2.jpg",
-           "images": ["images/wallet2.jpg"],
+          "image": "wallet2.jpg",
+           "images": ["wallet2.jpg"],
             "description": "وصف محفظة حريمي صغيرة",
               "colors": ["pink", "beige"]
         }
