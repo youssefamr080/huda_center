@@ -1,42 +1,19 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl"></html>
+<html lang="ar" dir="rtl">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-X57BMEHRKV"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-X57BMEHRKV');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الهدي سنتر</title>
-    <link rel="icon" href="icon.png">
-    <link rel="stylesheet" href="product.css">
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="icon" href="images/icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/product.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
 </head>
 <body>
-   
-    <!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/6787ee70825083258e05a9c6/1ihlhrlvo';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
     <header>
         <div class="container top-nav">
-            <a href="" class="logo"><img src="logo.png" alt=""></a>
+            <a href="" class="logo"><img src="images/logo.png" alt=""></a>
             <form class="search-bar">
                 <div class="menu">
                     <div class="item">
@@ -74,6 +51,12 @@ s0.parentNode.insertBefore(s1,s0);
                         <span class="wishlist_count">0</span>
                     </div>
                 </div>
+                <div class="gift_header">
+                    <div class="icon_gift" onclick="open_gift()">
+                     <i class="fa-solid fa-gift"></i>
+                     <span class="gift_count">0</span>
+                    </div>
+                </div>
                 <div class="cart_header">
                     <div onclick="open_cart()" class="icon_cart">
                         <i class="fa-solid fa-cart-shopping"></i>
@@ -84,29 +67,28 @@ s0.parentNode.insertBefore(s1,s0);
                     <span class="price_cart_total">0 جنيه</span>
                 </div>
             </div>
-            
-        </div>
     </header>
-    <div class="cart">
-        <div class="top_cart">
-            <h3>سلة التسوق <span>(<span class="cart_count">0</span> منتجات)</span></h</div>
-            <div class="close_cart" onclick="close_cart()"><i class="fa fa-times"></i></div>
-        </div>
-        <div class="items_in_cart"></div>
-        <div class="bottom_cart">
-            <div class="total">
-                <span>المجموع:</span>
-                <span class="price_cart_total">0 جنيه</span>
+        <!-- العربة -->
+        <div class="cart">
+            <div class="top_cart">
+                <h3>سلة التسوق <span>(<span class="cart_count">0</span> منتجات)</span></h</div>
+                <div class="close_cart" onclick="close_cart()"><i class="fa fa-times"></i></div>
             </div>
-            <div class="button_cart">
-                <button class="btn_cart"onclick="sendInvoiceViaWhatsApp()">ارسال الفاتورة عبر الواتساب</button>
-                <button class="btn_cart trans_bg" onclick="close_cart()">متابعة التسوق</button>
+            <div class="items_in_cart"></div>
+            <div class="bottom_cart">
+                <div class="total">
+                    <span>المجموع:</span>
+                    <span class="price_cart_total">0 جنيه</span>
+                </div>
+                <div class="button_cart">
+                    <button class="btn_cart"onclick="sendInvoiceViaWhatsApp()">ارسال الفاتورة عبر الواتساب</button>
+                    <button class="btn_cart trans_bg" onclick="close_cart()">متابعة التسوق</button>
+                </div>
             </div>
         </div>
-    </div> 
         <div class="wishlist">
             <div class="top_wishlist">
-                <h3>قائمة المفضلة  <span>(<span class="wishlist_count">0</span> منتجات)</span></h3>
+                <h3>قائمة المفضلة <span>(<span class="count_item wishlist_count">0</span> منتجات)</span></h3>
                 <div class="close_wishlist" onclick="close_wishlist()"><i class="fa fa-times"></i></div>
             </div>
             <div class="items_in_wishlist"></div>
@@ -115,7 +97,24 @@ s0.parentNode.insertBefore(s1,s0);
                     <button class="btn_wishlist trans_bg" onclick="close_wishlist()">متابعة التسوق</button>
                 </div>
             </div>
-        </div> 
+        </div>
+        <div class="gift">
+            <div class="top_gift">
+                <h3>سلة الهدية <span>(<span class="gift_count">0</span> منتجات)</span></h</div>
+                <div class="close_gift" onclick="close_gift()"><i class="fa fa-times"></i></div>
+            </div>
+            <div class="items_in_gift"></div>
+            <div class="bottom_gift">
+                <div class="total">
+                    <span>المجموع:</span>
+                    <span class="price_gift_total">0 جنيه</span>
+                </div>
+                <div class="button_gift">
+                    <button class="btn_gift"onclick="completegift()">اكمال الهدية</button>
+                    <button class="btn_gift trans_bg" onclick="close_gift()">متابعة التسوق</button>
+                </div>
+            </div>
+        </div>
     <main>
         <!-- العربة -->
         <button class="close-btn" onclick="closePage()"><i class="fa-solid fa-arrow-left"></i></button>
@@ -123,22 +122,24 @@ s0.parentNode.insertBefore(s1,s0);
             <!-- تفاصيل المنتج ستُعرض هنا -->
         </div>
     </main>
-<footer id="footer">
-    <div class="footer-container">
-        <h3>للدعم أو الاستفسار، تواصل معنا عبر الواتساب أو فيسبوك. نحن هنا لمساعدتك!</h3>
-        <ul class="social-links">
-            <li><a href="https://wa.me/+201026972523" target="_blank" class="whatsapp-link"><i class="fab fa-whatsapp"></i> واتساب</a></li>
-            <li><a href="http://m.me/104124002518682" target="_blank" class="messenger-link"><i class="fab fa-facebook-messenger"></i> ماسنجر</a></li>
-            <li><a href="https://www.google.com/maps/place/31%C2%B001%2753.5%22N+30%C2%B027%2749.0%22E/@31.031505,30.463736,20z/data=!4m4!3m3!8m2!3d31.031533!4d30.463614?hl=ar&entry=ttu" target="_blank" class="maps-link"><i class="fas fa-map-marker-alt"></i> موقعنا</a></li>
-            <li><a href="https://t.me/+VMKBOk1oqqS3Ciyt" target="_blank" class="telegram-link"><i class="fab fa-telegram-plane"></i> تيليجرام</a></li>
-            <li><a href="https://www.facebook.com/profile.php?id=100087530415837&mibextid=ZbWKwL" target="_blank" class="facebook-link"><i class="fab fa-facebook-f"></i> فيسبوك</a></li>
-        </ul>
-       
-        <p>جميع حقوق الملكية محفوظة لدى الهدى سنتر © 2025</p>
-    </div>
-</footer>
-    <script src="product.json"></script>
-    <script src="product.js"></script>
- 
+    <footer id="footer">
+        <div class="footer-container">
+            <h3>لأي استفسار أو دعم، تواصل معنا عبر الواتساب او زور صفحتنا على الفيس بوك. نحن دائمًا هنا لمساعدتك!</h3>
+            <ul class="social-links">
+                <li><a href="https://wa.me/+201026972523" target="_blank" class="whatsapp-link"><i class="fab fa-whatsapp"></i> واتساب</a></li>
+                <li><a href="http://m.me/104124002518682" target="_blank" class="messenger-link"><i class="fab fa-facebook-messenger"></i> ماسنجر</a></li>
+                <li><a href="https://www.google.com/maps/place/31%C2%B001%2753.5%22N+30%C2%B027%2749.0%22E/@31.031505,30.463736,20z/data=!4m4!3m3!8m2!3d31.031533!4d30.463614?hl=ar&entry=ttu" target="_blank" class="maps-link"><i class="fas fa-map-marker-alt"></i> موقعنا</a></li>
+                <li><a href="https://t.me/+VMKBOk1oqqS3Ciyt" target="_blank" class="telegram-link"><i class="fab fa-telegram-plane"></i> تيليجرام</a></li>
+                <li><a href="https://www.facebook.com/profile.php?id=100087530415837&mibextid=ZbWKwL" target="_blank" class="facebook-link"><i class="fab fa-facebook-f"></i> فيسبوك</a></li>
+            </ul>
+           
+            <p>جميع حقوق الملكية محفوظة لدى الهدى سنتر © 2025</p>
+        </div>
+    </footer>
+
+    <script src="java/product.js"></script>
+    <script>
+        (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="pGBMI0-PZagj2D9UF3fOI";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+        </script>
 </body>
 </html>
