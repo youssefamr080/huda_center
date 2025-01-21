@@ -626,7 +626,7 @@ async function updateCartUI() {
 }
 // Function to update wishlist UI
 // Function to update wishlist UI
-function updateWishlistUI() {
+async function updateWishlistUI() {
     const wishlistItemsContainer = document.querySelector('.items_in_wishlist');
     if (!wishlistItemsContainer) return;
 
@@ -636,8 +636,8 @@ function updateWishlistUI() {
 
     if (wishlistItems.length === 0) {
         wishlistItemsContainer.innerHTML = `
-             <p class="empty-wishlist-message"></p>
-              <div class="empty-wishlist-icon">
+             <p class="empty-wishlist-message">مش عاجبك حاجه؟</p>
+              <div class="empty-wishlist-icon"><i class="fa-solid fa-heart-crack"></i> 
 
              </div>
       `
