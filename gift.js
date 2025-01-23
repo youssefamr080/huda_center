@@ -1,665 +1,830 @@
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize IndexedDB
+let db;
+const dbName = 'productsDB';
+const dbVersion = 1;
 
-  // -- DOM Elements
-  const giftProductsContainer = document.getElementById('added-items');
-  const packsOptionsContainer = document.getElementById('packs-options');
-  const boxesOptionsContainer = document.getElementById('boxes-options');
-  const sweetsOptionsContainer = document.getElementById('sweets-options');
-  const wrappingOptionsContainer = document.getElementById('wrapping-options');
-  const giftTotalElement = document.getElementById('giftTotal');
-  const noteArea = document.getElementById('note-area');
-  const confirmButton = document.getElementById('confirmButton');
+const request = indexedDB.open(dbName, dbVersion);
 
-  // Container for Added Options
-  const addedPackagingContainer = document.querySelector('.added-packaging-container');
-  const addedSweetsContainer = document.querySelector('.added-sweets-container');
-  const addedWrapsContainer = document.querySelector('.added-wraps-container');
+request.onerror = (event) => {
+    console.error("Database error:", event.target.errorCode);
+};
 
+request.onupgradeneeded = (event) => {
+    db = event.target.result;
+    // Create object stores (tables) if they don't exist
+    if (!db.objectStoreNames.contains('wishlist')) {
+        db.createObjectStore('wishlist', { keyPath: 'uniqueId' });
+    }
+};
 
-    const emptyGiftMessage = '<p class="empty-gift-message"> لا يوجد منتجات بالهدية. </p>';
-
-    addedSweetsContainer.innerHTML = `<h3> الحلويات </h3>`;
-    addedPackagingContainer.innerHTML = `<h3> التعبئة </h3>`;
-    addedWrapsContainer.innerHTML = `<h3> التغليف </h3>`;
-
-  // -- State variables
-  let selectedOptions = {
-    package: null,
-    sweets: [],
-    wraps: []
-  };
-
-  const STORAGE_KEY = 'giftState';
-  let giftData = [];
-    // -- Loading State
-    const loadingOverlay = document.createElement('div');
-    loadingOverlay.classList.add('loading-overlay');
-    loadingOverlay.innerHTML = '<div class="loading-spinner"></div>';
-    document.body.appendChild(loadingOverlay);
+request.onsuccess = async (event) => {
+    db = event.target.result;
+    // Load data from IndexedDB once the database is ready
+  await  loadWishlistFromIndexedDB();
+  loadGiftFromLocalStorage();
+};
 
 
-  // -- Load Data from JSON and LocalStorage
-  loadInitialData();
+// --- Helper Functions for IndexedDB ---
 
-
-  async function loadInitialData() {
-    try {
-      showLoading();
-      giftData = loadDataFromStorage('giftData');
-      renderGiftProducts(giftData);
-
-      const response = await fetch('gift.json');
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+function getObjectStore(storeName, mode) {
+    const transaction = db.transaction(storeName, mode);
+    return transaction.objectStore(storeName);
+}
+function getAllFromIndexedDB(storeName) {
+    return new Promise((resolve, reject) => {
+      if (!db) {
+        reject(new Error("Database not initialized yet."));
+        return;
       }
-
-      const giftJSON = await response.json();
-      if (!giftJSON) {
-        throw new Error(`invalid json`);
-      }
-
-      // Render Options
-      renderPackagingOptions(giftJSON.packaging, packsOptionsContainer, boxesOptionsContainer);
-      renderOptions(giftJSON.sweets, sweetsOptionsContainer, 'sweet');
-      renderOptions(giftJSON.decorations, wrappingOptionsContainer, 'wrap');
-      // Restore previously Selected Options
-      loadSelectedOptionsFromStorage()
-      // Initialize Swiper
-      initSwiper();
-        calculateTotal();
-
-        window.removeFromGiftPage = (productId) => {
-             giftData = giftData.filter(item => item.productId !== productId);
-             saveDataToStorage('giftData', giftData);
-           renderGiftProducts(giftData);
-           calculateTotal();
-       };
-    } catch (error) {
-      console.error('Failed to load or parse data:', error);
-      alert('فشل في تحميل البيانات. يرجى المحاولة مرة أخرى.');
-    } finally {
-      hideLoading();
-    }
-  }
-
-  function loadDataFromStorage(key) {
-       try {
-           const storedData = localStorage.getItem(key);
-            return storedData ? JSON.parse(storedData) : [];
-        }
-        catch (error) {
-             console.error(`Error loading data from localStorage with key: ${key}`, error);
-             return [];
-        }
-   }
-
-    function saveDataToStorage(key, data) {
-      try {
-        localStorage.setItem(key, JSON.stringify(data));
-       } catch (error) {
-         console.error(`Error saving data to localStorage with key: ${key}`, error);
-       }
-    }
-
-    function loadSelectedOptionsFromStorage() {
-      try {
-          const storedState = localStorage.getItem(STORAGE_KEY);
-          if (storedState) {
-              selectedOptions = JSON.parse(storedState);
-              if (selectedOptions.package) {
-                  renderAddedPackage(selectedOptions.package);
-                  updatePackageSelectionUI(selectedOptions.package);
-              }
-               selectedOptions.sweets.forEach(sweet => {
-                   const optionElement = document.querySelector(`.sweets-item[data-id="${sweet.id}"]`);
-                  if (optionElement) {
-                      markOptionAsSelected(optionElement, 'sweet', sweet);
-                       renderQuantityControls(optionElement, sweet);
-                         const quantityControls = optionElement.querySelector('.quantity-controls');
-                         if (quantityControls){
-                           const quantityValueSpan = quantityControls.querySelector('.quantity-value');
-                         if (quantityValueSpan) {
-                            quantityValueSpan.textContent = sweet.quantity || 0;
-                           }
-                         }
-                      updateAddedSweetItem(sweet, addedSweetsContainer)
-                   }
-                
-              });
-              selectedOptions.wraps.forEach(wrap => {
-                  const optionElement = document.querySelector(`.wrapping-item[data-id="${wrap.id}"]`);
-                  if (optionElement) {
-                     markOptionAsSelected(optionElement, 'wrap', wrap);
-                  }
-              });
-          }
-      } catch (error) {
-         console.error('Error parsing selected options from localStorage', error);
-     }
-  }
-  
-  
-    function updatePackageSelectionUI(packageData) {
-        const allOptions = document.querySelectorAll('.box-item, .pack-item');
-        allOptions.forEach(item => {
-            if (item.dataset.id === packageData.id) {
-                item.classList.add('selected-package');
-            } else {
-                item.classList.remove('selected-package');
-            }
-        });
-    }
-
-  function updateSelectedOptions(options = null) {
-     if(options) {
-           selectedOptions =  {...selectedOptions, ...options} ;
-       }
-       saveDataToStorage(STORAGE_KEY, selectedOptions);
-  }
-
-    function markOptionAsSelected(optionElement, type, option) {
-      optionElement.classList.add(`selected-${type}`);
-        const addButton = optionElement.querySelector('.add-option-btn');
-      if (addButton){
-            addButton.textContent = 'إزالة';
-        }
-    if (type === 'sweet') {
-       // updateAddedSweetItem(option, addedSweetsContainer);
-       } else if (type === 'wrap') {
-        renderAddedItem(option, addedWrapsContainer, 'wrap');
-        }
-  }
-
-    function initSwiper() {
-         const swipers = [
-          {selector: '.packs-swiper', nextEl: '.packs-swiper .swiper-button-next', prevEl: '.packs-swiper .swiper-button-prev'},
-          {selector: '.boxes-swiper', nextEl: '.boxes-swiper .swiper-button-next', prevEl: '.boxes-swiper .swiper-button-prev'},
-           {selector: '.sweets-swiper', nextEl: '.sweets-swiper .swiper-button-next', prevEl: '.sweets-swiper .swiper-button-prev'},
-            {selector: '.wrapping-swiper', nextEl: '.wrapping-swiper .swiper-button-next', prevEl: '.wrapping-swiper .swiper-button-prev'}
-       ];
-     swipers.forEach(({selector, nextEl, prevEl}) => {
-         new Swiper(selector, {
-             slidesPerView: 'auto',
-              spaceBetween: 10,
-               navigation: { nextEl, prevEl },
-         });
-      });
-    }
-
-  function renderGiftProducts(giftData) {
-      if (!giftProductsContainer) return;
-      giftProductsContainer.innerHTML = '';
-      if (!giftData || giftData.length === 0) {
-          giftProductsContainer.innerHTML = emptyGiftMessage;
+        const store = getObjectStore(storeName, 'readonly');
+        const getAllRequest = store.getAll();
+        getAllRequest.onsuccess = (event) => {
+            resolve(event.target.result);
+        };
+        getAllRequest.onerror = (event) => {
+             reject(new Error(`Error getting data from ${storeName}: ${event.target.error}`));
+        };
+    });
+}
+function addToIndexedDB(storeName, item) {
+  return new Promise((resolve, reject) => {
+      if (!db) {
+          reject(new Error("Database not initialized yet."));
           return;
       }
-      giftData.forEach((item) => {
-          const price = parseFloat(item.price);
-          const itemTotalPrice = price * parseInt(item.quantity);
-          const giftItemElement = document.createElement('div');
-          giftItemElement.classList.add('gift-item');
-          giftItemElement.innerHTML = `
-              <img src="${item.image}" alt="${item.title}">
-              <h4>${item.title}</h4>
-              <p> السعر : ${item.price}</p>
-              <p class="quantity">الكمية: ${item.quantity}</p>
-              <button class="remove-item-btn" onclick="removeFromGiftPage('${item.productId}')">ازالة</button>
-            `;
-          giftProductsContainer.appendChild(giftItemElement);
-      });
-  }
-
-    function renderPackagingOptions(packagingData, packsContainer, boxesContainer) {
-        if (!packsContainer || !boxesContainer) return;
-        const { boxes, packs } = packagingData;
-        packsContainer.innerHTML = '';
-        boxesContainer.innerHTML = '';
-        renderOptions(packs, packsContainer, 'pack');
-        renderOptions(boxes, boxesContainer, 'box');
-        addPackageSelectionHandlers(packsContainer, 'pack')
-       addPackageSelectionHandlers(boxesContainer, 'box')
-    }
-
-    function addPackageSelectionHandlers(container, type) {
-        if (!container) return;
-       container.addEventListener('click', (event) => {
-            const selectedOption = event.target.closest(`.${type}-item`);
-            if (!selectedOption) return;
-
-            const packageData =  {...selectedOption.dataset, name: selectedOption.querySelector('p')?.textContent, image: selectedOption.querySelector('img')?.src};
-
-            updateSelectedOptions({package : packageData});
-           updatePackageSelectionUI(packageData)
-             renderAddedPackage(packageData);
-            calculateTotal();
-         });
-     }
-
-
-    function renderOptions(options, container, type) {
-        if (!container) return;
-        container.innerHTML = '';
-        options.forEach(option => {
-            const optionElement = createOptionElement(option, type);
-            container.appendChild(optionElement);
-             const addButton = optionElement.querySelector('.add-option-btn');
-             if (addButton) {
-                addButton.addEventListener('click', () => {
-                     handleOptionSelection(option, optionElement, type);
-               });
-            }
-      });
-    }
-
-
-    function createOptionElement(option, type) {
-       const optionElement = document.createElement('div');
-      optionElement.classList.add('swiper-slide');
-      optionElement.classList.add(`${type}-item`);
-       optionElement.dataset.id = option.id;
-       optionElement.dataset.price = option.price;
-      optionElement.innerHTML = `
-           <img src="${option.image}" alt="${option.name}">
-          <p>${option.name}</p>
-           <p class="option-price"> السعر: ${option.price} جنيه</p>
-            <button class="add-option-btn">إضافة</button>
-          `;
-       if (type === 'sweet') {
-          optionElement.classList.add('sweets-item')
-       } else if (type === 'wrap') {
-           optionElement.classList.add('wrapping-item')
-        }  else if (type === 'box' ||  type === 'pack' ) {
-         optionElement.classList.add('packaging-item');
-        }
-       return optionElement;
-    }
-
-    function handleOptionSelection(option, element, type) {
-      if (!element) return;
-  
-      let selectedArray, selectedClass;
-      switch (type) {
-          case 'sweet':
-              selectedArray = selectedOptions.sweets;
-              selectedClass = 'selected-sweet';
-              break;
-          case 'wrap':
-              selectedArray = selectedOptions.wraps;
-              selectedClass = 'selected-wrap';
-              break;
-          default:
-              return;
-      }
-  
-      const isSelected = selectedArray.some(item => item.id === option.id);
-      const addButton = element.querySelector('.add-option-btn');
-      if (!addButton) return;
-  
-      let updatedSelectedArray;
-  
-      if (type === 'sweet') {
-          if (!isSelected) {
-              // First click for sweets: show quantity controls
-                renderQuantityControls(element, option);
-                  addButton.textContent = 'إضافة';
-                 const handleAddSweet = () => {
-                  const quantityElement = element.querySelector('.quantity-value');
-                   const quantity = parseInt(quantityElement?.textContent) || 0;
-                 if (quantity > 0) {
-                         updatedSelectedArray = [...selectedArray, { ...option, quantity: quantity }];
-                     element.classList.add(selectedClass);
-                      addButton.textContent = 'إزالة';
-                       updateAddedSweetItem(option, addedSweetsContainer);
-                       removeQuantityControls(element);
-                      updateSelectedOptions({ sweets: updatedSelectedArray });
-                       addButton.removeEventListener('click', handleAddSweet);
-                         addButton.addEventListener('click', handleRemoveSweet);
-                   }
-                 calculateTotal();
-               };
-               const handleRemoveSweet = () => {
-                 updatedSelectedArray = selectedArray.filter(item => item.id !== option.id);
-                  element.classList.remove(selectedClass);
-                 addButton.textContent = 'إضافة';
-                  removeAddedItem(option, addedSweetsContainer);
-                 updateSelectedOptions({ sweets: updatedSelectedArray });
-                   addButton.removeEventListener('click', handleRemoveSweet);
-                  calculateTotal();
-               };
-          
-              addButton.addEventListener('click', handleAddSweet);
-  
-          } else {
-              // Remove sweet if already added
-                updatedSelectedArray = selectedArray.filter(item => item.id !== option.id);
-                 element.classList.remove(selectedClass);
-                addButton.textContent = 'إضافة';
-                 removeAddedItem(option, addedSweetsContainer);
-                updateSelectedOptions({ sweets: updatedSelectedArray });
-                 calculateTotal();
-                  addButton.removeEventListener('click', handleRemoveSweet);
-              
-            }
-      }
-    else if (type === 'wrap') {
-       if (!isSelected) {
-          // First click for wraps: add directly
-           updatedSelectedArray = [...selectedArray, { ...option, quantity: 1 }];
-          element.classList.add(selectedClass);
-           addButton.textContent = 'إزالة';
-          renderAddedItem(option, addedWrapsContainer, 'wrap');
-            updateSelectedOptions({ wraps: updatedSelectedArray });
-            addButton.removeEventListener('click', handleAddOrRemove);
-             addButton.addEventListener('click', handleAddOrRemove);
-
-      } else {
-          // Remove wrap if already added
-          updatedSelectedArray = selectedArray.filter(item => item.id !== option.id);
-            element.classList.remove(selectedClass);
-           addButton.textContent = 'إضافة';
-           removeAddedItem(option, addedWrapsContainer);
-          updateSelectedOptions({ wraps: updatedSelectedArray });
-             addButton.removeEventListener('click', handleAddOrRemove);
-             calculateTotal();
-       }
-      }
-       function handleAddOrRemove(){
-             handleOptionSelection(option, element, type);
-       }
-  }
-      function removeQuantityControls(element) {
-          const quantityControls = element.querySelector('.quantity-controls');
-           if (quantityControls) {
-               quantityControls.remove();
-          }
-     }
-
-
- function updateAddedSweetItem(option, container) {
-  if (!container) return;
-  const quantityElement = document.querySelector(`.quantity-value[data-id="${option.id}"]`);
-  const quantity = quantityElement ? parseInt(quantityElement.textContent) : 0;
-  let existingItem = container.querySelector(`[data-id="${option.id}"]`);
-  if (quantity > 0) {
-      if (existingItem) {
-          const itemQuantityElement = existingItem.querySelector('.item-quantity');
-          if (itemQuantityElement) {
-              itemQuantityElement.textContent = quantity;
-          }
-       } else {
-          renderAddedItem(option, container, 'sweet', quantity);
-      }
-  } else {
-       removeAddedItem(option, container);
-   }
-}
-
-
-
-function renderQuantityControls(element, option) {
-  if (!element || element.querySelector('.quantity-controls')) return;
-  const quantityControls = createQuantityControls(option.id);
-    element.appendChild(quantityControls);
-  addQuantityControlEvents(quantityControls, option);
-}
-
-  function createQuantityControls(optionId) {
-      const quantityControls = document.createElement('div');
-      quantityControls.classList.add('quantity-controls');
-      quantityControls.innerHTML = `
-          <button class="quantity-btn minus" data-id="${optionId}">-</button>
-          <span class="quantity-value" data-id="${optionId}">0</span>
-          <button class="quantity-btn plus" data-id="${optionId}">+</button>
-      `;
-      return quantityControls;
-  }
-
-   function updateInitialQuantity(optionId, quantityControls) {
-       if (!quantityControls) return;
-      //  Do not update on load
-      const quantityValueSpan = quantityControls.querySelector('.quantity-value');
-      if(quantityValueSpan){
-          quantityValueSpan.textContent = '0'
-       }
-}
-  function addQuantityControlEvents(quantityControls, option) {
-      const minusButton = quantityControls.querySelector('.quantity-btn.minus');
-      const plusButton = quantityControls.querySelector('.quantity-btn.plus');
-      const quantityValueSpan = quantityControls.querySelector('.quantity-value');
-
-      const updateQuantity = (delta) => {
-          let currentQuantity = parseInt(quantityValueSpan.textContent);
-          const newQuantity = Math.max(0, currentQuantity + delta);
-          quantityValueSpan.textContent = newQuantity;
-          updateAddedSweetItem(option, addedSweetsContainer);
-          calculateTotal();
+      const store = getObjectStore(storeName, 'readwrite');
+      const addRequest = store.put(item);
+      addRequest.onsuccess = () => {
+        resolve();
       };
+     addRequest.onerror = (event) => {
+          reject(new Error(`Error adding to ${storeName}: ${event.target.error}`));
+        };
+  });
+}
 
-      minusButton.addEventListener('click', () => updateQuantity(-1));
-      plusButton.addEventListener('click', () => updateQuantity(1));
-  }
-
-
-
-    function renderAddedItem(option, container, type, quantity = 1) {
-      if (!container) return;
-       const existingItem = container.querySelector(`[data-id="${option.id}"]`);
-      if (existingItem && type !== 'sweet') {
-         return;
+function deleteFromIndexedDB(storeName, id) {
+   return new Promise((resolve, reject) => {
+        if (!db) {
+            reject(new Error("Database not initialized yet."));
+            return;
         }
-        const addedItemElement = document.createElement('div');
-        addedItemElement.classList.add('added-item');
-        addedItemElement.dataset.id = option.id;
-        let quantityElement = '';
-        if (type === 'sweet') {
-            quantityElement = ` <span class="item-quantity"> ${quantity} </span> `;
-        }
-         addedItemElement.innerHTML = `
-              <img src="${option.image}" alt="${option.name}">
-              <p>${option.name}</p>
-                ${quantityElement}
-              <p class="item-price"> السعر: ${option.price} جنيه</p>
-              <span class="remove-added-item"  data-id="${option.id}"></span>
-           `;
-         container.appendChild(addedItemElement);
-        const removeButton = addedItemElement.querySelector('.remove-added-item');
-        if(removeButton){
-            removeButton.addEventListener('click', () => {
-               handleRemoveAddedItem(option, type);
-            });
-       }
-    }
+        const store = getObjectStore(storeName, 'readwrite');
+        const deleteRequest = store.delete(id);
 
-   function handleRemoveAddedItem(option, type) {
-       if (type === 'sweet') {
-            toggleOption(option, selectedOptions.sweets, document.querySelector(`.sweets-item[data-id="${option.id}"]`), 'selected-sweet');
-               updateAddedSweetItem(option, addedSweetsContainer);
-         const sweetItemToRemove = addedSweetsContainer.querySelector(`[data-id="${option.id}"]`);
-           if (sweetItemToRemove) {
-            addedSweetsContainer.removeChild(sweetItemToRemove);
-        }
-       } else if (type === 'wrap') {
-          toggleOption(option, selectedOptions.wraps,   document.querySelector(`.wrapping-item[data-id="${option.id}"]`), 'selected-wrap');
-             removeAddedItem(option, addedWrapsContainer);
+        deleteRequest.onsuccess = () => {
+            resolve();
+        };
+        deleteRequest.onerror = (event) => {
+            reject(new Error(`Error deleting from ${storeName}: ${event.target.error}`));
+       };
+   });
+}
 
-        } else if (type === 'pack' || type === 'box'){
-           updateSelectedOptions({package : null})
-            renderAddedPackage(null)
-               const allOptions =  document.querySelectorAll('.box-item, .pack-item')
-             allOptions.forEach(item => {
-                   item.classList.remove('selected-package');
-               });
-        }
-     calculateTotal();
-   }
+// --- Wishlist Functions ---
 
-     function removeAddedItem(option, container) {
-          if (!container) return;
-            const itemToRemove = container.querySelector(`[data-id="${option.id}"]`);
-          if (itemToRemove) {
-              itemToRemove.remove();
-         }
-     }
-  function renderAddedPackage(packageOption) {
-     if (!addedPackagingContainer) return;
-       addedPackagingContainer.innerHTML = `<h3> التعبئة </h3>`;
-       if (packageOption) {
-         const addedItemElement = document.createElement('div');
-        addedItemElement.classList.add('added-item');
-          addedItemElement.innerHTML = `
-              <img src="${packageOption.image}" alt="${packageOption.name}">
-              <p>${packageOption.name}</p>
-              <p class="item-price"> السعر: ${packageOption.price} جنيه</p>
-              <span class="remove-added-item" data-id="${packageOption.id}"></span>
-             `;
-        addedPackagingContainer.appendChild(addedItemElement);
-         const removeButton = addedItemElement.querySelector('.remove-added-item');
-         if(removeButton) {
-              removeButton.addEventListener('click', () => {
-                  handleRemoveAddedItem(packageOption, packageOption.type)
+let wishlistItems = [];
+async function saveWishlistToIndexedDB() {
+     try {
+          const store = getObjectStore('wishlist', 'readwrite');
+
+          // Clear existing wishlist items
+           const clearRequest = store.clear();
+             await new Promise((resolve, reject) => {
+                 clearRequest.onsuccess = resolve;
+                 clearRequest.onerror = reject;
              });
-        }
-     }
-  }
 
-  function calculateTotal() {
-        let totalPrice = 0;
-       if (giftData && giftData.length > 0) {
-            giftData.forEach((item) => {
-               const price = parseFloat(item.price);
-                const itemTotalPrice = price * parseInt(item.quantity);
-               if(!isNaN(itemTotalPrice)){
-                  totalPrice += itemTotalPrice;
-              }
-           });
+
+        // Add each item to the object store
+         for (const item of wishlistItems) {
+           await addToIndexedDB('wishlist', item);
+        }
+    } catch (error) {
+           console.error("Error saving wishlist to IndexedDB:", error);
        }
-      let packagePrice = 0;
-       if (selectedOptions.package) {
-             const price = parseFloat(selectedOptions.package.price);
-              if (!isNaN(price)){
-                 packagePrice = price;
-              }
-        }
-     let sweetPrice = 0;
-        selectedOptions.sweets.forEach(sweet => {
-             const quantityElement = document.querySelector(`.quantity-value[data-id="${sweet.id}"]`);
-            const quantity = parseInt(quantityElement?.textContent) || 0 ;
-            const price = parseFloat(sweet.price)
-           if (!isNaN(price)){
-               sweetPrice += price * quantity;
-           }
-       })
-      let wrappingPrice = 0;
-     selectedOptions.wraps.forEach(wrap => {
-         const price = parseFloat(wrap.price)
-            if (!isNaN(price)) {
-               wrappingPrice += price;
-           }
-     })
-       let total = totalPrice + packagePrice + sweetPrice + wrappingPrice;
-       giftTotalElement.textContent = total.toFixed(2);
-   }
+}
+ async function loadWishlistFromIndexedDB() {
+     return getAllFromIndexedDB('wishlist')
+        .then(items => {
+             wishlistItems = items;
+            return updateWishlistUI();
 
+        })
+        .catch(error => console.error("Error loading wishlist from IndexedDB:", error));
+}
 
- confirmButton.addEventListener('click',  () => {
-     prepareAndSendOrder()
+// --- Gift Functions ---
+
+let giftItems = [];
+
+function saveGiftToLocalStorage() {
+    localStorage.setItem('giftItems', JSON.stringify(giftItems));
+}
+
+function loadGiftFromLocalStorage() {
+    const storedGiftItems = localStorage.getItem('giftItems');
+    giftItems = storedGiftItems ? JSON.parse(storedGiftItems) : [];
+    updateGiftUI();
+}
+function clearGift() {
+    giftItems = [];
+    saveGiftToLocalStorage();
+    updateGiftUI();
+}
+document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('.section');
+
+    // استرجاع آخر قسم مفتوح من LocalStorage
+    const lastOpenedSectionId = localStorage.getItem('lastOpenedSection');
+
+    // إخفاء جميع الأقسام
+    sections.forEach(section => {
+        section.style.display = 'none';
     });
 
-
-  async function prepareAndSendOrder() {
-      let packValue;
-         if (selectedOptions.package) {
-           packValue = selectedOptions.package.name
+    // فتح القسم الأخير إذا كان موجودًا
+    if (lastOpenedSectionId) {
+        const lastOpenedSection = document.getElementById(lastOpenedSectionId);
+        if (lastOpenedSection) {
+            lastOpenedSection.style.display = 'block';
         }
-       const sweetValues = selectedOptions.sweets.map(sweet => {
-            const quantityElement = document.querySelector(`.quantity-value[data-id="${sweet.id}"]`);
-           const quantity = parseInt(quantityElement?.textContent) || 0;
-         return `${sweet.name} (${quantity})`;
+    }
+
+    // حفظ القسم المفتوح عند تغييره
+    sections.forEach(section => {
+        section.addEventListener('click', () => {
+            localStorage.setItem('lastOpenedSection', section.id);
         });
-       const wrapValues = selectedOptions.wraps.map(wrap => wrap.name);
-       const note = noteArea.value;
+    });
 
-      let message = `️ 📜*طلب هدية جديد من متجرك*\n`;
-       message += `========================================\n`;
-       message += `🎁 *تفاصيل الهدية:*\n\n`;
+    fetch('gift.json')
+    .then(response => response.json())
+    .then(data => {
+        renderGiftItems(data.categories);
+        initializeSwipers(data.categories);
+    })
+    .catch(error => console.error('خطأ في تحميل المنتجات:', error));
+});
+document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('search');
+    const resultsContainer = document.getElementById('results');
+    let productsData;
 
-      for (let i = 0; i < giftData.length; i++) {
-           const item = giftData[i];
-           message += ` *المنتج ${i + 1}:*\n`;
-          message += `   *الاسم:* ${item.title}\n`;
-         message += `   *الكمية:* ${item.quantity}\n`;
-         message += `   *اللون:* ${item.color}\n`;
-          message += `   *السعر:* ${item.price} \n`;
-           message += `----------------------------------------\n`;
+    fetch('product.json')
+        .then(response => response.json())
+        .then(data => {
+            productsData = data;
+
+            searchInput.addEventListener('input', function () {
+                const searchTerm = this.value.trim().toLowerCase();
+                resultsContainer.style.display = searchTerm ? 'block' : 'none';
+                if (searchTerm.length === 0) return clearResults();
+                const results = searchProducts(productsData, searchTerm);
+                 displayResults(results);
+            });
+        })
+        .catch(error => console.error('Error fetching products data:', error));
+
+    document.body.addEventListener('click', function (event) {
+        if (event.target !== searchInput && !resultsContainer.contains(event.target)) {
+            clearResults();
         }
-       message += `\n*الاضافات:*\n\n`;
-      message += `  *التعبئة :*  ${packValue ? packValue : 'لايوجد'}\n`
-      message += ` *الحلويات :* ${sweetValues.length > 0 ? sweetValues.join(', ') : 'لايوجد'}\n`
-        message += `  *التغليف :*  ${wrapValues.length > 0 ? wrapValues.join(', ') : 'لايوجد'} \n`
-        message += ` *رسالة التهنئة :* ${note ? note : 'لايوجد'} \n\n`
-       message += `*ملخص الطلب:*\n`
-        message += `*المجموع الكلي:* ${giftTotalElement.textContent} جنيه\n`;
-        message += `========================================\n\n`;
-       message += ` *شكرًا لتسوقك معنا!* \n`;
-        message += ` *للاستفسارات، تواصل معنا عبر واتساب على هذا الرقم.*\n`;
-      const encodedMessage = encodeURIComponent(message);
-       const whatsappLink = `https://wa.me/201026972523?text=${encodedMessage}`;
-      window.open(whatsappLink, '_blank');
-      localStorage.removeItem('giftData');
-        localStorage.removeItem(STORAGE_KEY)
-      setTimeout(() => {
-         window.location.href = 'index.html';
-      }, 2000);
+    });
+
+    function searchProducts(productsData, searchTerm) {
+        if (!productsData) return [];
+
+        const results = Object.values(productsData.categories).flatMap(category =>
+            Object.values(category).flatMap(subcategory =>
+                  subcategory.filter(product => product.name.toLowerCase().includes(searchTerm)
+                  ).slice(0,6)
+              )
+          );
+         return results.slice(0,6);
+      }
+      function clearResults() {
+        resultsContainer.innerHTML = '';
+        resultsContainer.style.display = 'none';
+      }
+
+    function displayResults(results) {
+          resultsContainer.innerHTML = '';
+
+          if (results.length === 0) {
+              const noResults = document.createElement('li');
+              noResults.textContent = 'لا توجد منتجات مطابقة.';
+             resultsContainer.appendChild(noResults);
+               return;
+             }
+        const ul = document.createElement('ul');
+           const listItems = results.map(product => {
+                const li = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = `product.html?id=${product.id}`;
+                link.textContent = product.name;
+                li.appendChild(link);
+               return li
+            })
+
+          ul.append(...listItems);
+          resultsContainer.appendChild(ul);
+      }
+});
+function renderGiftItems(categories) {
+    for (const category in categories) {
+        const subcategories = categories[category];
+        for (const subcategory in subcategories) {
+            const section = document.getElementById(subcategory)?.querySelector('.products');
+            if (section) {
+                subcategories[subcategory].forEach(product => {
+                    const mainImage = product.images && product.images.length > 0 ? product.images[0] : product.image;
+                     const productCard = `
+                        <div class="product" data-id=${product.id}>
+                            <div class="img_produt" onclick="openModal('${mainImage}')">
+                                <img src="${mainImage}" alt="${product.name}">
+                            </div>
+                            <h2>${product.name}</h2>
+                            <div class="price">
+                                <p><span>${product.price} جنيه</span></p>
+                            </div>
+                             <div class="icons">
+                             <span class="btn_add_gift">
+                                 <i class="fa-solid fa-gift"></i> إضافه
+                             </span>
+                              <span class="btn_add_wishlist ${wishlistItems.find(item => item.id == product.id) ? 'is-favorite' : ''}" >
+                                 <span class="heart-icon ${wishlistItems.find(item => item.id == product.id) ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}"></span>
+                               </span>
+                             </div>
+                        </div>
+                    `;
+                    section.insertAdjacentHTML('beforeend', productCard);
+                });
+            }
+        }
+    }
+     addEventListenersToGift();
+    addNavigationToProductPage();
+}
+
+function showSection(sectionId) {
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => {
+        section.style.display = 'none';
+    });
+
+    const activeSection = document.getElementById(sectionId);
+    if (activeSection) {
+        activeSection.style.display = 'block';
+    }
+}
+function addEventListenersToGift() {
+    document.querySelectorAll('.product .btn_add_wishlist').forEach(button => {
+          button.addEventListener('click', async function () {
+            const product = this.closest('.product');
+            const productId = product.dataset.id;
+              const heartIcon = this.querySelector('.heart-icon');
+            const imgSrc = product.querySelector('img').src;
+            const title = product.querySelector('h2').textContent;
+            const price = product.querySelector('.price span').textContent;
+           const productData = await findProductData(productId);
+              if (productData) {
+                  const color = productData.colors && productData.colors[0];
+                   const uniqueId = `${productId}-${color}`;
+                   const existingItem = wishlistItems.find(item => item.uniqueId === uniqueId);
+                   if (existingItem) {
+                      await removeFromWishlist(productId, color);
+                       heartIcon.classList.remove('fa-solid', 'fa-heart');
+                       heartIcon.classList.add('fa-regular', 'fa-heart');
+                     this.classList.remove('is-favorite');
+                  } else {
+                         await   addToWishlist(productId, imgSrc, title, price, color);
+                      heartIcon.classList.remove('fa-regular', 'fa-heart');
+                      heartIcon.classList.add('fa-solid', 'fa-heart');
+                     this.classList.add('is-favorite');
+                   }
+              } else {
+                    console.error('Product not found in product data:', productId);
+                 }
+         });
+    });
+    document.querySelectorAll('.product .btn_add_gift').forEach(button => {
+        button.addEventListener('click', async function () {
+            const product = this.closest('.product');
+            const productId = product.dataset.id;
+            const imgSrc = product.querySelector('img').src;
+            const title = product.querySelector('h2').textContent;
+            const price = product.querySelector('.price span').textContent;
+            // Retrieve the product from allProducts object
+              const productData = await findProductData(productId);
+             if (productData) {
+                addToGift(productId, imgSrc, title, price, productData.amount, productData.colors && productData.colors[0]);
+              } else {
+                    console.error('Product not found in product data:', productId);
+                 }
+        });
+    });
+}
+async function addToWishlist(productId, imgSrc, title, price, color) {
+    const uniqueId = `${productId}-${color}`;
+     const existingItem = wishlistItems.find(item => item.uniqueId === uniqueId);
+    if (!existingItem) {
+          const product = { uniqueId: uniqueId, id: productId, imgSrc, title, price, color:color, isFavorite: true };
+        wishlistItems.push(product);
+        await  saveWishlistToIndexedDB();
+        updateWishlistUI();
+    }
+}
+async function addToGift(productId, imgSrc, title, price, availableQuantity, color) {
+    const uniqueId = `${productId}-${color}`;
+     const existingItem = giftItems.find(item => item.uniqueId === uniqueId);
+     if (existingItem) {
+         if (existingItem.quantity < availableQuantity) {
+              existingItem.quantity += 1;
+               saveGiftToLocalStorage();
+              updateGiftUI();
+              return 'added';
+          } else {
+              showOutOfStockMessage();
+              return 'max_quantity_reached';
+          }
+      } else {
+           if (availableQuantity > 0) {
+               const product = { uniqueId: uniqueId, id: productId, imgSrc, title, price, color: color, quantity: 1 };
+            giftItems.push(product);
+             saveGiftToLocalStorage();
+              updateGiftUI();
+              return 'added';
+        } else {
+             showOutOfStockMessage();
+             return 'out_of_stock';
+          }
+    }
+
+}
+function showOutOfStockMessage() {
+    const message = document.createElement('div');
+    message.textContent = 'خلص والله';
+    message.classList.add('out-of-stock-message');
+    document.body.appendChild(message);
+
+    setTimeout(() => {
+        message.remove();
+    }, 1500);
+}
+window.updateGiftQuantity = async function (productId, increment, color) {
+        const uniqueId = `${productId}-${color}`;
+       const item = giftItems.find(item => item.uniqueId === uniqueId);
+    if (item) {
+        findProductData(productId).then(async (productData) => {
+            if (increment > 0 && item.quantity >= productData.amount) {
+                showOutOfStockMessage(); // Show out of stock if exceeds product amount
+            } else {
+               item.quantity += increment;
+               if (item.quantity <= 0) {
+                   await removeFromGift(productId, color);
+                 } else {
+                     saveGiftToLocalStorage();
+                     updateGiftUI();
+                }
+          }
+    })
+    }
+
+};
+// Function to remove from gift
+window.removeFromGift = async function (productId, color) {
+    const uniqueId = `${productId}-${color}`;
+     giftItems = giftItems.filter(item => item.uniqueId !== uniqueId);
+     saveGiftToLocalStorage();
+     updateGiftUI();
+};
+// Function to remove from wishlist
+window.removeFromWishlist = async function (productId, color) {
+    const uniqueId = `${productId}-${color}`;
+    wishlistItems = wishlistItems.filter(item => item.uniqueId !== uniqueId);
+    await saveWishlistToIndexedDB();
+    updateWishlistUI();
+};
+// Function to move item from wishlist to gift
+window.moveToGift = async function (productId, color) {
+    findProductData(productId).then(async (productData) => {
+             const uniqueId = `${productId}-${color}`;
+        const existingItemInGift = giftItems.find(item => item.uniqueId === uniqueId);
+        if (existingItemInGift) {
+            showAlreadyInGiftMessage(); // Show message if already in cart
+        } else {
+            const item = wishlistItems.find(item => item.uniqueId === uniqueId);
+            if (item) {
+                 if (!productData || productData.amount <= 0) {
+                      showOutOfStockMessage();
+                 }else {
+                      await addToGift(item.id, item.imgSrc, item.title, item.price, productData.amount, color); // Pass the amount and color
+                     await  removeFromWishlist(productId, color);
+                 }
+            }
+        }
+    })
+};
+function showAlreadyInGiftMessage() {
+    const message = document.createElement('div');
+    message.textContent = 'موجود في  الهديه';
+    message.classList.add('out-of-stock-message');
+    document.body.appendChild(message);
+
+    setTimeout(() => {
+        message.remove();
+    }, 1500);
+}
+window.completegift =  () => {
+    // الحصول على عناصر الهدية
+     const giftItems = document.querySelectorAll('.items_in_gift .item_gift');
+     // تهيئة مصفوفة لحفظ البيانات
+     let giftData = [];
+ 
+     giftItems.forEach(item => {
+       const productId = item.dataset.productId.split('-')[0];
+          const color = item.dataset.productId.split('-')[1];
+         const image = item.querySelector('img').src;
+         const title = item.querySelector('h4').textContent;
+           const price = item.querySelector('p').textContent;
+            const quantity =  item.querySelector('.quantity_controls span').textContent
+           giftData.push({productId, image, title, price , color, quantity})
+     });
+     // الحصول على الرسالة الاختيارية
+    const customMessage = document.getElementById('custom-message').value;
+
+     // حفظ بيانات الهدية في localStorage
+   localStorage.setItem('giftData', JSON.stringify(giftData));
+      localStorage.setItem('customMessage', JSON.stringify(customMessage));
+
+
+   // إعادة التوجيه إلى صفحة الهدية
+  };
+async function findProductData(productId) {
+    return fetch('gift.json')
+        .then(response => response.json())
+        .then(data => {
+
+            for (const category in data.categories) {
+                for (const subcategory in data.categories[category]) {
+                    const product = data.categories[category][subcategory].find(p => p.id == productId);
+                    if (product) return product;
+                }
+            }
+        }).catch((e) => {
+            console.error('Error fetching products data:', e)
+            return null;
+        })
+}
+// Function to update gift UI
+async function updateGiftUI() {
+    const giftItemsContainer = document.querySelector('.items_in_gift');
+    if (!giftItemsContainer) return;
+     giftItemsContainer.innerHTML = '';
+     let totalPrice = 0;
+     let totalQuantity = 0;
+
+    if (giftItems.length === 0) {
+        giftItemsContainer.innerHTML = `
+            <p class="empty-gift-message"> مش هتجيب هدية؟ </p>
+            <div class="empty-gift-icon">
+              <i class="fa-solid fa-gift"></i>
+           </div>
+        `;
+    } else {
+         for (const item of giftItems) {
+             const productData = await findProductData(item.id);
+              const disablePlus = productData && item.quantity >= productData.amount ? 'disabled' : '';
+            const giftItemHTML = `
+                <div class="item_gift" data-product-id="${item.id}-${item.color}">
+                    <img src="${item.imgSrc}" alt="${item.title}">
+                    <div class="gift-item-details">
+                        <h4>${item.title}</h4>
+                        <p>${item.price}</p>
+                        <p style="color: ${item.color}">${item.color}</p>
+                             <div class="quantity_controls">
+                             <button onclick="updateGiftQuantity(${item.id}, -1, '${item.color}')">-</button>
+                                    <span>${item.quantity}</span>
+                                    <button onclick="updateGiftQuantity(${item.id}, 1, '${item.color}')" ${disablePlus}>+</button>
+                             </div>
+                    </div>
+                    <div class="gift_actions">
+                        <button class="delete_item" onclick="removeFromGift(${item.id}, '${item.color}')"><i class="fa fa-trash"></i></button>
+                    </div>
+                </div>
+            `;
+            giftItemsContainer.insertAdjacentHTML('beforeend', giftItemHTML);
+             totalPrice += parseFloat(item.price) * item.quantity;
+            totalQuantity += item.quantity;
+        }
+    }
+        document.querySelectorAll('.gift_count').forEach(el => el.textContent = totalQuantity);
+     document.querySelectorAll('.price_gift_total').forEach(el => el.textContent = `${totalPrice} جنيه`);
+
+}
+// Function to update wishlist UI
+async function updateWishlistUI() {
+    const wishlistItemsContainer = document.querySelector('.items_in_wishlist');
+    if (!wishlistItemsContainer) return;
+
+    wishlistItemsContainer.innerHTML = '';
+    let totalQuantity = 0;
+
+
+    if (wishlistItems.length === 0) {
+        wishlistItemsContainer.innerHTML = `
+             <p class="empty-wishlist-message">مش عاجبك حاجه؟</p>
+              <div class="empty-wishlist-icon"><i class="fa-solid fa-heart-crack"></i> 
+
+             </div>
+      `
+    } else {
+
+        wishlistItems.forEach(item => {
+             const existingItemInGift = giftItems.find(giftItem => giftItem.uniqueId === item.uniqueId);
+             let moveToGiftButton;
+                if (existingItemInGift) {
+                  moveToGiftButton = `<button class="btn_wishlist" disabled >موجود في الهدية</button>`; // Disable if already in cart
+                } else {
+                    moveToGiftButton = `<button class="btn_wishlist" onclick="moveToGift(${item.id}, '${item.color}')">نقل الي الهدية</button>`
+                  }
+             const wishlistHTML = `
+             <div class="item_wishlist" data-product-id="${item.id}-${item.color}">
+                  <img src="${item.imgSrc}" alt="${item.title}">
+                <div class="wishlist-item-details">
+                      <h4>${item.title}</h4>
+                    <p>السعر: ${item.price}</p>
+                   </div>
+                  <div class="wishlist_actions">
+                         ${moveToGiftButton}
+                       <button class="delete_item" onclick="removeFromWishlist(${item.id}, '${item.color}')"><i class="fa fa-trash"></i></button>
+                     </div>
+              </div>
+        `;
+            wishlistItemsContainer.insertAdjacentHTML('beforeend', wishlistHTML);
+            totalQuantity++;
+        });
+    }
+    document.querySelectorAll('.wishlist_count').forEach(el => el.textContent = totalQuantity);
+
+}
+window.addEventListener('load', () => {
+
+});
+window.addEventListener('DOMContentLoaded', () => {
+     loadWishlistFromIndexedDB();
+     loadGiftFromLocalStorage();
+});
+var gift = document.querySelector('.gift');
+function open_gift() {
+    gift.classList.add("active");
+}
+function close_gift() {
+    gift.classList.remove("active");
+}
+var wishlist = document.querySelector('.wishlist');
+function open_wishlist() {
+    wishlist.classList.add("active");
+}
+function close_wishlist() {
+    wishlist.classList.remove("active");
+}
+// Format price with Egyptian Pound currency
+function formatPrice(price) {
+    return `${price.toFixed(2)} جنيه`;
+}
+// Generate unique invoice ID
+function generateInvoiceId() {
+    const timestamp = Date.now();
+    const random = Math.floor(Math.random() * 1000);
+    return `INV-${timestamp}-${random}`;
+}
+// Format the current date and time
+function formatDateTime() {
+    const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+    };
+    return new Date().toLocaleDateString('ar-EG', options);
+}
+async function sendGiftViaWhatsApp() {
+  const giftItemsContainer = document.querySelector('.items_in_gift');
+  const totalPriceElement = document.querySelector('.price_gift_total');
+  const itemCountElement = document.querySelector('.gift_count');
+  if (giftItems.length === 0) {
+      const noItemsMessage = document.createElement('div');
+      noItemsMessage.style.cssText = `
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: rgba(0, 0, 0, 0.7);
+          color: white;
+          padding: 20px;
+           border-radius: 10px;
+           font-size: 20px;
+           font-weight: bold;
+            z-index: 999999;
+          `;
+      noItemsMessage.textContent = 'هو انت لسه حطيت حاجه؟';
+      const closeButton = document.createElement('button');
+      closeButton.textContent = 'إغلاق';
+      closeButton.style.cssText = `
+          margin-top: 10px;
+          padding: 5px 10px;
+           background-color: rgb(202, 23, 23);
+             color: white;
+              border: none;
+            border-radius: 5px;
+           cursor: pointer;
+          `;
+      closeButton.onclick = () => {
+          noItemsMessage.remove();
+      };
+      noItemsMessage.appendChild(closeButton);
+      document.body.appendChild(noItemsMessage);
+      return;
   }
 
- function toggleOption(option, selectedArray, element , selectedClass) {
-     if (!element) return;
-        const index = selectedArray.findIndex(item => item.id === option.id);
-            if (index > -1) {
-               selectedArray.splice(index, 1);
-                  element.classList.remove(selectedClass);
-               const addButton = element.querySelector('.add-option-btn')
-                if(addButton){
-                     addButton.textContent = 'إضافة';
-               }
-                updateSelectedOptions({ [selectedArray === selectedOptions.sweets ? 'sweets' : 'wraps'] : selectedArray });
-          }
-     }
+  const totalPrice = totalPriceElement.textContent;
+  const itemCount = itemCountElement.textContent;
 
-    function showLoading() {
-      if (loadingOverlay) {
-        loadingOverlay.style.display = 'flex';
-        }
-   }
+  const invoiceId = generateInvoiceId();
+  const dateTime = formatDateTime();
+  let message = `️ 📜*فاتورة هدية جديدة من متجرك*\n`;
+  message += `========================================\n`;
+  message += ` *رقم الفاتورة:* ${invoiceId}\n`;
+  message += `⏰ *التاريخ والوقت:* ${dateTime}\n`;
+  message += `========================================\n\n`;
+  message += ` *تفاصيل الطلب:*\n\n`;
+  for (let i = 0; i < giftItems.length; i++) {
+      const item = giftItems[i];
+      message += ` *المنتج ${i + 1}:*\n`;
+      message += `  🆔 *ID:* ${item.id}\n`;
+      message += `  *الاسم:* ${item.title}\n`;
+      message += `  *الكمية:* ${item.quantity}\n`;
+      message += `  *اللون:* ${item.color}\n`;
+      message += `  *السعر للوحدة:* ${item.price} \n`;
+      message += `  *الإجمالي:* ${parseFloat(item.price) * item.quantity} جنيه\n`;
+      message += `----------------------------------------\n`;
+  }
+  const storedMessage = localStorage.getItem('customMessage')
+  if (storedMessage && storedMessage != "null" ) {
+      const parsedMessage = JSON.parse(storedMessage);
+       message += `\n*الرسالة المخصصة:*\n`;
+      message += `${parsedMessage}\n`
+  }
 
+  message += `\n *ملخص الطلب:*\n`;
+  message += `  ️ *عدد المنتجات:* ${itemCount}\n`;
+  message += `   *المجموع الكلي:* ${totalPrice} \n`;
+  message += `========================================\n\n`;
 
-  function hideLoading() {
-      if(loadingOverlay) {
-         loadingOverlay.style.display = 'none';
-         }
-    }
+  message += ` *شكرًا لتسوقك معنا!* \n`;
+  message += ` *للاستفسارات، تواصل معنا عبر واتساب على هذا الرقم.*\n`;
+
+  const encodedMessage = encodeURIComponent(message);
+  const whatsappLink = `https://wa.me/201026972523?text=${encodedMessage}`;
+  window.open(whatsappLink, '_blank');
+   clearGift();
+}
+// Initialize Swiper
+
+// Add navigation to product page
+function addNavigationToProductPage() {
+    console.log("Function addNavigationToProductPage() is running.");
+    document.querySelectorAll('.product img').forEach(img => {
+       img.addEventListener('click', function () {
+          const modal = document.getElementById('imageModal');
+         const modalImg = document.getElementById('modalImage');
+           modal.style.display = "block";
+        modalImg.src = this.src;
+        });
+    });
+}
+// Swiper للصور
+var swiper = new Swiper(".mySwiper", {
+    scrollbar: {
+      el: ".swiper-scrollbar",
+      hide: true,
+    },
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
+    loop: true,
 });
+document.addEventListener('DOMContentLoaded', function () {
+    const navContainer = document.querySelector('.nav-container');
+    const prevButton = document.querySelector('.prev-arrow');
+    const nextButton = document.querySelector('.next-arrow');
+    const scrollStep = 15;
+    let scrollIcon = null;
 
+    function getScrollAmount() {
+         return navContainer.firstElementChild.offsetWidth + scrollStep;
+    }
+
+    // إضافة أحداث للنقر على الأسهم مع حركة سلسة فقط
+    nextButton.addEventListener('click', () => {
+        navContainer.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+    });
+
+    prevButton.addEventListener('click', () => {
+        navContainer.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+    });
+
+    function addScrollIcon() {
+        if (scrollIcon) return; // إذا كانت الأيقونة موجودة، لا تضف واحدة جديدة
+
+        scrollIcon = document.createElement('div');
+        scrollIcon.classList.add('scroll-icon');
+        scrollIcon.innerHTML = `<i class="fa-solid fa-hand-point-up"></i>`; // أيقونة اليد في البداية
+        navContainer.appendChild(scrollIcon);
+
+         let intervalId;
+           // إخفاء الأيقونة بعد 5 ثوانٍ
+        setTimeout(() => {
+            scrollIcon.style.opacity = '0';
+             clearInterval(intervalId);
+            setTimeout(() => {
+                scrollIcon.remove();
+                scrollIcon = null; // إعادة تعيين المتغير
+                 setTimeout(addScrollIcon, 5 * 60 * 1000) // إظهار الأيقونة بعد 5 دقائق
+            }, 1000); // إزالة الأيقونة بعد انتهاء التأثير
+        }, 5000);
+
+     }
+    addScrollIcon();
+});
+function openModal(imageSrc) {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    modal.style.display = "block";
+    modalImg.src = imageSrc;
+}
+function closeModal() {
+   document.getElementById('imageModal').style.display = "none";
+}
+// Dark mode
 document.addEventListener('DOMContentLoaded', () => {
-  const sections = document.querySelectorAll('.section');
-  sections.forEach(section => {
-      section.style.display = 'none';
-  });
-  const firstSection = document.getElementById('packaging');
-      if (firstSection) {
-          firstSection.style.display = 'block';
-   }
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'dark') {
+        document.body.classList.toggle('dark-theme');
+    } else if (currentTheme === 'light') {
+        document.body.classList.remove('dark-theme');
+    } else if (prefersDarkScheme.matches) {
+        document.body.classList.add('dark-theme');
+    }
 
+    darkModeToggle.addEventListener('click', () => {
+        if (document.body.classList.contains('dark-theme')) {
+            document.body.classList.remove('dark-theme');
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.body.classList.add('dark-theme');
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+});
+document.addEventListener('DOMContentLoaded', () => {
+    const menuTitle = document.getElementById('menu-title');
+    const submenuLinks = document.querySelectorAll('.submenu-link');
+    const menu = document.querySelector('.menu');
 
-  function showSection(sectionId) {
-       const sections = document.querySelectorAll('.section');
-        sections.forEach(section => {
-           section.style.display = 'none';
-      });
-      const activeSection = document.getElementById(sectionId);
-        if (activeSection) {
-          activeSection.style.display = 'block';
-      }
-   }
-    window.showSection = showSection;
+    submenuLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+            const title = event.target.getAttribute('data-title');
+            menuTitle.textContent = title;
+            if (window.innerWidth <= 768) {
+                menu.classList.remove('active');
+            }
+        });
+    });
+
+    // Update the menu title based on the current page
+    const currentPage = window.location.pathname.split('/').pop();
+    const currentLink = Array.from(submenuLinks).find(link => link.getAttribute('href') === currentPage);
+    if (currentLink) {
+        menuTitle.textContent = currentLink.getAttribute('data-title');
+    }
+
+    // Toggle menu on small screens
+    document.querySelector('.menu-toggle').addEventListener('click', () => {
+        menu.classList.toggle('active')  
+        });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (event) => {
+        if (!menu.contains(event.target) && !event.target.matches('.menu-toggle')) {
+            menu.classList.remove('active');
+        }
+    });
 });

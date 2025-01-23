@@ -1040,3 +1040,16 @@ document.addEventListener('DOMContentLoaded', () => {
         sendInvoiceButton.addEventListener('click', sendInvoiceViaWhatsApp);
     }
 });
+window.addEventListener('pageshow', (event) => {
+    if (event.persisted) { // Check if the page is loaded from cache
+        loadCartFromIndexedDB();
+        loadWishlistFromIndexedDB();
+        loadGiftFromLocalStorage();
+    }
+});
+window.addEventListener('DOMContentLoaded', () => {
+        // Load cart and wishlist from IndexedDB here
+     loadCartFromIndexedDB();
+    loadWishlistFromIndexedDB();
+      loadGiftFromLocalStorage();
+});

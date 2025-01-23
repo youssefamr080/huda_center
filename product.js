@@ -849,25 +849,7 @@ function showAlreadyInCartMessage() {
     }, 1500);
 }
 window.completegift =  () => {
-    // الحصول على عناصر الهدية
-     const giftItems = document.querySelectorAll('.items_in_gift .item_gift');
-     // تهيئة مصفوفة لحفظ البيانات
-     let giftData = [];
- 
-     giftItems.forEach(item => {
-       const productId = item.dataset.productId.split('-')[0];
-          const color = item.dataset.productId.split('-')[1];
-          const image = item.querySelector('img').src;
-         const title = item.querySelector('h4').textContent;
-           const price = item.querySelector('p').textContent;
-            const quantity =  item.querySelector('.quantity_controls span').textContent
-           giftData.push({productId, image, title, price , color, quantity})
-     });
- 
-     // حفظ بيانات الهدية في localStorage
-   localStorage.setItem('giftData', JSON.stringify(giftData));
- 
-   // إعادة التوجيه إلى صفحة الهدية
+ // إعادة التوجيه إلى صفحة الهدية
       window.location.href = 'gift.html';
  
  };
@@ -1197,3 +1179,16 @@ function formatDateTime() {
     const minutes = String(now.getMinutes()).padStart(2, '0');
     return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
+window.addEventListener('pageshow', (event) => {
+    if (event.persisted) { // Check if the page is loaded from cache
+        loadCartFromIndexedDB();
+        loadWishlistFromIndexedDB();
+        loadGiftFromLocalStorage();
+    }
+});
+window.addEventListener('DOMContentLoaded', () => {
+        // Load cart and wishlist from IndexedDB here
+     loadCartFromIndexedDB();
+    loadWishlistFromIndexedDB();
+      loadGiftFromLocalStorage();
+});
