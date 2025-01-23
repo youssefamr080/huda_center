@@ -7,14 +7,14 @@
           "name": "صندوق هدايا فاخر",
           "price": 150,
           "amount": 5,
-          "image": "images/box.png"
+          "image": "box.png"
         },
         {
           "id": 102,
           "name": "صندوق هدايا خشبي",
           "price": 120,
           "amount": 3,
-          "image": "images/box.png"
+          "image": "box.png"
         }
       ],
        "packets": [
@@ -23,14 +23,14 @@
               "name": "تغليف هدايا ذهبي",
              "price": 50,
                "amount": 10,
-               "image": "images/packet.png"
+               "image": "packet.png"
            },
             {
               "id": 104,
                "name": "تغليف هدايا ملون",
               "price": 60,
                 "amount": 8,
-                "image": "images/packet.png"
+                "image": "packet.png"
             }
         ],
        "chocolates": [
@@ -39,14 +39,14 @@
             "name": "علبة شوكولاتة فاخرة",
              "price": 200,
              "amount": 10,
-             "image": "images/chocolates.png"
+             "image": "chocolates.png"
           },
           {
              "id": 106,
               "name": "شوكلاته مشكله ",
             "price": 180,
               "amount": 7,
-             "image": "images/chocolates.png"
+             "image": "chocolates.png"
           }
 
         ],
@@ -56,14 +56,14 @@
             "name": "شيبسي دوريتوس",
             "price": 20,
              "amount": 15,
-             "image": "images/chips.png"
+             "image": "chips.png"
           },
            {
               "id": 108,
               "name": "شيبسي حار",
              "price": 25,
               "amount": 12,
-               "image": "images/chips.png"
+               "image": "chips.png"
            }
        ],
      "candies": [
@@ -72,14 +72,14 @@
              "name": "حلوى مصاص",
             "price": 15,
               "amount": 20,
-               "image": "images/candy.png"
+               "image": "candy.png"
           },
          {
             "id": 110,
              "name": "حلوى جيلي",
              "price": 18,
               "amount": 18,
-              "image": "images/candy.png"
+              "image": "candy.png"
           }
        ],
       "decoration": [
@@ -88,14 +88,14 @@
              "name": "بالونات ملونة",
              "price": 30,
               "amount": 20,
-               "image": "images/decoration.png"
+               "image": "decoration.png"
           },
           {
             "id": 112,
              "name": "شريط زينة",
             "price": 20,
              "amount": 25,
-             "image": "images/decoration.png"
+             "image": "decoration.png"
             
           }
       ]
