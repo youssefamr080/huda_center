@@ -8,8 +8,8 @@
           "price": 250,
           "old_price": 300,
           "amount": 4,
-          "image": "product/id=1.jpg",
-          "images": ["product/id=1.jpg","product/id=1-1.jpg","product/id=1-2.jpg","product/id=1-3.jpg"],
+          "image": "id=1.jpg",
+          "images": ["id=1.jpg","id=1-1.jpg","id=1-2.jpg","id=1-3.jpg"],
            "tags": ["روليكس", "ساعة", "رجالي", "جلد", "كلاسيكي"],
              "description":"ساعة فاخرة بتصميم كلاسيكي. يتميز القرص باللون الأسود العميق مع ترصيعات كريستالية براقة تضفي لمسة من الأناقة. يحيط بالقرص إطار فضي لامع، ويكتمل المظهر بسوار جلدي أسود أنيق. ساعة مثالية لإضافة لمسة من الرقي إلى إطلالتك.",
            "colors": ["black", "saddlebrown","Burlywood"]
@@ -20,8 +20,8 @@
           "price": 250,
           "old_price": 300,
           "amount": 2,
-          "image": "product/id=2.jpg",
-           "images": ["product/id=2.jpg","product/id=2-1.jpg","product/id=2-2.jpg","product/id=2-3.jpg"],
+          "image": "id=2.jpg",
+           "images": ["id=2.jpg","id=2-1.jpg","id=2-2.jpg","id=2-3.jpg"],
             "tags": ["روليكس", "ساعة", "رجالي", "جلد", "فاخر"],
             "description": "أضف لمسة من الرقي إلى معصمك مع هذه الساعة الفاخرة. يتميز القرص بلون أزرق ملكي جذاب، مرصع بأحجار براقة تعكس الضوء بشكل ساحر. يحيط بالقرص إطار فضي لامع، ويتناغم معه سوار جلدي باللون الجملي الدافئ، مما يمنح الساعة مظهرًا كلاسيكيًا فريدًا. هذه الساعة هي الرفيق المثالي لكل المناسبات، وتعكس ذوقك الرفيع.",
            "colors": ["Royalblue","white", "Darkgreen"]
@@ -32,8 +32,8 @@
           "price": 250,
           "old_price": 320,
           "amount": 5,
-          "image": "product/id=3.jpg",
-           "images": ["product/id=3.jpg","product/id=3-1.jpg","product/id=3-2.jpg","product/id=3-3.jpg"],
+          "image": "id=3.jpg",
+           "images": ["id=3.jpg","id=3-1.jpg","id=3-2.jpg","id=3-3.jpg"],
             "tags": ["فوسيل", "ساعة", "رجالي", "جلد", "كاجوال"],
             "description": "وصف روليكس جلد ابيض",
           "colors": ["Burlywood", "black"]
@@ -44,8 +44,8 @@
           "price": 230,
           "old_price": 300,
           "amount": 5,
-          "image": "product/id=4.jpg",
-           "images": ["product/id=4.jpg","product/id=4-1.jpg","product/id=4-2.jpg","product/id=4-3.jpg"],
+          "image": "id=4.jpg",
+           "images": ["id=4.jpg","id=4-1.jpg","id=4-2.jpg","id=4-3.jpg"],
             "tags": ["مونت بلانك", "ساعة", "رجالي", "جلد", "رسمي"],
              "description": "وصف روليكس جلداخضر",
            "colors": ["saddlebrown", "black"]
@@ -58,8 +58,8 @@
           "price": 240,
           "old_price": 300,
           "amount": 1,
-          "image": "images/men wallet.jpg",
-           "images": ["images/men wallet.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+          "image": "men wallet.jpg",
+           "images": ["men wallet.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
             "tags": ["محفظة", "رجالي", "جلد", "كلاسيكية"],
             "description": "وصف محفظة جلد جامد رجالي",
           "colors": ["brown", "black"]
@@ -70,8 +70,8 @@
           "price": 280,
           "old_price": 300,
           "amount": 1,
-          "image": "images/women Accessories.jpg",
-            "images": ["images/women Accessories.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+          "image": "women Accessories.jpg",
+            "images": ["women Accessories.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
             "tags": ["محفظة", "رجالي", "جلد", "حديثة"],
              "description": "وصف محفظة جلد اوي جامد رجالي",
              "colors": ["gray", "blue"]
@@ -84,8 +84,8 @@
           "price": 251,
           "old_price": 300,
           "amount": 1,
-          "image": "images/oil.jpg",
-           "images": ["images/oil.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+          "image": "oil.jpg",
+           "images": ["oil.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
           "tags": ["عطر", "رجالي", "جلد", "شرقي"],
            "description": "وصف  جلد عطر",
             "colors": ["brown"]
@@ -96,8 +96,8 @@
           "price": 2830,
           "old_price": 300,
           "amount": 1,
-          "image": "images/virgin island.jpg",
-           "images": ["images/virgin island.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+          "image": "virgin island.jpg",
+           "images": ["virgin island.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
             "tags": ["عطر", "رجالي", "فاخر", "منعش"],
              "description": "وصف عطر رجالي",
              "colors": ["blue","black","gray"]
@@ -110,8 +110,8 @@
             "price": 251,
             "old_price": 300,
             "amount": 1,
-            "image": "images/oil.jpg",
-             "images": ["images/oil.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+            "image": "oil.jpg",
+             "images": ["oil.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
             "tags": ["عطر", "رجالي", "بخاخ", "خشبي"],
              "description": "وصف  جلد2 عطر",
              "colors": ["brown", "green"]
@@ -122,8 +122,8 @@
             "price": 280,
             "old_price": 300,
             "amount": 1,
-            "image": "images/virgin island.jpg",
-             "images": ["images/virgin island.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+            "image": "virgin island.jpg",
+             "images": ["virgin island.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
               "tags": ["عطر", "رجالي", "بخاخ", "حمضي"],
                "description": "وصف عطر3 رجالي",
              "colors": ["gray", "red"]
@@ -136,8 +136,8 @@
             "price": 272,
             "old_price": 300,
             "amount": 1,
-            "image": "images/women sunglasses.jpg",
-              "images": ["images/women sunglasses.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+            "image": "women sunglasses.jpg",
+              "images": ["women sunglasses.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
             "tags": ["نظارة", "رجالي", "شمسية", "كلاسيكية"],
              "description": "وصف  nadara ",
               "colors": ["black", "silver"]
@@ -148,8 +148,8 @@
             "price": 280,
             "old_price": 300,
               "amount": 1,
-            "image": "images/women sunglasses.jpg",
-             "images": ["images/women sunglasses.jpg","images/oil.jpg","images/u beast.jpg","images/virgin island.jpg"],
+            "image": "women sunglasses.jpg",
+             "images": ["women sunglasses.jpg","oil.jpg","u beast.jpg","virgin island.jpg"],
              "tags": ["نظارة", "رجالي", "شمسية", "حديثة"],
               "description": "وصف nadara rgali ",
                   "colors": ["blue", "red","black"]
@@ -162,8 +162,8 @@
             "price": 272,
             "old_price": 300,
               "amount": 1,
-            "image": "images/hand bag.jpg",
-            "images": ["images/hand bag.jpg"],
+            "image": "hand bag.jpg",
+            "images": ["hand bag.jpg"],
               "tags": ["حقيبة", "يد", "رجالي", "جلد"],
              "description": "وصف  hand bag 1 ",
                  "colors": ["black", "brown"]
@@ -174,8 +174,8 @@
             "price": 280,
             "old_price": 300,
               "amount": 1,
-            "image": "images/hand bag.jpg",
-            "images": ["images/hand bag.jpg"],
+            "image": "hand bag.jpg",
+            "images": ["hand bag.jpg"],
             "tags": ["حقيبة", "يد", "رجالي", "قماش"],
              "description": "وصف hand bag 2 ",
              "colors": ["gray", "beige"]
@@ -190,8 +190,8 @@
           "price": 350,
           "old_price": 450,
            "amount": 1,
-          "image": "images/virgin island.jpg",
-           "images": ["images/virgin island.jpg"],
+          "image": "virgin island.jpg",
+           "images": ["virgin island.jpg"],
             "tags": ["روليكس", "ساعة", "نسائي", "جلد", "فاخرة"],
              "description": "وصف روليكس جلد احمر",
            "colors": ["red", "pink","white"]
@@ -202,8 +202,8 @@
           "price": 380,
           "old_price": 450,
             "amount": 1,
-          "image": "images/u beast.jpg",
-           "images": ["images/u beast.jpg"],
+          "image": "u beast.jpg",
+           "images": ["u beast.jpg"],
            "tags": ["ساعة", "نسائي", "معدن", "أنيقة"],
              "description": "وصف ساعة رقم 4",
             "colors": ["gold", "silver"]
@@ -216,8 +216,8 @@
           "price": 300,
           "old_price": 400,
           "amount": 2,
-          "image": "images/perfume1.jpg",
-           "images": ["images/perfume1.jpg"],
+          "image": "perfume1.jpg",
+           "images": ["perfume1.jpg"],
           "tags": ["عطر", "نسائي", "زهري", "رومانسي"],
             "description": "وصف عطر زهرة",
             "colors": ["yellow", "pink"]
@@ -228,8 +228,8 @@
           "price": 450,
           "old_price": 550,
             "amount": 1,
-          "image": "images/perfume2.jpg",
-          "images": ["images/perfume2.jpg"],
+          "image": "perfume2.jpg",
+          "images": ["perfume2.jpg"],
           "tags": ["عطر", "نسائي", "مسكي", "جذاب"],
              "description": "وصف عطر المساء",
             "colors": ["purple", "blue"]
@@ -242,8 +242,8 @@
             "price": 251,
             "old_price": 300,
             "amount": 1,
-            "image": "images/oil.jpg",
-             "images": ["images/oil.jpg"],
+            "image": "oil.jpg",
+             "images": ["oil.jpg"],
              "tags": ["عطر", "نسائي", "بخاخ", "بودري"],
             "description": "وصف  جلد2 عطر",
               "colors": ["gray", "white"]
@@ -254,8 +254,8 @@
             "price": 280,
             "old_price": 300,
               "amount": 1,
-            "image": "images/virgin island.jpg",
-              "images": ["images/virgin island.jpg"],
+            "image": "virgin island.jpg",
+              "images": ["virgin island.jpg"],
             "tags": ["عطر", "نسائي", "بخاخ", "فاكهي"],
             "description": "وصف عطر3 رجالي",
               "colors": ["red", "gray"]
@@ -268,8 +268,8 @@
           "price": 200,
           "old_price": 250,
             "amount": 1,
-          "image": "images/wallet1.jpg",
-          "images": ["images/wallet1.jpg"],
+          "image": "wallet1.jpg",
+          "images": ["wallet1.jpg"],
           "tags": ["محفظة", "نسائي", "جلد", "صغيرة"],
              "description": "وصف محفظة حريمي جلدية",
               "colors": ["brown", "pink"]
@@ -280,8 +280,8 @@
           "price": 150,
           "old_price": 200,
             "amount": 1,
-          "image": "images/wallet2.jpg",
-           "images": ["images/wallet2.jpg"],
+          "image": "wallet2.jpg",
+           "images": ["wallet2.jpg"],
            "tags": ["محفظة", "نسائي", "قماش", "عملية"],
              "description": "وصف محفظة حريمي صغيرة",
             "colors": ["beige", "black"]
@@ -294,8 +294,8 @@
           "price": 500,
           "old_price": 700,
             "amount": 1,
-          "image": "images/women sunglasses.jpg",
-            "images": ["images/women sunglasses.jpg"],
+          "image": "women sunglasses.jpg",
+            "images": ["women sunglasses.jpg"],
           "tags": ["نظارة", "نسائي", "شمسية", "كلاسيكية"],
              "description": "وصف نظارة شمسية كلاسيكية",
              "colors": ["black", "gold"]
@@ -306,8 +306,8 @@
           "price": 600,
           "old_price": 800,
            "amount": 1,
-          "image": "images/women sunglasses.jpg",
-           "images": ["images/women sunglasses.jpg"],
+          "image": "women sunglasses.jpg",
+           "images": ["women sunglasses.jpg"],
           "tags": ["نظارة", "نسائي", "شمسية", "حديثة"],
             "description": "وصف نظارة شمسية حديثة",
              "colors": ["silver", "blue"]
@@ -320,8 +320,8 @@
           "price": 100,
           "old_price": 150,
             "amount": 1,
-          "image": "images/women Accessories.jpg",
-            "images": ["images/women Accessories.jpg"],
+          "image": "women Accessories.jpg",
+            "images": ["women Accessories.jpg"],
           "tags": ["اكسسوار", "نسائي", "ذهبي", "أنيق"],
              "description": "وصف اكسسوار ذهبي",
               "colors": ["gold"]
@@ -332,8 +332,8 @@
           "price": 120,
           "old_price": 180,
             "amount": 1,
-          "image": "images/women Accessories.jpg",
-           "images": ["images/women Accessories.jpg"],
+          "image": "women Accessories.jpg",
+           "images": ["women Accessories.jpg"],
           "tags": ["اكسسوار", "نسائي", "فضي", "بسيط"],
             "description": "وصف اكسسوار فضي",
           "colors": ["silver"]
@@ -360,8 +360,8 @@
           "price": 380,
           "old_price": 450,
            "amount": 1,
-          "image": "images/u beast.jpg",
-           "images": ["images/u beast.jpg"],
+          "image": "u beast.jpg",
+           "images": ["u beast.jpg"],
             "tags": ["ساعة", "اطفال", "رياضية", "رقمية"],
              "description": "وصف ساعة رقم 45",
               "colors": ["white", "blue"]
@@ -372,8 +372,8 @@
           "price": 340,
           "old_price": 450,
            "amount": 1,
-          "image": "images/virgin island.jpg",
-            "images": ["images/virgin island.jpg"],
+          "image": "virgin island.jpg",
+            "images": ["virgin island.jpg"],
             "tags": ["ساعة", "اطفال", "جلد", "كلاسيكية"],
             "description": "وصف روليكس جلد 70",
              "colors": ["gray", "black"]
@@ -384,8 +384,8 @@
           "price": 380,
           "old_price": 450,
             "amount": 1,
-          "image": "images/u beast.jpg",
-          "images": ["images/u beast.jpg"],
+          "image": "u beast.jpg",
+          "images": ["u beast.jpg"],
             "tags": ["ساعة", "اطفال", "معدن", "بسيطة"],
              "description": "وصف ساعة رقم 44",
              "colors": ["yellow", "pink"]
@@ -396,8 +396,8 @@
           "price": 350,
           "old_price": 450,
             "amount": 1,
-          "image": "images/virgin island.jpg",
-            "images": ["images/virgin island.jpg"],
+          "image": "virgin island.jpg",
+            "images": ["virgin island.jpg"],
            "tags": ["ساعة", "اطفال", "جلد", "ملونة"],
             "description": "وصف روليكس جلد 30",
              "colors": ["red", "blue"]
@@ -408,8 +408,8 @@
           "price": 380,
           "old_price": 450,
             "amount": 1,
-          "image": "images/u beast.jpg",
-           "images": ["images/u beast.jpg"],
+          "image": "u beast.jpg",
+           "images": ["u beast.jpg"],
            "tags": ["ساعة", "اطفال", "رياضية", "رقمية"],
              "description": "وصف ساعة رقم 50",
              "colors": ["white", "blue"]
@@ -484,8 +484,8 @@
           "price": 200,
           "old_price": 250,
            "amount": 1,
-          "image": "images/wallet1.jpg",
-            "images": ["images/wallet1.jpg"],
+          "image": "wallet1.jpg",
+            "images": ["wallet1.jpg"],
             "tags": ["محفظة", "بنات", "فرو", "ناعمة"],
             "description": "وصف محفظة حريمي جلدية",
             "colors": ["brown", "black"]
@@ -496,8 +496,8 @@
           "price": 150,
           "old_price": 200,
             "amount": 1,
-          "image": "images/wallet2.jpg",
-            "images": ["images/wallet2.jpg"],
+          "image": "wallet2.jpg",
+            "images": ["wallet2.jpg"],
             "tags": ["محفظة", "بنات", "قماش", "صغيرة"],
             "description": "وصف محفظة حريمي صغيرة",
               "colors": ["pink", "beige"]
@@ -510,7 +510,7 @@
           "name": "صندوق هدايا فاخر",
           "price": 150,
           "amount": 5,
-          "image": "images/box.png",
+          "image": "box.png",
            "tags": ["صندوق", "هدايا", "تغليف", "فاخر"]
         },
         {
@@ -518,7 +518,7 @@
           "name": "صندوق هدايا خشبي",
           "price": 120,
           "amount": 3,
-          "image": "images/box.png",
+          "image": "box.png",
           "tags": ["صندوق", "هدايا", "تغليف", "خشبي"]
         }
       ],
@@ -528,7 +528,7 @@
               "name": "تغليف هدايا ذهبي",
              "price": 50,
                "amount": 10,
-               "image": "images/packet.png",
+               "image": "packet.png",
                "tags": ["تغليف", "هدايا", "ورق", "ذهبي"]
            },
             {
@@ -536,7 +536,7 @@
                "name": "تغليف هدايا ملون",
               "price": 60,
                 "amount": 8,
-                "image": "images/packet.png",
+                "image": "packet.png",
                  "tags": ["تغليف", "هدايا", "ورق", "ملون"]
             }
         ],
@@ -546,7 +546,7 @@
             "name": "علبة شوكولاتة فاخرة",
              "price": 200,
              "amount": 10,
-             "image": "images/chocolates.png",
+             "image": "chocolates.png",
              "tags": ["شوكولاتة", "حلويات", "فاخرة", "هدية"]
           },
           {
@@ -554,7 +554,7 @@
               "name": "شوكلاته مشكله ",
             "price": 180,
               "amount": 7,
-             "image": "images/chocolates.png",
+             "image": "chocolates.png",
               "tags": ["شوكولاتة", "حلويات", "مشكلة", "هدية"]
           }
 
@@ -565,7 +565,7 @@
             "name": "شيبسي دوريتوس",
             "price": 20,
              "amount": 15,
-             "image": "images/chips.png",
+             "image": "chips.png",
               "tags": ["شيبسي", "مقرمشات", "وجبات_خفيفة", "مالحة"]
           },
            {
@@ -573,7 +573,7 @@
               "name": "شيبسي حار",
              "price": 25,
               "amount": 12,
-               "image": "images/chips.png",
+               "image": "chips.png",
                "tags": ["شيبسي", "مقرمشات", "وجبات_خفيفة", "حارة"]
            }
        ],
@@ -583,7 +583,7 @@
              "name": "حلوى مصاص",
             "price": 15,
               "amount": 20,
-               "image": "images/candy.png",
+               "image": "candy.png",
               "tags": ["حلوى", "مصاص", "حلويات", "ملونة"]
           },
          {
@@ -591,7 +591,7 @@
              "name": "حلوى جيلي",
              "price": 18,
               "amount": 18,
-              "image": "images/candy.png",
+              "image": "candy.png",
              "tags": ["حلوى", "جيلي", "حلويات", "متنوعة"]
           }
        ],
@@ -601,7 +601,7 @@
              "name": "بالونات ملونة",
              "price": 30,
               "amount": 20,
-               "image": "images/decoration.png",
+               "image": "decoration.png",
                "tags": ["بالونات", "زينة", "حفلات", "ملونة"]
           },
           {
@@ -609,7 +609,7 @@
              "name": "شريط زينة",
             "price": 20,
              "amount": 25,
-             "image": "images/decoration.png",
+             "image": "decoration.png",
              "tags": ["شريط", "زينة", "حفلات", "بسيط"]
           }
       ]
