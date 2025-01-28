@@ -25,7 +25,7 @@ request.onsuccess = async (event) => {
     // Load data from IndexedDB once the database is ready
   await  loadCartFromIndexedDB();
    await loadWishlistFromIndexedDB();
-   loadGiftFromLocalStorage();
+
 };
 
 
@@ -156,25 +156,6 @@ async function loadWishlistFromIndexedDB() {
         })
         .catch(error => console.error("Error loading wishlist from IndexedDB:", error));
 }
-// --- Gift Functions ---
-
-let giftItems = [];
-
-function saveGiftToLocalStorage() {
-    localStorage.setItem('giftItems', JSON.stringify(giftItems));
-}
-
-function loadGiftFromLocalStorage() {
-    const storedGiftItems = localStorage.getItem('giftItems');
-    giftItems = storedGiftItems ? JSON.parse(storedGiftItems) : [];
-    updateGiftUI();
-}
-
-function clearGift() {
-    giftItems = [];
-    saveGiftToLocalStorage();
-    updateGiftUI();
-}
 let currentDisplayedImage = '';
 let selectedColor = '';
 
@@ -279,99 +260,114 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Function to find similar products
 function findSimilarProducts(data, currentProduct, limit) {
-    if (!currentProduct || !currentProduct.name) return []; // prevent empty names and non-existing products
-
-    const productName = currentProduct.name.toLowerCase();
+    if (!currentProduct || !currentProduct.tags || currentProduct.tags.length === 0) {
+        return [];
+    }
+  
+    const currentTags = currentProduct.tags.map(tag => tag.toLowerCase());
     let similarProducts = [];
-
+  
     for (const category in data.categories) {
-        for (const subcategory in data.categories[category]) {
-            const products = data.categories[category][subcategory];
-            similarProducts = similarProducts.concat(
-                products.filter(product =>
-                    product.id !== currentProduct.id &&
-                    product.name.toLowerCase().includes(productName.split(' ')[0])
-                )
-            )
-        }
+      for (const subcategory in data.categories[category]) {
+        const products = data.categories[category][subcategory];
+        products.forEach(product => {
+            if (product.id !== currentProduct.id) {
+               const productTags = product.tags ? product.tags.map(tag => tag.toLowerCase()) : [];
+                 let matchCount = 0;
+                 for(let i=0; i<currentTags.length; i++){
+                     if(productTags.includes(currentTags[i])){
+                         matchCount++
+                     }
+                 }
+                 if (matchCount > 0) {
+                       similarProducts.push({ product, matchCount });
+                 }
+            }
+        });
+      }
     }
-
-
+      similarProducts.sort((a, b) => b.matchCount - a.matchCount); // Sort by number of matching tags (more matches first)
+  
     return similarProducts
-        .sort(() => 0.5 - Math.random()) // Sort randomly (prevent showing similar order all the time )
-        .slice(0, limit);
-}
+        .map(item => item.product) // Return just the product
+        .slice(0, limit); // return only the limited ammount
+  }
 
-// Function to render product details
 function renderProductDetails(product) {
-     const style = document.createElement('style');
-  style.textContent = `
-  .colors-container {
-  margin-top: 10px;
-  }
-  .colors-container h3 {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-    .color-options {
-        display: flex;
-        gap: 10px;
-         flex-wrap: wrap;
-    }
-    .color-option {
-         display: flex;
-    align-items: center;
-     gap: 5px;
-    cursor: pointer;
-      padding: 5px 10px;
-      border-radius: 5px;
-       border: 1px solid #ddd;
-    }
-      .color-option.selected {
-            border: 1px solid #000; /* Highlight border for selected color */
-              background-color: #f0f0f0;
+    const style = document.createElement('style');
+    style.textContent = `
+        .colors-container {
+            margin-top: 10px;
         }
-    .color-box {
-        width: 20px;
-        height: 20px;
-         border-radius: 50%;
-      display: inline-block;
-    }
-    .color-name {
-      font-size: 0.9rem;
-         white-space: nowrap;
-    }
-  `;
+        .colors-container h3 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .color-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .color-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .color-option.selected {
+            border: 1px solid #000; /* Highlight border for selected color */
+            background-color: #f0f0f0;
+        }
+        .color-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .color-name {
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+    `;
     document.head.appendChild(style);
     currentDisplayedImage = product.image; // Initialize with main image
     selectedColor = product.colors && product.colors[0] ? product.colors[0] : ''; // Set the first color as default
+
+    // Calculate discount only if old_price exists
     const discount = product.old_price
         ? Math.round(((product.old_price - product.price) / product.old_price) * 100)
         : 0;
 
-    const discountText = discount ? `<p class="discount-text">خصم ${discount}%</p>` : '';
+   // Generate the discount text only if there is a discount
+    const discountText = product.old_price ? `<p class="discount-text">خصم ${discount}%</p>` : '';
+    
+    // Generate old price HTML only if old_price exists
+    const oldPriceHTML = product.old_price ?  `<p class="old_price">${product.old_price} جنيه</p>` : '';
 
     const amountText = product.amount > 0
         ? `<p class="amount-text">الكمية المتبقية: ${product.amount}</p>`
         : `<p class="amount-text out-of-stock">غير متوفر حاليًا</p>`;
 
     const colorsHTML = product.colors && product.colors.length > 0 ? `
-    <div class="colors-container mt-4">
-        <h3 class="text-lg font-semibold mb-2">الألوان المتاحة:</h3>
-        <div class="color-options flex gap-2">
-            ${product.colors.map(color => `
-                <span
-                    class="color-option ${color === selectedColor ? 'selected' : ''} flex items-center gap-1 cursor-pointer"
-                    data-color="${color}"
-                >
-                    <span class="color-box" style="background-color: ${color};"></span>
-                    <span class="color-name">${color}</span>
-                </span>
-            `).join('')}
+        <div class="colors-container mt-4">
+            <h3 class="text-lg font-semibold mb-2">الألوان المتاحة:</h3>
+            <div class="color-options flex gap-2">
+                ${product.colors.map(color => `
+                    <span
+                        class="color-option ${color === selectedColor ? 'selected' : ''} flex items-center gap-1 cursor-pointer"
+                        data-color="${color}"
+                    >
+                        <span class="color-box" style="background-color: ${color};"></span>
+                        <span class="color-name">${color}</span>
+                    </span>
+                `).join('')}
+            </div>
         </div>
-    </div>
-` : '';
+    ` : '';
 
     const productDetails = `
         <div class="product-container grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -383,7 +379,7 @@ function renderProductDetails(product) {
                 <h2>${product.name}</h2>
                 <div class="price">
                     <p><span>${product.price} جنيه</span></p>
-                    <p class="old_price">${product.old_price || ''} جنيه</p>
+                    ${oldPriceHTML}
                 </div>
 
                 ${discountText}
@@ -398,9 +394,7 @@ function renderProductDetails(product) {
                     <span class="btn_add_cart ${product.amount <= 0 ? 'out-of-stock-btn' : ''}">
                         <i class="fa-solid fa-cart-shopping"></i> إضافة للسلة
                     </span>
-                    <span class="btn_add_gift">
-                        <i class="fa-solid fa-gift"></i> إضافة للهدية
-                    </span>
+
                      <span class="btn_add_wishlist">
                         <i class="fa-regular fa-heart"></i> إضافة للمفضلة
                      </span>
@@ -411,7 +405,7 @@ function renderProductDetails(product) {
             </div>
         </div>
         <div id="similar-products" class="mt-12">
-            <h2 class="text-2xl font-bold mb-6">منتجات مشابهة</h2>
+            <h2 class="text-2xl font-bold mb-6">منتجات قد تعجبك</h2>
             <div class="similar-products-grid"></div>
         </div>
     `;
@@ -508,18 +502,12 @@ function attachImageGalleryEvents() {
 async function addEventListenersToProduct(product) {
     const addToCartButton = document.querySelector('.btn_add_cart');
     const addToWishlistButton = document.querySelector('.btn_add_wishlist');
-      const addToGiftButton = document.querySelector('.btn_add_gift');
     const favoritesButton = document.querySelector('.share-button');
 
         // Function to check if a product is in the wishlist
     const isInWishlist = (productId, color) => {
     const uniqueId = `${productId}-${color}`;
          return wishlistItems.some(item => item.uniqueId === uniqueId);
-    };
-        // Function to check if a product is in the gift
-    const isInGift = (productId, color) => {
-    const uniqueId = `${productId}-${color}`;
-         return giftItems.some(item => item.uniqueId === uniqueId);
     };
 
    // Function to set the wishlist button text based on the product
@@ -529,15 +517,9 @@ async function addEventListenersToProduct(product) {
                 addToWishlistButton.innerHTML = inWishlist ? '<i class="fa-solid fa-heart-crack"></i> إزالة من المفضلة' : '<i class="fa-regular fa-heart"></i> إضافة للمفضلة';
             }
         };
-      // Function to set the gift button text based on the product
-    const setGiftButtonState = async () => {
-            if (addToGiftButton) {
-                  const inGift = isInGift(product.id, selectedColor);
-                  addToGiftButton.innerHTML = inGift ? '<i class="fa-solid fa-gift"></i> إضافة للهدية' : '<i class="fa-solid fa-gift"></i> إضافة للهدية';
-              }
-          };
+
     setWishlistButtonState();
-    setGiftButtonState();
+
 
 
     if (addToCartButton) {
@@ -603,36 +585,7 @@ async function addEventListenersToProduct(product) {
 
         });
     }
-   if (addToGiftButton) {
-        addToGiftButton.addEventListener('click', async function () {
-            const productId = product.id;
-            const imgSrc = currentDisplayedImage || product.image;
-            const title = product.name;
-            const price = product.price;
 
-
-            const giftResult = await addToGift(productId, imgSrc, title, price, product.amount, selectedColor);
-
-
-            if (giftResult === 'added') {
-                //If added successfuly then show success message
-                 this.innerHTML = '<i class="fa-solid fa-check"></i> تم الإضافة';
-                this.style.backgroundColor = '#ccc';
-               this.disabled = true;
-
-                 setTimeout(() => {
-                    this.style.backgroundColor = '';
-                   this.innerHTML = '<i class="fa-solid fa-gift"></i> إضافة للهدية';
-                   this.disabled = false;
-                }, 1000);
-
-            } else if (giftResult === 'max_quantity_reached') {
-                 this.textContent = 'انت حطيت كله خلاص';
-                 this.disabled = true;
-               this.style.backgroundColor = 'orange';
-            }
-        });
-    }
 
     if (favoritesButton) {
         favoritesButton.addEventListener('click', function () {
@@ -690,33 +643,7 @@ async function addToWishlist(productId, imgSrc, title, price, color) {
         updateWishlistUI();
     }
 }
-// Function to add product to gift
-async function addToGift(productId, imgSrc, title, price, availableQuantity, color) {
-   const uniqueId = `${productId}-${color}`;
-    const existingItem = giftItems.find(item => item.uniqueId === uniqueId);
-    if (existingItem) {
-        if (existingItem.quantity < availableQuantity) {
-           existingItem.quantity += 1;
-          saveGiftToLocalStorage();
-            updateGiftUI();
-            return 'added';
-        } else {
-           return 'max_quantity_reached';
-        }
-    }else{
-     if (availableQuantity > 0) {
-        const product = { uniqueId: uniqueId, id: productId, imgSrc, title, price, color:color, quantity:1 };
-        giftItems.push(product);
-         saveGiftToLocalStorage();
-        updateGiftUI()
-        return 'added';
-        } else {
-            showOutOfStockMessage();
-            return 'out_of_stock';
-        }
-    }
 
-}
 
 function showOutOfStockMessage() {
     const message = document.createElement('div');
@@ -752,29 +679,8 @@ window.updateCartQuantity = async function (productId, increment, color) {
 
     }
 };
-window.updateGiftQuantity = async function (productId, increment, color) {
-      const uniqueId = `${productId}-${color}`;
-      const item = giftItems.find(item => item.uniqueId === uniqueId);
-    if (item) {
-          findProductData(productId).then(async (productData) => {
-                if (increment > 0 && item.quantity >= productData.amount) {
-                   showOutOfStockMessage(); // Show out of stock if exceeds product amount
-
-              } else {
-                    item.quantity += increment;
-                      if (item.quantity <= 0) {
-                         await removeFromGift(productId, color);
-                      } else {
-                        saveGiftToLocalStorage();
-                         updateGiftUI();
-                      }
-                  }
-          })
 
 
-      }
-
-};
 
 window.removeFromCart = async function (productId, color) {
     const uniqueId = `${productId}-${color}`;
@@ -791,17 +697,6 @@ window.removeFromCart = async function (productId, color) {
             addToCartButton.disabled = false;
         }
 
-};
-// Function to remove from gift
-window.removeFromGift = async function (productId, color) {
-    const uniqueId = `${productId}-${color}`;
-     const addToGiftButton = document.querySelector('.btn_add_gift');
-     giftItems = giftItems.filter(item => item.uniqueId !== uniqueId);
-     saveGiftToLocalStorage();
-    updateGiftUI();
-    if (addToGiftButton) {
-        addToGiftButton.innerHTML = '<i class="fa-solid fa-gift"></i> إضافة للهدية';
-    }
 };
 
 
@@ -848,11 +743,7 @@ function showAlreadyInCartMessage() {
         message.remove();
     }, 1500);
 }
-window.completegift =  () => {
- // إعادة التوجيه إلى صفحة الهدية
-      window.location.href = 'gift.html';
- 
- };
+
 async function findProductData(productId) {
 
     return fetch('product.json')
@@ -908,9 +799,9 @@ async function updateCartUI() {
                             <p>${item.price} جنيه</p>
                              ${item.color ? `<p style="color:${item.color}">${item.color}</p>` : ''}
                               <div class="quantity_controls">
-                                    <button onclick="updateCartQuantity(${item.id}, -1, '${item.color}')">-</button>
+                                    <button onclick="updateCartQuantity(${item.id}, 1, '${item.color}')">+</button>
                                       <span>${item.quantity}</span>
-                                     <button onclick="updateCartQuantity(${item.id}, 1, '${item.color}')" ${disablePlus}>+</button>
+                                     <button onclick="updateCartQuantity(${item.id}, -1, '${item.color}')" ${disablePlus}>-</button>
                              </div>
                          </div>
                       <button class="delete_item" onclick="removeFromCart(${item.id}, '${item.color}')"><i class="fa fa-trash"></i></button>
@@ -975,56 +866,8 @@ async function updateWishlistUI() {
     document.querySelectorAll('.wishlist_count').forEach(el => el.textContent = totalQuantity);
 
 }
-// Function to update gift UI
-async function updateGiftUI() {
-    const giftItemsContainer = document.querySelector('.items_in_gift');
-    if (!giftItemsContainer) return;
-
-    giftItemsContainer.innerHTML = '';
-
-    let totalPrice = 0;
-    let totalQuantity = 0;
-
-    if (giftItems.length === 0) {
-       giftItemsContainer.innerHTML = `
-          <p class="empty-gift-message"> مش هتجيب هدية؟ </p>
-          <div class="empty-gift-icon">
-            <i class="fa-solid fa-gift"></i>
-          </div>
-        `;
-    } else {
-        for (const item of giftItems) {
-                 const productData = await findProductData(item.id);
-                  const disablePlus = productData && item.quantity >= productData.amount ? 'disabled' : '';
 
 
-            const giftItemHTML = `
-                <div class="item_gift" data-product-id="${item.id}-${item.color}">
-                    <img src="${item.imgSrc}" alt="${item.title}">
-                    <div class="gift-item-details">
-                        <h4>${item.title}</h4>
-                        <p>${item.price} جنيه</p>
-                         <p style="color: ${item.color}">${item.color}</p>
-                             <div class="quantity_controls">
-                             <button onclick="updateGiftQuantity(${item.id}, -1, '${item.color}')">-</button>
-                                    <span>${item.quantity}</span>
-                                    <button onclick="updateGiftQuantity(${item.id}, 1, '${item.color}')" ${disablePlus}>+</button>
-                             </div>
-                    </div>
-                    <div class="gift_actions">
-                           <button class="delete_item" onclick="removeFromGift(${item.id}, '${item.color}')"><i class="fa fa-trash"></i></button>
-                        </div>
-                </div>
-            `;
-            giftItemsContainer.insertAdjacentHTML('beforeend', giftItemHTML);
-             totalPrice += parseFloat(item.price) * item.quantity;
-            totalQuantity += item.quantity;
-        }
-    }
-    document.querySelectorAll('.gift_count').forEach(el => el.textContent = totalQuantity);
-    document.querySelectorAll('.price_gift_total').forEach(el => el.textContent = `${totalPrice} جنيه`);
-
-}
 
 
 window.addEventListener('load', () => {
@@ -1033,7 +876,6 @@ window.addEventListener('load', () => {
 window.addEventListener('DOMContentLoaded', () => {
      loadCartFromIndexedDB();
       loadWishlistFromIndexedDB();
-       loadGiftFromLocalStorage();
 });
 var cart = document.querySelector('.cart');
 function open_cart() {
@@ -1049,13 +891,6 @@ function open_wishlist() {
 }
 function close_wishlist() {
     wishlist.classList.remove("active");
-}
-var gift = document.querySelector('.gift');
-function open_gift() {
-    gift.classList.add("active");
-}
-function close_gift() {
-    gift.classList.remove("active");
 }
 // Format price with Egyptian Pound currency
 function formatPrice(price) {
@@ -1096,7 +931,7 @@ async function sendInvoiceViaWhatsApp() {
         closeButton.textContent = 'إغلاق';
         closeButton.style.cssText = `
             margin-top: 10px;
-            padding: 5px 10px;
+            padding:            5px 10px;
              background-color: rgb(202, 23, 23);
                color: white;
                 border: none;
@@ -1183,12 +1018,11 @@ window.addEventListener('pageshow', (event) => {
     if (event.persisted) { // Check if the page is loaded from cache
         loadCartFromIndexedDB();
         loadWishlistFromIndexedDB();
-        loadGiftFromLocalStorage();
+
     }
 });
 window.addEventListener('DOMContentLoaded', () => {
         // Load cart and wishlist from IndexedDB here
      loadCartFromIndexedDB();
     loadWishlistFromIndexedDB();
-      loadGiftFromLocalStorage();
 });
