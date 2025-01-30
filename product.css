@@ -1370,10 +1370,8 @@ margin: 0 0.5rem;
  flex-direction: row; /* align  side by side on bigger screens*/
 
 }
-
-   
-  
-  }
+ 
+}
   @media (min-width: 768px) {
       main {
           padding: 30px; /* increased padding */
@@ -1385,7 +1383,7 @@ margin: 0 0.5rem;
       
     
   }
-  @media (min-width: 768px) {
+  @media (max-width: 768px) {
   
   .price {
       font-size: 1.2rem; /* adjusted price size for larger screen */
@@ -1403,7 +1401,14 @@ margin: 0 0.5rem;
 
   
   }
-  .icons .btn_add_cart,
+  .icons .btn_add_cart {
+    position: fixed; /* يجعل الزر ثابتًا في موقع معين على الشاشة */
+    bottom: 2px;    /* يحدد المسافة من الحافة السفلية للنافذة */
+    right: 0px;     /* يحدد المسافة من الحافة اليمنى للنافذة */      /* يحدد المسافة من الحافة اليسرى للنافذة */
+    z-index: 9999;   /* يضمن أن الزر يكون فوق جميع العناصر الأخرى */
+    width: 100%;
+}
+
   .icons .icon_product,
   .icons .share-button {
   padding: 10px;
