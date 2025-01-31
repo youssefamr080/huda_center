@@ -12,9 +12,9 @@ request.onerror = (event) => {
 request.onupgradeneeded = (event) => {
     db = event.target.result;
     // Create object stores (tables) if they don't exist
-   if (!db.objectStoreNames.contains('cart')) {
-         db.createObjectStore('cart', { keyPath: 'uniqueId' });
-       }
+    if (!db.objectStoreNames.contains('cart')) {
+        db.createObjectStore('cart', { keyPath: 'uniqueId' });
+    }
     if (!db.objectStoreNames.contains('wishlist')) {
         db.createObjectStore('wishlist', { keyPath: 'uniqueId' });
     }
@@ -23,10 +23,8 @@ request.onupgradeneeded = (event) => {
 request.onsuccess = async (event) => {
     db = event.target.result;
     // Load data from IndexedDB once the database is ready
-   await loadCartFromIndexedDB();
-  await  loadWishlistFromIndexedDB();
-
-
+    await loadCartFromIndexedDB();
+    await loadWishlistFromIndexedDB();
 };
 
 
@@ -36,41 +34,43 @@ function getObjectStore(storeName, mode) {
     const transaction = db.transaction(storeName, mode);
     return transaction.objectStore(storeName);
 }
+
 function getAllFromIndexedDB(storeName) {
     return new Promise((resolve, reject) => {
-      if (!db) {
-        reject(new Error("Database not initialized yet."));
-        return;
-      }
+        if (!db) {
+            reject(new Error("Database not initialized yet."));
+            return;
+        }
         const store = getObjectStore(storeName, 'readonly');
         const getAllRequest = store.getAll();
         getAllRequest.onsuccess = (event) => {
             resolve(event.target.result);
         };
         getAllRequest.onerror = (event) => {
-             reject(new Error(`Error getting data from ${storeName}: ${event.target.error}`));
+            reject(new Error(`Error getting data from ${storeName}: ${event.target.error}`));
         };
     });
 }
+
 function addToIndexedDB(storeName, item) {
-  return new Promise((resolve, reject) => {
-      if (!db) {
-          reject(new Error("Database not initialized yet."));
-          return;
-      }
-      const store = getObjectStore(storeName, 'readwrite');
-      const addRequest = store.put(item);
-      addRequest.onsuccess = () => {
-        resolve();
-      };
-     addRequest.onerror = (event) => {
-          reject(new Error(`Error adding to ${storeName}: ${event.target.error}`));
+    return new Promise((resolve, reject) => {
+        if (!db) {
+            reject(new Error("Database not initialized yet."));
+            return;
+        }
+        const store = getObjectStore(storeName, 'readwrite');
+        const addRequest = store.put(item);
+        addRequest.onsuccess = () => {
+            resolve();
         };
-  });
+        addRequest.onerror = (event) => {
+            reject(new Error(`Error adding to ${storeName}: ${event.target.error}`));
+        };
+    });
 }
 
 function deleteFromIndexedDB(storeName, id) {
-   return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         if (!db) {
             reject(new Error("Database not initialized yet."));
             return;
@@ -83,8 +83,8 @@ function deleteFromIndexedDB(storeName, id) {
         };
         deleteRequest.onerror = (event) => {
             reject(new Error(`Error deleting from ${storeName}: ${event.target.error}`));
-       };
-   });
+        };
+    });
 }
 
 // --- Cart Functions ---
@@ -96,28 +96,28 @@ async function saveCartToIndexedDB() {
     try {
         const store = getObjectStore('cart', 'readwrite');
 
-         // Clear existing cart items
-          const clearRequest = store.clear();
-            await new Promise((resolve, reject) => {
-                clearRequest.onsuccess = resolve;
-                clearRequest.onerror = reject;
-            });
+        // Clear existing cart items
+        const clearRequest = store.clear();
+        await new Promise((resolve, reject) => {
+            clearRequest.onsuccess = resolve;
+            clearRequest.onerror = reject;
+        });
 
 
         // Add each item to the object store
         for (const item of cartItems) {
-             await addToIndexedDB('cart', item);
+            await addToIndexedDB('cart', item);
         }
-     } catch (error) {
-         console.error("Error saving cart to IndexedDB:", error);
+    } catch (error) {
+        console.error("Error saving cart to IndexedDB:", error);
     }
 }
 
 async function loadCartFromIndexedDB() {
-  return   getAllFromIndexedDB('cart')
+    return getAllFromIndexedDB('cart')
         .then(items => {
             cartItems = items;
-             return updateCartUI();
+            return updateCartUI();
 
         })
         .catch(error => console.error("Error loading cart from IndexedDB:", error));
@@ -130,30 +130,30 @@ let wishlistItems = [];
 
 
 async function saveWishlistToIndexedDB() {
-     try {
-          const store = getObjectStore('wishlist', 'readwrite');
+    try {
+        const store = getObjectStore('wishlist', 'readwrite');
 
-          // Clear existing wishlist items
-           const clearRequest = store.clear();
-             await new Promise((resolve, reject) => {
-                 clearRequest.onsuccess = resolve;
-                 clearRequest.onerror = reject;
-             });
+        // Clear existing wishlist items
+        const clearRequest = store.clear();
+        await new Promise((resolve, reject) => {
+            clearRequest.onsuccess = resolve;
+            clearRequest.onerror = reject;
+        });
 
 
         // Add each item to the object store
-         for (const item of wishlistItems) {
-           await addToIndexedDB('wishlist', item);
+        for (const item of wishlistItems) {
+            await addToIndexedDB('wishlist', item);
         }
     } catch (error) {
-           console.error("Error saving wishlist to IndexedDB:", error);
-       }
+        console.error("Error saving wishlist to IndexedDB:", error);
+    }
 }
 
- async function loadWishlistFromIndexedDB() {
-     return getAllFromIndexedDB('wishlist')
+async function loadWishlistFromIndexedDB() {
+    return getAllFromIndexedDB('wishlist')
         .then(items => {
-             wishlistItems = items;
+            wishlistItems = items;
             return updateWishlistUI();
 
         })
@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 resultsContainer.style.display = searchTerm ? 'block' : 'none';
                 if (searchTerm.length === 0) return clearResults();
                 const results = searchProducts(productsData, searchTerm);
-                 displayResults(results);
+                displayResults(results);
             });
         })
         .catch(error => console.error('Error fetching products data:', error));
@@ -225,67 +225,100 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const results = Object.values(productsData.categories).flatMap(category =>
             Object.values(category).flatMap(subcategory =>
-                  subcategory.filter(product => product.name.toLowerCase().includes(searchTerm)
-                  ).slice(0,6)
-              )
-          );
-         return results.slice(0,6);
-      }
-      function clearResults() {
+                subcategory.filter(product => product.name.toLowerCase().includes(searchTerm)
+                ).slice(0, 6)
+            )
+        );
+        return results.slice(0, 6);
+    }
+
+    function clearResults() {
         resultsContainer.innerHTML = '';
         resultsContainer.style.display = 'none';
-      }
+    }
 
     function displayResults(results) {
-          resultsContainer.innerHTML = '';
+        resultsContainer.innerHTML = '';
 
-          if (results.length === 0) {
-              const noResults = document.createElement('li');
-              noResults.textContent = 'لا توجد منتجات مطابقة.';
-             resultsContainer.appendChild(noResults);
-               return;
-             }
+        if (results.length === 0) {
+            const noResults = document.createElement('li');
+            noResults.textContent = 'لا توجد منتجات مطابقة.';
+            resultsContainer.appendChild(noResults);
+            return;
+        }
         const ul = document.createElement('ul');
-           const listItems = results.map(product => {
-                const li = document.createElement('li');
-                const link = document.createElement('a');
-                link.href = `product.html?id=${product.id}`;
-                link.textContent = product.name;
-                li.appendChild(link);
-               return li
-            })
+        const listItems = results.map(product => {
+            const li = document.createElement('li');
+            const link = document.createElement('a');
+            link.href = `product.html?id=${product.id}`;
+            link.textContent = product.name;
+            li.appendChild(link);
+            return li
+        })
 
-          ul.append(...listItems);
-          resultsContainer.appendChild(ul);
-      }
+        ul.append(...listItems);
+        resultsContainer.appendChild(ul);
+    }
 });
 
 function renderProducts(categories) {
     for (const category in categories) {
         const subcategories = categories[category];
         for (const subcategory in subcategories) {
-            const section = document.getElementById(subcategory)?.querySelector('.products');
+            const section = document.getElementById(subcategory);
             if (section) {
+                const productsByBrand = {};
                 subcategories[subcategory].forEach(product => {
-                    const mainImage = product.images && product.images.length > 0 ? product.images[0] : product.image;
-                     // Determine if there is an old price
-                    const hasOldPrice = product.old_price !== undefined && product.old_price !== null;
-                    const priceClass = hasOldPrice ? '' : 'centered-price';
-
-                    const productCard = `
-                        <div class="product" data-id=${product.id}>
-                            <div class="img_produt">
-                                <a href="#"><img src="${mainImage}" alt="${product.name}"></a>
-                            </div>
-                            <h2>${product.name}</h2>
-                            <div class="price ${priceClass}">
-                                <p><span>${product.price} جنيه</span></p>
-                                ${hasOldPrice ? `<p class="old_price">${product.old_price} جنيه</p>` : ''}
-                            </div>
-                            ${hasOldPrice ? `<div class="discount-badge">خصم ${((product.old_price - product.price) / product.old_price * 100).toFixed(0)}%</div>` : ''}
-                    `;
-                    section.insertAdjacentHTML('beforeend', productCard);
+                    if (!productsByBrand[product.brand]) {
+                        productsByBrand[product.brand] = [];
+                    }
+                    productsByBrand[product.brand].push(product);
                 });
+
+                for (const brand in productsByBrand) {
+                    const brandContainer = document.createElement('div');
+                    brandContainer.classList.add('swiper-container', 'brand-swiper');
+                    const swiperWrapper = document.createElement('div');
+                    swiperWrapper.classList.add('swiper-wrapper');
+
+                    productsByBrand[brand].forEach(product => {
+                        const mainImage = product.images && product.images.length > 0 ? product.images[0] : product.image;
+                        const hasOldPrice = product.old_price !== undefined && product.old_price !== null;
+
+                        const productSlide = document.createElement('div');
+                        productSlide.classList.add('swiper-slide');
+
+                        productSlide.innerHTML = `
+                            <div class="product" data-id="${product.id}">
+                                <div class="img_produt">
+                                    <a href="#"><img src="${mainImage}" alt="${product.name}"></a>
+                                </div>
+                                <h2>${product.name}</h2>
+                                <div class="price">
+                                    <p class="current_price"><span>${product.price} جنيه</span></p>
+                                    ${hasOldPrice ? `<p class="old_price"><span>${product.old_price} جنيه</span></p>` : ''}
+                                </div>
+                                ${hasOldPrice ? `<div class="discount-badge">خصم ${((product.old_price - product.price) / product.old_price * 100).toFixed(0)}%</div>` : ''}
+                            </div>
+                        `;
+                        swiperWrapper.appendChild(productSlide);
+                    });
+
+                    brandContainer.appendChild(swiperWrapper);
+
+                    const brandNameTitle = document.createElement('h3');
+                    brandNameTitle.textContent = brand;
+                    brandNameTitle.classList.add('brand-title');
+
+                    section.appendChild(brandNameTitle);
+                    section.appendChild(brandContainer);
+
+                    const scrollbar = document.createElement('div');
+                    scrollbar.classList.add('swiper-scrollbar');
+                    brandContainer.appendChild(scrollbar);
+
+                    initializeBrandSwiper(brandContainer);
+                }
             }
         }
     }
@@ -294,6 +327,37 @@ function renderProducts(categories) {
     addNavigationToProductPage();
 }
 
+function initializeBrandSwiper(swiperContainer) {
+
+     new Swiper(swiperContainer, {
+            scrollbar: {
+                el: swiperContainer.querySelector('.swiper-scrollbar'),
+                hide: true,
+            },
+            slidesPerView: 'auto',
+            spaceBetween: 10,
+            loop: false,
+            freeMode: true,
+            breakpoints: {
+                768: {
+                    slidesPerView: 'auto',
+                }
+            }
+        });
+
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const bottomHeaderSwiper = new Swiper('.bottom-header-swiper', {
+        loop: true, // لإنشاء حلقة لانهائية
+        slidesPerView: 'auto',  //  للسماح بعرض أكثر من شريحة في نفس الوقت
+        spaceBetween: 10, // المسافة بين الشرائح
+        touchEventsTarget: 'container',  // يسمح بالتمرير باللمس
+        grabCursor: true, // يغير شكل المؤشر عند التمرير
+        
+        // يمكنك إضافة المزيد من الخيارات حسب الحاجة
+        
+    });
+});
 function showSection(sectionId) {
     const sections = document.querySelectorAll('.section');
     sections.forEach(section => {
@@ -307,35 +371,35 @@ function showSection(sectionId) {
 }
 
 function addEventListenersToProducts() {
-    document.querySelectorAll('.btn_add_cart').forEach(button => {
-        button.addEventListener('click', async function () {
-            const product = this.closest('.product');
-            const productId = product.dataset.id;
-            const imgSrc = product.querySelector('img').src;
-            const title = product.querySelector('h2').textContent;
-            const price = product.querySelector('.price span').textContent;
-           // Retrieve the product from allProducts object
-              const productData = await findProductData(productId);
+    document.querySelectorAll('.product').forEach(product => {
+        product.addEventListener('click', async function (e) {
+            if (e.target.closest('button') || e.target.closest('a')) {
+                return; // Stop event if button or a is the target
+            }
+            const productId = this.dataset.id;
+            const productData = await findProductData(productId);
+
             if (productData) {
-             addToCart(productId, imgSrc, title, price, productData.amount, productData.colors && productData.colors[0]);
-              } else {
-                    console.error('Product not found in product data:', productId);
-                 }
+                // Only if the product found will render the product page.
+                window.location.href = `product.html?id=${productId}`;
+            } else {
+                console.error('Product not found in product data:', productId);
+            }
+
 
         });
     });
-
 }
 
 
 async function addToCart(productId, imgSrc, title, price, availableQuantity, color) { // Accept availableQuantity and color
-     const uniqueId = `${productId}-${color}`;
+    const uniqueId = `${productId}-${color}`;
     const existingItem = cartItems.find(item => item.uniqueId === uniqueId);
 
     if (existingItem) {
-        if (existingItem.quantity < availableQuantity) {  // check if product amount is more than existing item quantity
+        if (existingItem.quantity < availableQuantity) { // check if product amount is more than existing item quantity
             existingItem.quantity += 1;
-          await saveCartToIndexedDB();
+            await saveCartToIndexedDB();
             updateCartUI();
 
         } else {
@@ -344,9 +408,17 @@ async function addToCart(productId, imgSrc, title, price, availableQuantity, col
     } else {
         if (availableQuantity > 0) { // Add if amount is greater than 0
 
-            const product = { uniqueId: uniqueId, id: productId, imgSrc, title, price, quantity: 1, color:color };
+            const product = {
+                uniqueId: uniqueId,
+                id: productId,
+                imgSrc,
+                title,
+                price,
+                quantity: 1,
+                color: color
+            };
             cartItems.push(product);
-           await  saveCartToIndexedDB();
+            await saveCartToIndexedDB();
             updateCartUI();
 
         } else {
@@ -357,14 +429,22 @@ async function addToCart(productId, imgSrc, title, price, availableQuantity, col
 
 
 }
+
 // Function to add product to wishlist
 async function addToWishlist(productId, imgSrc, title, price, color) {
-       const uniqueId = `${productId}-${color}`;
-     const existingItem = wishlistItems.find(item => item.uniqueId === uniqueId);
+    const uniqueId = `${productId}-${color}`;
+    const existingItem = wishlistItems.find(item => item.uniqueId === uniqueId);
     if (!existingItem) {
-          const product = { uniqueId: uniqueId, id: productId, imgSrc, title, price, color:color };
+        const product = {
+            uniqueId: uniqueId,
+            id: productId,
+            imgSrc,
+            title,
+            price,
+            color: color
+        };
         wishlistItems.push(product);
-        await  saveWishlistToIndexedDB();
+        await saveWishlistToIndexedDB();
         updateWishlistUI();
     }
 }
@@ -379,6 +459,7 @@ function showMaxQuantityMessage() {
         message.remove();
     }, 1500);
 }
+
 function showOutOfStockMessage() {
     const message = document.createElement('div');
     message.textContent = 'خلص والله';
@@ -400,9 +481,9 @@ window.updateCartQuantity = async function (productId, increment, color) {
             } else {
                 item.quantity += increment;
                 if (item.quantity <= 0) {
-                   await removeFromCart(productId, color); // Pass color to remove function
+                    await removeFromCart(productId, color); // Pass color to remove function
                 } else {
-                   await  saveCartToIndexedDB();
+                    await saveCartToIndexedDB();
                     updateCartUI();
                 }
             }
@@ -412,7 +493,7 @@ window.updateCartQuantity = async function (productId, increment, color) {
 
 // Modify the removeFromCart to accept color
 window.removeFromCart = async function (productId, color) {
-   const uniqueId = `${productId}-${color}`;
+    const uniqueId = `${productId}-${color}`;
     cartItems = cartItems.filter(item => item.uniqueId !== uniqueId);
     await saveCartToIndexedDB();
     updateCartUI();
@@ -432,23 +513,24 @@ window.removeFromWishlist = async function (productId, color) {
 // Function to move item from wishlist to cart
 window.moveToCart = async function (productId, color) {
     findProductData(productId).then(async (productData) => {
-             const uniqueId = `${productId}-${color}`;
+        const uniqueId = `${productId}-${color}`;
         const existingItemInCart = cartItems.find(item => item.uniqueId === uniqueId);
         if (existingItemInCart) {
             showAlreadyInCartMessage(); // Show message if already in cart
         } else {
             const item = wishlistItems.find(item => item.uniqueId === uniqueId);
             if (item) {
-                 if (!productData || productData.amount <= 0) {
-                      showOutOfStockMessage();
-                 }else {
-                     await addToCart(item.id, item.imgSrc, item.title, item.price, productData.amount, color); // Pass the amount and color
-                    await  removeFromWishlist(productId, color);
-                 }
+                if (!productData || productData.amount <= 0) {
+                    showOutOfStockMessage();
+                } else {
+                    await addToCart(item.id, item.imgSrc, item.title, item.price, productData.amount, color); // Pass the amount and color
+                    await removeFromWishlist(productId, color);
+                }
             }
         }
     })
 };
+
 function showAlreadyInCartMessage() {
     const message = document.createElement('div');
     message.textContent = 'هذا المنتج موجود بالفعل في السلة';
@@ -459,7 +541,6 @@ function showAlreadyInCartMessage() {
         message.remove();
     }, 1500);
 }
-
 
 
 async function findProductData(productId) {
@@ -480,32 +561,31 @@ async function findProductData(productId) {
         })
 
 
-
 }
 
 async function updateCartUI() {
-  const cartItemsContainer = document.querySelector('.items_in_cart');
-  if (!cartItemsContainer) return;
+    const cartItemsContainer = document.querySelector('.items_in_cart');
+    if (!cartItemsContainer) return;
 
-  // مسح محتوى السلة
-  cartItemsContainer.innerHTML = '';
+    // مسح محتوى السلة
+    cartItemsContainer.innerHTML = '';
 
-  let totalPrice = 0;
-  let totalQuantity = 0;
+    let totalPrice = 0;
+    let totalQuantity = 0;
 
-  if (cartItems.length === 0) {
-    cartItemsContainer.innerHTML = `
+    if (cartItems.length === 0) {
+        cartItemsContainer.innerHTML = `
       <p class="empty-cart-message">السلة فاضيه يباشا املاها شويه</p>
       <div class="empty-cart-icon">
         <i class="fa-solid fa-cart-arrow-down"></i>
       </div>
     `;
-  } else {
-           // انتظار جميع بيانات المنتجات
-      for (const item of cartItems) {
+    } else {
+        // انتظار جميع بيانات المنتجات
+        for (const item of cartItems) {
             const productData = await findProductData(item.id);
-        const disablePlus = productData && item.quantity >= productData.amount ? 'disabled' : '';
-         const cartItemHTML = `
+            const disablePlus = productData && item.quantity >= productData.amount ? 'disabled' : '';
+            const cartItemHTML = `
                     <div class="item_cart" data-product-id="${item.id}-${item.color}">
                         <img src="${item.imgSrc}" alt="${item.title}">
                         <div class="cart-item-details">
@@ -521,11 +601,11 @@ async function updateCartUI() {
                       <button class="delete_item" onclick="removeFromCart(${item.id}, '${item.color}')"><i class="fa fa-trash"></i></button>
                     </div>
             `;
-           cartItemsContainer.insertAdjacentHTML('beforeend', cartItemHTML);
-             totalPrice += parseFloat(item.price) * item.quantity;
-           totalQuantity += item.quantity;
+            cartItemsContainer.insertAdjacentHTML('beforeend', cartItemHTML);
+            totalPrice += parseFloat(item.price) * item.quantity;
+            totalQuantity += item.quantity;
         }
-     }
+    }
 
 
     // تحديث الإحصائيات
@@ -533,6 +613,7 @@ async function updateCartUI() {
     document.querySelectorAll('.price_cart_total').forEach(el => el.textContent = `${totalPrice} جنيه`);
     document.querySelectorAll('.count_item').forEach(el => el.textContent = totalQuantity);
 }
+
 // Function to update wishlist UI
 async function updateWishlistUI() {
     const wishlistItemsContainer = document.querySelector('.items_in_wishlist');
@@ -553,14 +634,14 @@ async function updateWishlistUI() {
 
         wishlistItems.forEach(item => {
             const existingItemInCart = cartItems.find(cartItem => cartItem.uniqueId === item.uniqueId);
-             let moveToCartButton;
-                if (existingItemInCart) {
-                  moveToCartButton = `<button class="btn_wishlist" disabled >موجود في السلة</button>`; // Disable if already in cart
-                } else {
-                    moveToCartButton = `<button class="btn_wishlist" onclick="moveToCart(${item.id}, '${item.color}')">نقل الي العربة</button>`
-                  }
+            let moveToCartButton;
+            if (existingItemInCart) {
+                moveToCartButton = `<button class="btn_wishlist" disabled >موجود في السلة</button>`; // Disable if already in cart
+            } else {
+                moveToCartButton = `<button class="btn_wishlist" onclick="moveToCart(${item.id}, '${item.color}')">نقل الي العربة</button>`
+            }
 
-             const wishlistHTML = `
+            const wishlistHTML = `
              <div class="item_wishlist" data-product-id="${item.id}-${item.color}">
                   <img src="${item.imgSrc}" alt="${item.title}">
                 <div class="wishlist-item-details">
@@ -583,34 +664,36 @@ async function updateWishlistUI() {
 }
 
 
-
-
 window.addEventListener('load', () => {
 
 });
 window.addEventListener('DOMContentLoaded', () => {
-        // Load cart and wishlist from IndexedDB here
-     loadCartFromIndexedDB();
+    // Load cart and wishlist from IndexedDB here
+    loadCartFromIndexedDB();
     loadWishlistFromIndexedDB();
 
 });
 var cart = document.querySelector('.cart');
+
 function open_cart() {
     cart.classList.add("active");
 }
+
 function close_cart() {
     cart.classList.remove("active");
 }
 
 
-
 var wishlist = document.querySelector('.wishlist');
+
 function open_wishlist() {
     wishlist.classList.add("active");
 }
+
 function close_wishlist() {
     wishlist.classList.remove("active");
 }
+
 // Format price with Egyptian Pound currency
 function formatPrice(price) {
     return `${price.toFixed(2)} جنيه`;
@@ -693,18 +776,18 @@ async function sendInvoiceViaWhatsApp() {
     message += `========================================\n\n`;
 
     message += ` *تفاصيل الطلب:*\n\n`;
-   for (let i = 0; i < storedCartItems.length; i++) {
+    for (let i = 0; i < storedCartItems.length; i++) {
         const item = storedCartItems[i];
-         message += ` *المنتج ${i + 1}:*\n`;
+        message += ` *المنتج ${i + 1}:*\n`;
         message += `  🆔 *ID:* ${item.id}\n`;
         message += `   *الاسم:* ${item.title}\n`;
         message += `   *الكمية:* ${item.quantity}\n`;
-         message += `   *اللون:* ${item.color}\n`;
+        message += `   *اللون:* ${item.color}\n`;
         message += `   *السعر للوحدة:* ${item.price} \n`;
         message += `  *الإجمالي:* ${parseFloat(item.price) * item.quantity} جنيه\n`;
         message += `----------------------------------------\n`;
     }
-   
+    
 
     message += `\n *ملخص الطلب:*\n`;
     message += `  ️ *عدد المنتجات:* ${itemCount}\n`;
@@ -720,6 +803,7 @@ async function sendInvoiceViaWhatsApp() {
 
     await clearCart();
 }
+
 // Clear the cart
 async function clearCart() {
     cartItems = [];
@@ -732,6 +816,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuTitle = document.getElementById('menu-title');
     const submenuLinks = document.querySelectorAll('.submenu-link');
     const menu = document.querySelector('.menu');
+    const menuToggle = document.querySelector('.menu-toggle');
 
     submenuLinks.forEach(link => {
         link.addEventListener('click', (event) => {
@@ -743,25 +828,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Update the menu title based on the current page
+    // تحديث عنوان القائمة بناءً على الصفحة الحالية
     const currentPage = window.location.pathname.split('/').pop();
     const currentLink = Array.from(submenuLinks).find(link => link.getAttribute('href') === currentPage);
     if (currentLink) {
         menuTitle.textContent = currentLink.getAttribute('data-title');
     }
 
-    // Toggle menu on small screens
-    document.querySelector('.menu-toggle').addEventListener('click', () => {
+    // تبديل القائمة عند النقر على زر الفتح/الإغلاق
+    menuToggle.addEventListener('click', () => {
         menu.classList.toggle('active');
     });
 
-    // Close menu when clicking outside
+    // إغلاق القائمة عند النقر خارجها أو النقر عليها مرة أخرى
     document.addEventListener('click', (event) => {
         if (!menu.contains(event.target) && !event.target.matches('.menu-toggle')) {
             menu.classList.remove('active');
+        } else if (event.target.matches('.menu')) {
+            menu.classList.toggle('active');
         }
     });
 });
+
 
 // Dark mode
 document.addEventListener('DOMContentLoaded', () => {
@@ -786,8 +874,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-// Initialize Swiper
-
 // Add navigation to product page
 function addNavigationToProductPage() {
     console.log("Function addNavigationToProductPage() is running.");
@@ -808,19 +894,6 @@ function renderImageGallery(images) {
         </div>
     `;
 }
-// Swiper للصور
-var swiper = new Swiper(".mySwiper", {
-    scrollbar: {
-      el: ".swiper-scrollbar",
-      hide: true,
-    },
-    autoplay: {
-      delay: 3000,
-      disableOnInteraction: false,
-    },
-    loop: true,
-});
-
 
 document.addEventListener('DOMContentLoaded', function () {
     const navContainer = document.querySelector('.nav-container');
@@ -836,11 +909,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // إضافة أحداث للنقر على الأسهم مع حركة سلسة فقط
     nextButton.addEventListener('click', () => {
-        navContainer.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+        navContainer.scrollBy({
+            left: -getScrollAmount(),
+            behavior: 'smooth'
+        });
     });
 
     prevButton.addEventListener('click', () => {
-        navContainer.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+        navContainer.scrollBy({
+            left: getScrollAmount(),
+            behavior: 'smooth'
+        });
     });
 
     function addScrollIcon() {
@@ -851,44 +930,24 @@ document.addEventListener('DOMContentLoaded', function () {
         scrollIcon.innerHTML = `<i class="fa-solid fa-hand-point-up"></i>`; // أيقونة اليد في البداية
         navContainer.appendChild(scrollIcon);
 
-         let intervalId;
-           // إخفاء الأيقونة بعد 5 ثوانٍ
+        let intervalId;
+        // إخفاء الأيقونة بعد 5 ثوانٍ
         setTimeout(() => {
             scrollIcon.style.opacity = '0';
-             clearInterval(intervalId);
+            clearInterval(intervalId);
             setTimeout(() => {
                 scrollIcon.remove();
                 scrollIcon = null; // إعادة تعيين المتغير
-                 setTimeout(addScrollIcon, 5 * 60 * 1000) // إظهار الأيقونة بعد 5 دقائق
+                setTimeout(addScrollIcon, 5 * 60 * 1000) // إظهار الأيقونة بعد 5 دقائق
             }, 1000); // إزالة الأيقونة بعد انتهاء التأثير
         }, 5000);
 
-     }
+    }
 
-       addScrollIcon();
+    addScrollIcon();
 });
 
 
-function searchPerfumes() {
-        const input = document.getElementById('searchInput2');
-        const filter = input.value.toUpperCase();
-        const ul = document.getElementById('perfumeList');
-        const li = ul.getElementsByTagName('li');
-        const noResults = document.getElementById('noResults');
-        let hasResults = false;
-
-        for (let i = 0; i < li.length; i++) {
-            const txtValue = li[i].textContent || li[i].innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
-                hasResults = true;
-            } else {
-                li[i].style.display = "none";
-            }
-        }
-
-        noResults.style.display = hasResults ? "none" : "block";
-    }
 
 document.addEventListener('DOMContentLoaded', () => {
     const sendInvoiceButton = document.querySelector('.send-invoice-button');
@@ -903,7 +962,7 @@ window.addEventListener('pageshow', (event) => {
     }
 });
 window.addEventListener('DOMContentLoaded', () => {
-        // Load cart and wishlist from IndexedDB here
-     loadCartFromIndexedDB();
+    // Load cart and wishlist from IndexedDB here
+    loadCartFromIndexedDB();
     loadWishlistFromIndexedDB();
 });

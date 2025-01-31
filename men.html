@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>cadoz</title>
-    <link rel="icon" href="logo.png">
-    <link rel="stylesheet" href="main style.css">
+    <link rel="icon" href="images/logo.png">
+    <link rel="stylesheet" href="css/main style.css">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -35,7 +35,7 @@
                     </div>
             </div>
             </div>
-                 <a href="" class="logo"><img src="logo.png" alt="cadoz logo" loading="lazy"></a>
+                 <a href="" class="logo"><img src="images/logo.png" alt="cadoz logo" loading="lazy"></a>
                  <div class="header-icons">
                     <div class="wishlist_header">
                         <div class="icon_wishlist" onclick="open_wishlist()">
@@ -70,7 +70,7 @@
                         <div class="menu">
                             <div class="item">
                                 <a href="#" class="link">
-                                    <span id="menu-title"> الاقسام </span>
+                    </g>                <span id="menu-title"> الاقسام </span>
                                     <svg viewBox="0 0 360 360" xml:space="preserve">
                                         <g id="SVGRepo_iconCarrier">
                                             <path id="XMLID_225_" d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393 c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393 s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z"></path>
@@ -94,22 +94,31 @@
                     </div>
             </div>
     </header>
-    <div class="swiper-container-with-banner">
-        <div class="swiper mySwiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="Add a heading (4).jpg" alt="" loading="lazy"></div>
-                <div class="swiper-slide"><img src="mug prent.jpg" alt="" loading="lazy"></div>
-                <div class="swiper-slide"><img src="potrait slider.jpg" alt="" loading="lazy"></div>
-                <div class="swiper-slide"><img src="walet slider.jpg" alt="" loading="lazy"></div>
-                <div class="swiper-slide"><img src="mug slider.jpg" alt="" loading="lazy"></div>
+    <div class="header-gif">
+        <a href="gift.html"><img src="images/cadoz.gif" alt="Animated GIF" loading="lazy"></a>
+    </div>
+    <div class="swiper-container bottom-header-swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img src="images/mug prent.jpg" alt="Slide 1" loading="lazy">
             </div>
-            <div class="swiper-scrollbar"></div>
+            <div class="swiper-slide">
+                <img src="images/image_fx_ (32).jpg" alt="Slide 2" loading="lazy">
+            </div>
+            <div class="swiper-slide">
+                <img src="images/Add a heading (4).jpg" alt="Slide 3" loading="lazy">
+            </div>
+            <div class="swiper-slide">
+                <img src="images/mug slider.jpg" alt="Slide 3" loading="lazy">
+            </div>
+            <div class="swiper-slide">
+                <img src="images/potrait slider.jpg" alt="Slide 3" loading="lazy">
+            </div>
+            <div class="swiper-slide">
+                <img src="images/walet slider.jpg" alt="Slide 3" loading="lazy">
+            </div>
         </div>
-        <div class="vertical-banner">
-            <a href="gift.html">
-              <img src="banner.png" alt="Vertical Banner" loading="lazy">
-            </a>
-        </div>
+
     </div>
         <!-- العربة -->
     <div class="cart">
@@ -147,23 +156,23 @@
            <div class="nav-container">
 
             <button onclick="showSection('watches_men')">
-                <img src="watch section.png" alt="ساعات" loading="lazy">
+                <img src="images/watch section.png" alt="ساعات" loading="lazy">
                 <h5>ساعات</h5>
             </button>
             <button onclick="showSection('wallets_men')">
-                <img src="men wallet.png" alt="محافظ" loading="lazy">
+                <img src="images/men wallet.png" alt="محافظ" loading="lazy">
                 <h5>محافظ</h5>
             </button>
            <button onclick="showSection('perfumes_men')">
-            <img src="men perfum section.png" alt="عطور" loading="lazy">
+            <img src="images/men perfum section.png" alt="عطور" loading="lazy">
             <h5>عطور</h5>
         </button>
             <button onclick="showSection('sunglasses_men')">
-                <img src="men sunglasses.png" alt="نظارات شمسية" loading="lazy">
+                <img src="images/men sunglasses.png" alt="نظارات شمسية" loading="lazy">
                 <h5>نظارات شمسية </h5>
             </button>
            <button onclick="showSection('hand-bags')">
-               <img src="hand bag.png" alt="شنط يد" loading="lazy">
+               <img src="images/hand bag.png" alt="شنط يد" loading="lazy">
                <h5>شنط يد</h5>
           </button>
         <button onclick="showSection('spray-men')">
@@ -177,47 +186,36 @@
 
    <!-- قسم الساعات -->
    <div id="watches_men" class="section">
-    <div class="products">
-
-    </div>
-</div>
+     
+   </div>
 
     <!-- قسم العطور -->
     <div id="perfumes_men" class="section">
-        <div class="products"></div>
-           
-        
     </div>
 
     <!-- قسم المحافظ -->
     <div id="wallets_men" class="section">
-        <div class="products"></div>
-            
     </div>
 
     <!-- قسم النظارات الشمسية -->
     <div id="sunglasses_men" class="section">
-        <div class="products"></div>
-           
     </div>
 
     <!-- قسم الشنط اليد -->
     <div id="hand-bags" class="section">
-        <div class="products"></div>
-
     </div>
-
-    <div id="spray-men" class="section">
-        <div class="products"></div>
+    
+     <div id="spray-men" class="section">
 
     </div>
  
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="main.js"></script>
+    <script src="java/main.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-    var lazyLoadInstance = new LazyLoad();
-    });
+            var lazyLoadInstance = new LazyLoad();
+        });
+
     </script>
    
       
