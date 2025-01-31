@@ -171,7 +171,7 @@ if (productId) {
 
             if (product) {
                 renderProductDetails(product);
-                const similarProducts = findSimilarProducts(data, product, 6);
+                const similarProducts = findSimilarProducts(data, product, 8);
                 renderSimilarProducts(similarProducts);
             } else {
                 document.getElementById('product-details').innerHTML = '<p>عذرًا، المنتج غير موجود.</p>';
@@ -405,7 +405,7 @@ function renderProductDetails(product) {
             </div>
         </div>
         <div id="similar-products" class="mt-12">
-            <h2 class="text-2xl font-bold mb-6">منتجات قد تعجبك</h2>
+            <h2 class="text-2xl font-bold mb-6"></h2>
             <div class="similar-products-grid"></div>
         </div>
     `;
@@ -447,37 +447,64 @@ function attachColorSelectionEvents() {
          });
     });
 }
-// Function to render similar products
-// Function to render similar products
+// Function to render similar products using Swiper
 function renderSimilarProducts(products) {
-
     if (!products || products.length === 0) {
-        document.querySelector('.similar-products-grid').innerHTML = '<p>لا توجد منتجات مشابهة حاليًا.</p>';
-        return;
+      document.querySelector('.similar-products-swiper .swiper-wrapper').innerHTML = '<p>لا توجد منتجات مشابهة حاليًا.</p>';
+      return;
     }
-
-    const similarProductsHTML = `
-     ${products.map(product => {
-       const discount = product.old_price
-            ? Math.round(((product.old_price - product.price) / product.old_price) * 100)
-            : 0;
-
-        const discountBadge = discount > 0 ? `<span class="discount-badge">خصم ${discount}%</span>` : '';
-     return `
-        <a href="product.html?id=${product.id}" class="product-card">
-         <img src="${product.image}" alt="${product.name}">
-           ${discountBadge}
-              <div class="info">
-                <h4>${product.name}</h4>
-                <p class="price">${product.price} جنيه</p>
-             </div>
-        </a>
-     `
-  }).join('')}
-
-  `;
-    document.querySelector('.similar-products-grid').innerHTML = similarProductsHTML;
-}
+  
+    const similarProductsHTML = products.map(product => {
+      const discount = product.old_price
+        ? Math.round(((product.old_price - product.price) / product.old_price) * 100)
+        : 0;
+  
+      const discountBadge = discount > 0 ? `<span class="discount-badge">خصم ${discount}%</span>` : '';
+  
+      return `
+        <div class="swiper-slide">
+          <a href="product.html?id=${product.id}" class="product-card">
+            ${discountBadge}
+            <img src="${product.image}" alt="${product.name}">
+            <div class="info">
+              <h4>${product.name}</h4>
+              <p class="price">
+                ${product.price} جنيه
+                ${
+                  product.old_price
+                    ? `<span class="old-price">${product.old_price} جنيه</span>`
+                    : ''
+                }
+              </p>
+            </div>
+          </a>
+        </div>
+      `;
+    }).join('');
+  
+    document.querySelector('.similar-products-swiper .swiper-wrapper').innerHTML = similarProductsHTML;
+  
+    // Initialize Swiper
+    var swiper = new Swiper('.similar-products-swiper', {
+      slidesPerView: 2.25,
+      spaceBetween: 10,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      touchEventsTarget: 'wrapper',
+      simulateTouch: true,
+      navigation: false, // لإلغاء الأسهم
+      breakpoints: {
+        // عند الشاشات الأكبر
+        768: {
+          slidesPerView: 4,
+          spaceBetween: 20,
+        },
+      },
+    });
+  }
+  
 
 // Function to attach events to image gallery
 function attachImageGalleryEvents() {
@@ -799,9 +826,9 @@ async function updateCartUI() {
                             <p>${item.price} جنيه</p>
                              ${item.color ? `<p style="color:${item.color}">${item.color}</p>` : ''}
                               <div class="quantity_controls">
-                                    <button onclick="updateCartQuantity(${item.id}, 1, '${item.color}')">+</button>
+                                    <button onclick="updateCartQuantity(${item.id}, 1, '${item.color}')" ${disablePlus}>+</button>
                                       <span>${item.quantity}</span>
-                                     <button onclick="updateCartQuantity(${item.id}, -1, '${item.color}')" ${disablePlus}>-</button>
+                                     <button onclick="updateCartQuantity(${item.id}, -1, '${item.color}')">-</button>
                              </div>
                          </div>
                       <button class="delete_item" onclick="removeFromCart(${item.id}, '${item.color}')"><i class="fa fa-trash"></i></button>

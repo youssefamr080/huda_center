@@ -928,87 +928,7 @@ text-align: left;
   transition: background-color 0.3s ease;
     flex: 1;
   }
-/* Similar products section - Enhanced for responsive grid */
-#similar-products {
-    margin-top: 3rem;
-      background-color: white;
-      border-top: 1px solid #ccc;
-      padding: 2rem 0;
-  }
-  
-  #similar-products h2 {
-      font-size: 1.7rem;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 1.5rem;
-      margin-right: 1.2rem;
-  }
-  
-  .similar-products-grid {
-      display: flex;
-      overflow-x: auto;
-      gap: 1.5rem;
-      padding: 0 1rem;
-     flex-wrap: wrap; /* Allows wrapping to new lines */
-      justify-content: center; /* Centers grid items */
-  
-  }
-  
-  .similar-products-grid a{
-   text-decoration: none;
-  }
-  
-  .similar-products-grid img {
-      width: calc(25% - 1.5rem); /* Default to four per row */
-      height: 180px;
-      object-fit: cover;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      flex-grow: 0; /* Prevents images from stretching */
-  }
-  .similar-products-grid img:hover{
-        transform: translateY(-0.3rem); /* Move it up on hover */
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
-  
-  }
-  
-  /* Make four images per row on larger screens */
-  @media (min-width: 1200px) {
-    .similar-products-grid img {
-      width: calc(25% - 1.5rem);
-    }
-  }
-  /* Make three images per row on medium screens */
-  @media (min-width: 992px) and (max-width: 1199px) {
-      .similar-products-grid img {
-           width: calc(33.33% - 1.5rem); /* Three images per row */
-      }
-  }
-  
-  /* Make two images per row on smaller screens */
-  @media (min-width: 577px) and (max-width: 991px) {
-     .similar-products-grid img {
-          width: calc(50% - 1.5rem); /* Two images per row */
-     }
-  }
-  
-   /* Two images per row up to 360px */
-  @media (max-width: 576px)  {
-    .similar-products-grid img {
-           width: calc(48% - 1.5rem); /* Two images per row */
-     }
-  }
-  
-  /* One image per row on the smallest screens */
-  @media (max-width: 360px) {
-   .similar-products-grid img {
-           width: calc(calc(45% - 1rem));/* One image per row */
-      }
-      .similar-products-grid{
-           gap: 1rem; /* reduce the gap  */
-      }
-  }
+
   
   .image-gallery {
     display: flex;
@@ -1202,89 +1122,7 @@ margin: 0 0.5rem;
     
   
       }
-    
-  #similar-products h2 {
-  font-size: 1.7rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 1.5rem;
-    margin-right: 1.2rem;
-}
 
-.similar-products-grid {
-    display: flex;
-    overflow-x: auto;
-    gap: 1.5rem;
-    padding: 0 1rem;
-   flex-wrap: wrap; /* Allows wrapping to new lines */
-    justify-content: center; /* Centers grid items */
-
-}
-
-.similar-products-grid a{
- text-decoration: none;
-}
-
-.similar-products-grid img {
-    width: calc(25% - 1.5rem); /* Default to four per row */
-    height: 180px;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    flex-grow: 0; /* Prevents images from stretching */
-}
-.similar-products-grid img:hover{
-      transform: translateY(-0.3rem); /* Move it up on hover */
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
-
-}
-
-/* Make four images per row on larger screens */
-@media (min-width: 1200px) {
-  .similar-products-grid img {
-    width: calc(25% - 1.5rem);
-  }
-}
-/* Make three images per row on medium screens */
-@media (min-width: 992px) and (max-width: 1199px) {
-    .similar-products-grid img {
-         width: calc(33.33% - 1.5rem); /* Three images per row */
-    }
-}
-
-/* Make two images per row on smaller screens */
-@media (min-width: 577px) and (max-width: 991px) {
-   .similar-products-grid img {
-        width: calc(50% - 1.5rem); /* Two images per row */
-   }
-}
-
- /* Two images per row up to 360px */
-@media (max-width: 576px)  {
-  .similar-products-grid img {
-         width: calc(50% - 1.5rem); /* Two images per row */
-   }
-}
-
-/* One image per row on the smallest screens */
-@media (max-width: 360px) {
- .similar-products-grid img {
-         width: calc(100% - 1rem);/* One image per row */
-    }
-    .similar-products-grid{
-         gap: 1rem; /* reduce the gap  */
-    }
-}
-/* Adjust for very small screens */
-@media (max-width: 300px) {
-   .similar-products-grid img {
-       width: calc(100% - 0.5rem);/* One image per row */
-    }
-     .similar-products-grid{
-         gap: 0.5rem; /* reduce the gap  */
-    }
-}
 /* image Gallery  */
 .image-gallery {
   display: flex;
@@ -1417,10 +1255,7 @@ margin: 0 0.5rem;
   
       }
     
-  #similar-products h2 {
-          font-size: 1.6rem;
-        }
-  
+
   }
   @media (min-width: 992px){
     .product-container{
@@ -1443,82 +1278,6 @@ margin: 0 0.5rem;
 
 }
 
-/* Discount Badge */
-.discount-badge {
-position: absolute;
-top: 10px;
-right: 10px;
-  background-color: #e74c3c;
-color: white;
-  font-size: 14px;
-  padding: 10px;
-  border-radius: 4px;
-  z-index: 1;
-   animation: pulse 2s infinite; /* Start the animation */
-
-}
-
-@keyframes pulse {
-  0% {
-      transform: scale(1);
-  }
-  50% {
-      transform: scale(1.05);
-  }
-  100% {
-      transform: scale(1);
-  }
-}
-
-
-/*  Card style for each product */
-
-.product-card {
- 
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-transition: all 0.2s ease;
-display: flex; /* Display images inline for flex box */
-flex-direction: column;
-
-}
-
-.product-card:hover{
-transform: translateY(-5px);
-
-}
-
-
-.product-card img{
- width: 100%;
-height: 170px;
-object-fit: cover;
-
-}
-
-
-.product-card .info{
-padding: .8rem 1rem;
-}
-
-
-.product-card h4{
- font-size: 1rem;
-  color: var(--dark-color);
-
-  
-}
-
-
-.product-card .price{
-font-size: 1.1rem;
-color:  #2ecc71;
-  font-weight: bold;
-  
-
-}
 
 /* Responsive Design */
 @media (max-width: 1024px) {
@@ -1611,35 +1370,6 @@ a:focus, button:focus, input:focus {
   outline-offset: 2px;
 }
 
-/* Print styles */
-@media print {
-  header, .similar-products, .product-actions {
-      display: none;
-  }
-
-  body {
-      margin: 0;
-      color: #000;
-      background: #fff;
-  }
-
-  #product-details {
-      box-shadow: none;
-  }
-
-  .product {
-      page-break-inside: avoid;
-  }
-
-  #main-image {
-      max-width: 50%;
-      margin: 0 auto;
-  }
-
-  .image-gallery {
-      display: none;
-  }
-}
 /* تنسيق الفوتر */
 #footer {
   background-color: #f0f0f0; /* لون خلفية فاتح وناعم */
@@ -1901,4 +1631,92 @@ width: 100%; /* توسيع القائمة لتملأ عرض الشاشة */
  font-size: 20px;
  font-weight: bold;
  z-index: 999999;
+}
+/* Swiper Styles */
+.similar-products-swiper {
+  width: 100%;
+  padding: 20px 0;
+}
+
+.swiper-slide {
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.product-card {
+  display: block;
+  text-decoration: none;
+  color: #333;
+  background: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+  border-radius: 10px;
+}
+
+.product-card img {
+  width: 100%;
+  height: 200px; /* يمكنك تعديل الارتفاع حسب الحاجة */
+  object-fit: cover;
+  display: block;
+}
+
+
+.discount-badge {
+  background: #ff4d4d;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 20px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+
+.product-card .info {
+  padding: 15px;
+}
+
+.product-card h4 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.product-card .price {
+  font-size: 16px;
+  color: #007bff;
+  align-self: start;
+}
+
+.product-card .old-price {
+  font-size: 14px;
+  color: #999;
+  text-decoration: line-through;
+  margin-right: 40px;
+}
+
+.product-card:hover {
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+  .product-card .info {
+    padding: 10px;
+  }
+
+  .product-card h4 {
+    font-size: 16px;
+  }
+
+  .product-card .price {
+    font-size: 14px;
+  }
+}
+/* إخفاء أزرار الأسهم للسلايدر المحدد */
+.similar-products-swiper .swiper-button-next,
+.similar-products-swiper .swiper-button-prev {
+  display: none !important;
 }
