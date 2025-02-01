@@ -281,41 +281,76 @@ function renderProducts(categories) {
                     const swiperWrapper = document.createElement('div');
                     swiperWrapper.classList.add('swiper-wrapper');
 
-                    productsByBrand[brand].forEach(product => {
-                        const mainImage = product.images && product.images.length > 0 ? product.images[0] : product.image;
+                     productsByBrand[brand].forEach(product => {
+                        const mainImage = product.images && product.images.length > 0 ? product.images[0] : product.image || 'images/placeholder.png'; // Set default image
                         const hasOldPrice = product.old_price !== undefined && product.old_price !== null;
-
                         const productSlide = document.createElement('div');
                         productSlide.classList.add('swiper-slide');
+                        
+                         const productDiv = document.createElement('div');
+                        productDiv.classList.add('product');
+                        productDiv.setAttribute('data-id', product.id);
 
-                        productSlide.innerHTML = `
-                            <div class="product" data-id="${product.id}">
-                                <div class="img_produt">
-                                    <a href="#"><img src="${mainImage}" alt="${product.name}"></a>
-                                </div>
-                                <h2>${product.name}</h2>
-                                <div class="price">
-                                    <p class="current_price"><span>${product.price} جنيه</span></p>
-                                    ${hasOldPrice ? `<p class="old_price"><span>${product.old_price} جنيه</span></p>` : ''}
-                                </div>
-                                ${hasOldPrice ? `<div class="discount-badge">خصم ${((product.old_price - product.price) / product.old_price * 100).toFixed(0)}%</div>` : ''}
-                            </div>
-                        `;
+
+                         const imgProductDiv = document.createElement('div');
+                         imgProductDiv.classList.add('img_produt');
+
+                        const imgLink = document.createElement('a');
+                        imgLink.href = '#';
+
+
+                         const img = document.createElement('img');
+                        img.src = mainImage;
+                        img.alt = product.name;
+
+                       
+                        imgLink.appendChild(img);
+                       imgProductDiv.appendChild(imgLink);
+                        productDiv.appendChild(imgProductDiv)
+
+
+                        const productName = document.createElement('h2');
+                        productName.textContent = product.name;
+                        productDiv.appendChild(productName);
+                        
+                       const priceDiv = document.createElement('div');
+                       priceDiv.classList.add('price');
+
+                         const currentPrice = document.createElement('p');
+                        currentPrice.classList.add('current_price');
+                         currentPrice.textContent = product.price+' جنيه';
+
+                        priceDiv.appendChild(currentPrice);
+
+                         if (hasOldPrice) {
+                         const oldPrice = document.createElement('p');
+                         oldPrice.classList.add('old_price');
+                           oldPrice.textContent = product.old_price+' جنيه';
+                            priceDiv.appendChild(oldPrice);
+                            const discountBadge = document.createElement('div');
+                                 discountBadge.classList.add('discount-badge');
+                                 discountBadge.textContent =`خصم ${((product.old_price - product.price) / product.old_price * 100).toFixed(0)}%`;
+                           productDiv.appendChild(discountBadge)
+                         }
+                         productDiv.appendChild(priceDiv);
+
+                        productSlide.appendChild(productDiv);
                         swiperWrapper.appendChild(productSlide);
                     });
 
-                    brandContainer.appendChild(swiperWrapper);
+
+                   brandContainer.appendChild(swiperWrapper);
 
                     const brandNameTitle = document.createElement('h3');
                     brandNameTitle.textContent = brand;
                     brandNameTitle.classList.add('brand-title');
 
+
                     section.appendChild(brandNameTitle);
                     section.appendChild(brandContainer);
-
                     const scrollbar = document.createElement('div');
                     scrollbar.classList.add('swiper-scrollbar');
-                    brandContainer.appendChild(scrollbar);
+                     brandContainer.appendChild(scrollbar);
 
                     initializeBrandSwiper(brandContainer);
                 }
@@ -326,6 +361,7 @@ function renderProducts(categories) {
     addEventListenersToProducts();
     addNavigationToProductPage();
 }
+
 
 function initializeBrandSwiper(swiperContainer) {
 
@@ -345,7 +381,7 @@ function initializeBrandSwiper(swiperContainer) {
             }
         });
 
-}
+}   
 document.addEventListener('DOMContentLoaded', function() {
     const bottomHeaderSwiper = new Swiper('.bottom-header-swiper', {
         loop: true, // لإنشاء حلقة لانهائية
