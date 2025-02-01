@@ -759,6 +759,8 @@ async function sendInvoiceViaWhatsApp() {
     const storedCartItems = cartItems;
     const totalPriceElement = document.querySelector('.price_cart_total');
     const itemCountElement = document.querySelector('.cart_count');
+    const customMessageElement = document.getElementById('custom-message');
+    const customMessage = customMessageElement ? customMessageElement.value : '';
 
 
     if (!storedCartItems || storedCartItems.length === 0) {
@@ -801,7 +803,6 @@ async function sendInvoiceViaWhatsApp() {
     const itemCount = itemCountElement.textContent;
 
 
-
     const invoiceId = generateInvoiceId();
     const dateTime = formatDateTime();
 
@@ -829,6 +830,13 @@ async function sendInvoiceViaWhatsApp() {
     message += `  ️ *عدد المنتجات:* ${itemCount}\n`;
     message += `   *المجموع الكلي:* ${totalPrice} \n`;
     message += `========================================\n\n`;
+    // Add the custom message if it exists
+    if (customMessage) {
+        message += ` *رسالة العميل:*\n`;
+        message += ` ${customMessage}\n`;
+        message += `========================================\n\n`;
+    }
+
 
     message += ` *شكرًا لتسوقك معنا!* \n`;
     message += ` *للاستفسارات، تواصل معنا عبر واتساب على هذا الرقم.*\n`;

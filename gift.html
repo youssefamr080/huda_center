@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>cadoz</title>
-    <link rel="icon" href="logo.png">
-    <link rel="stylesheet" href="main style.css">
+    <link rel="icon" href="images/logo.png">
+    <link rel="stylesheet" href="css/main style.css">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -13,29 +13,21 @@
 </head>
 <body>
     <!--Start of Tawk.to Script-->
-<script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/6787ee70825083258e05a9c6/1ihlfmpuj';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/6787ee70825083258e05a9c6/1ihlfmpuj';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+        })();
     </script>
     <!--End of Tawk.to Script-->
-    <header>
+     <header>
         <div class="container top-nav">
-            <div class="header-icons-left">
-                <div class="cart_header">
-                    <div onclick="open_cart()" class="icon_cart">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <span class="count_item">0</span>
-                    </div>
-            </div>
-            </div>
-                 <a href="" class="logo"><img src="logo.png" alt="cadoz logo" loading="lazy"></a>
+           <a href="" class="logo"><img src="images/logo.png" alt="cadoz logo" loading="lazy"></a>
                  <div class="header-icons">
                     <div class="wishlist_header">
                         <div class="icon_wishlist" onclick="open_wishlist()">
@@ -94,37 +86,10 @@
                     </div>
             </div>
     </header>
-    <div class="header-gif">
-        <a href="gift.html"><img src="cadoz.gif" alt="Animated GIF" loading="lazy"></a>
-    </div>
-    <div class="swiper-container bottom-header-swiper">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <img src="mug prent.jpg" alt="Slide 1" loading="lazy">
-            </div>
-            <div class="swiper-slide">
-                <img src="image_fx_ (32).jpg" alt="Slide 2" loading="lazy">
-            </div>
-            <div class="swiper-slide">
-                <img src="Add a heading (4).jpg" alt="Slide 3" loading="lazy">
-            </div>
-            <div class="swiper-slide">
-                <img src="mug slider.jpg" alt="Slide 3" loading="lazy">
-            </div>
-            <div class="swiper-slide">
-                <img src="potrait slider.jpg" alt="Slide 3" loading="lazy">
-            </div>
-            <div class="swiper-slide">
-                <img src="walet slider.jpg" alt="Slide 3" loading="lazy">
-            </div>
-        </div>
 
-    </div>
-        <!-- العربة -->
-    <div class="cart">
+    <div class="items_in_gift active">
         <div class="top_cart">
-            <h3>سلة التسوق <span>(<span class="cart_count">0</span> منتجات)</span></h</div>
-            <div class="close_cart" onclick="close_cart()"><i class="fa fa-times"></i></div>
+            <h3>سلة التسوق <span>(<span class="cart_count">0</span> منتجات)</span></h3>
         </div>
         <div class="items_in_cart"></div>
         <div class="bottom_cart">
@@ -132,98 +97,88 @@
                 <span>المجموع:</span>
                 <span class="price_cart_total">0 جنيه</span>
             </div>
-            <div class="button_cart">
-                <button class="btn_cart"onclick="sendInvoiceViaWhatsApp()">ارسال الهديه عبر الواتساب</button>
-                <button class="btn_cart trans_bg" onclick="close_cart()">متابعة التسوق</button>
-            </div>
         </div>
+          <div class="gift-message-container">
+                <textarea id="custom-message" placeholder="اكتب رسالة  (اختياري)" ></textarea>
+          </div>
+          <button  class="complete-gift-button" onclick="sendInvoiceViaWhatsApp()"> اتمام الهدية</button>
     </div>
-    <div class="wishlist">
-        <div class="top_wishlist">
-            <h3>قائمة المفضلة <span>(<span class="count_item wishlist_count">0</span> منتجات)</span></h3>
-            <div class="close_wishlist" onclick="close_wishlist()"><i class="fa fa-times"></i></div>
-        </div>
-        <div class="items_in_wishlist"></div>
-        <div class="bottom_wishlist">
-            <div class="button_wishlist">
-                <button class="btn_wishlist trans_bg" onclick="close_wishlist()">متابعة التسوق</button>
-            </div>
-        </div>
-    </div>
-   <!-- Navigation with arrows and styling  -->
+    <!-- Navigation with arrows and styling  -->
     <nav id="sectionNav" class="navigation"  >
          <button class="nav-arrow prev-arrow"  aria-label="Previous"><i class="fa fa-chevron-right"></i></button>
           <div class="nav-container">
 
            <button onclick="showSection('boxes')">
-               <img src="box.png" alt="بوكسات">
+               <img src="images/box.png" alt="بوكسات">
                <h5>بوكسات</h5>
            </button>
            <button onclick="showSection('packets')">
-               <img src="packet.png" alt="تغليف">
+               <img src="images/packet.png" alt="تغليف">
                <h5>باكيت</h5>
            </button>
           <button onclick="showSection('chocolates')">
-           <img src="chocolates.png" alt="شوكلاته">
+           <img src="images/chocolates.png" alt="شوكلاته">
            <h5>شوكلاته</h5>
        </button>
            <button onclick="showSection('chips')">
-               <img src="chips.png" alt="شيبسي">
+               <img src="images/chips.png" alt="شيبسي">
                <h5>شيبسي</h5>
            </button>
           <button onclick="showSection('candies')">
-            <img src="candy.png" alt="حلويات">
+            <img src="images/candy.png" alt="حلويات">
             <h5>حلويات</h5>
         </button>
          <button onclick="showSection('decoration')">
-            <img src="decoration.png" alt="زينة">
+            <img src="images/decoration.png" alt="زينة">
             <h5>زينة</h5>
-         </button>
-        </div>
-         <button class="nav-arrow next-arrow"  aria-label="Next" ><i class="fa fa-chevron-left"></i></button>
-   </nav>
-   <div id="boxes" class="section">
-      <div class="products"></div>
-   </div>
-   <div id="packets" class="section">
-     <div class="products"></div>
-   </div>
-   <div id="chocolates" class="section">
-       <div class="products"></div>
-   </div>
-   <div id="chips" class="section">
-        <div class="products"></div>
+          </button>
+         </div>
+          <button class="nav-arrow next-arrow"  aria-label="Next" ><i class="fa fa-chevron-left"></i></button>
+    </nav>
+      <div class="products-container">
+         <div id="boxes" class="section">
+            <div class="products"></div>
+         </div>
+         <div id="packets" class="section">
+           <div class="products"></div>
+         </div>
+         <div id="chocolates" class="section">
+           <div class="products"></div>
+          </div>
+          <div id="chips" class="section">
+            <div class="products"></div>
+          </div>
+          <div id="candies" class="section">
+             <div class="products"></div>
+         </div>
+         <div id="decoration" class="section">
+             <div class="products"></div>
+         </div>
     </div>
-    <div id="candies" class="section">
-        <div class="products"></div>
-     </div>
-    <div id="decoration" class="section">
-        <div class="products"></div>
-    </div>
-    <div class="message-container">
-          <textarea id="custom-message" placeholder="اكتب رسالة  (اختياري)" ></textarea>
-    </div>
-     <button  class="complete-gift-button" onclick="sendInvoiceViaWhatsApp()"> اتمام الهدية</button>
 
+
+     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-     <script src="main.js"></script>
+     <script src="java/main.js"></script>
      <script>
          document.addEventListener('DOMContentLoaded', function () {
-     var lazyLoadInstance = new LazyLoad();
-     });
+          var lazyLoadInstance = new LazyLoad();
+         });
      </script>
     
        
  </body>
- <footer id="footer">
-     <div class="footer-container">
-         <h3>فريقنا متواجد لدعمكم 24/7، لا تترددوا بالتواصل معنا.</h3>
-         <ul class="social-links">
-             <li><a href="https://wa.me/+201026972523" target="_blank" class="whatsapp-link"><i class="fab fa-whatsapp"></i> واتساب</a></li>
-             <li><a href="http://m.me/104124002518682" target="_blank" class="messenger-link"><i class="fab fa-facebook-messenger"></i> ماسنجر</a></li>
-             <li><a href="https://www.facebook.com/profile.php?id=100087530415837&mibextid=ZbWKwL" target="_blank" class="facebook-link"><i class="fab fa-facebook-f"></i> فيسبوك</a></li>
-         </ul>
+  <footer id="footer">
+    <div class="footer-container">
+        <h3>فريقنا متواجد لدعمكم 24/7، لا تترددوا بالتواصل معنا.</h3>
+        <ul class="social-links">
+            <li><a href="https://wa.me/+201026972523" target="_blank" class="whatsapp-link"><i class="fab fa-whatsapp"></i> واتساب</a></li>
+            <li><a href="http://m.me/104124002518682" target="_blank" class="messenger-link"><i class="fab fa-facebook-messenger"></i> ماسنجر</a></li>
+            <li><a href="https://www.facebook.com/profile.php?id=100087530415837&mibextid=ZbWKwL" target="_blank" class="facebook-link"><i class="fab fa-facebook-f"></i> فيسبوك</a></li>
+        </ul>
         
-         <p>All Rights Reserved to cadoz © 2025</p>    </div>
+        <p>All Rights Reserved to cadoz © 2025</p>    </div>
  </footer>
  </html>
