@@ -1370,28 +1370,28 @@ a:focus, button:focus, input:focus {
   outline-offset: 2px;
 }
 
-/* تنسيق الفوتر */
+/* Footer Styles */
 #footer {
-  background-color: #f0f0f0; /* لون خلفية فاتح وناعم */
-  color: #333; /* لون نص داكن للقراءة الجيدة */
+  background-color: #f0f0f0; /* Light and soft background color */
+  color: #333; /* Dark text color for good readability */
   text-align: center;
-  font-family: 'Cairo', sans-serif; /* خط عربي جميل وواضح */
+  font-family: 'Cairo', sans-serif; /* Beautiful and clear Arabic font */
   width: 100%;
   bottom: 0;
-  position: relative;
+  position:relative;
   margin-top: auto;
-  padding: 40px 0; /* زيادة المساحة الداخلية للفوتر */
-   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* ظل خفيف في الأعلى */
+  padding: 20px 0; /* Increased internal space for the footer */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Slight shadow at the top */
 }
 
 #footer .footer-container h3 {
   font-size: 1.8rem;
   margin-bottom: 25px;
-  color: #ffcc55; /* لون مميز للعناوين */
+  color: #000000; /* Unique color for headings */
   font-weight: bold;
   line-height: 1.5;
   padding-top: 20px;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); /* ظل خفيف للنص */
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); /* Light shadow for the text */
 }
 
 #footer .social-links {
@@ -1401,7 +1401,7 @@ a:focus, button:focus, input:focus {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 20px; /* زيادة المسافة بين الروابط */
+  gap: 20px; /* Increased spacing between links */
 }
 
 #footer .social-links li {
@@ -1414,17 +1414,17 @@ a:focus, button:focus, input:focus {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 20px; /* مساحة داخلية أكبر للروابط */
-  border-radius: 30px; /* حواف دائرية للروابط */
+  padding: 12px 20px; /* Larger internal space for links */
+  border-radius: 30px; /* Rounded corners for links */
   transition: all 0.3s ease-in-out;
   border: 2px solid transparent;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); /* ظل أكثر وضوحًا */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); /* More defined shadow */
   background-color: #fff;
 }
 
 #footer .social-links a:hover {
   transform: translateY(-3px);
-   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* زيادة الظل عند التحويم */
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Increased shadow on hover */
 }
 
 #footer .social-links a i {
@@ -1434,50 +1434,31 @@ a:focus, button:focus, input:focus {
 #footer p {
   margin-top: 25px;
   font-size: 1rem;
-  color: #777; /* لون نص رمادي فاتح للحقوق */
-  text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1); /* ظل خفيف للنص */
+  color: #777; /* Light gray text color for copyright */
+  text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1); /* Light text shadow */
 }
 
-/* أنماط الروابط المخصصة */
+/* Custom link styles */
 #footer .whatsapp-link {
   color: #25D366;
-   border-color: #25D366;
+  border-color: #25D366;
 }
 
 #footer .whatsapp-link:hover {
-   background-color: #25D366;
-   color: #fff;
+  background-color: #25D366;
+  color: #fff;
 }
 
 #footer .messenger-link {
   color: #0084FF;
-   border-color: #0084FF;
+  border-color: #0084FF;
 }
 
 #footer .messenger-link:hover {
- background-color: #0084FF;
- color: #fff;
-}
-
-#footer .maps-link {
-  color: #DB4437;
-  border-color: #DB4437;
-}
-
-#footer .maps-link:hover {
-  background-color: #DB4437;
- color: #fff;
-}
-
-#footer .telegram-link {
-  color: #229ED9;
-  border-color: #229ED9;
-}
-
-#footer .telegram-link:hover {
- background-color: #229ED9;
+  background-color: #0084FF;
   color: #fff;
 }
+
 
 #footer .facebook-link {
   color: #1877F2;
@@ -1488,31 +1469,36 @@ a:focus, button:focus, input:focus {
   background-color: #1877F2;
   color: #fff;
 }
+
 @media (max-width: 768px) {
   #footer {
-      padding: 30px 0; /* تقليل المساحة الداخلية */
+      padding: 30px 0; /* Reduce internal space */
   }
-  #footer .footer-container h3 {
-      font-size: 1.4rem; /* تقليل حجم الخط في العنوان */
-      margin-bottom: 20px; /* تقليل المسافة أسفل العنوان */
-      padding-top: 15px; /* تقليل المساحة أعلى العنوان */
-  }
-    #footer .social-links {
-        gap: 10px; /* تقليل المسافة بين الروابط */
-       margin: 15px 0; /* تقليل المسافة أعلى وأسفل الروابط */
-  }
-  #footer .social-links a {
-      font-size: 0.9rem; /* تصغير الخط في الروابط */
-       padding: 10px 15px; /* تقليل المساحة الداخلية للروابط */
-    }
-       #footer .social-links a i {
-          font-size: 1.1rem; /* تصغير حجم الايقونة  في الروابط */
-      }
-     #footer p {
-       margin-top: 15px;
-      font-size: 0.9rem; /* تصغير حجم الخط في حقوق الفوتر */
-    }
 
+  #footer .footer-container h3 {
+      font-size: 1rem; /* Reduce font size in the heading */
+      margin-bottom: 10px; /* Reduce space below the heading */
+      padding-top: 15px; /* Reduce space above the heading */
+  }
+
+  #footer .social-links {
+      gap: 10px; /* Reduce space between links */
+      margin: 15px 0; /* Reduce space above and below links */
+  }
+
+  #footer .social-links a {
+      font-size: 0.9rem; /* Reduce font size in links */
+      padding: 10px 15px; /* Reduce internal space for links */
+  }
+
+  #footer .social-links a i {
+      font-size: 1.1rem; /* Reduce icon size in links */
+  }
+
+  #footer p {
+      margin-top: 15px;
+      font-size: 0.9rem; /* Reduce font size in footer copyrights */
+  }
 }
 .empty-cart-message,
 .empty-gift-message,
@@ -1663,15 +1649,15 @@ width: 100%; /* توسيع القائمة لتملأ عرض الشاشة */
 
 
 .discount-badge {
-  background: #ff4d4d;
-  color: #fff;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 5px 10px;
-  border-radius: 20px;
-  position: absolute;
-  top: 10px;
-  left: 10px;
+    background: #ff4d4d;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 20px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
 }
 
 
